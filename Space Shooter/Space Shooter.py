@@ -149,8 +149,4 @@ def game():
         pygame.display.flip()
 
 
-def main():
-    arena = Arena()
-
-
 game()
