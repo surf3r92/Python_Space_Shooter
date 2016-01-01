@@ -2,7 +2,7 @@ import os, sys, pygame, random
 from pygame.locals import *
 from lib.arena import *
 from lib.player import *
-
+from lib.menu import *
 
 os.environ['SDL_VIDEO_CENTERED'] = "1"
 pygame.init()
@@ -11,6 +11,7 @@ icon = pygame.image.load("img/sprites/Space Shooter.png")
 size = width, height = 800, 600
 screen = pygame.display.set_mode(size)
 pygame.mouse.set_visible(0)
+
 
 background = pygame.Surface(screen.get_size())
 background = background.convert()
@@ -74,4 +75,61 @@ def game():
         pygame.display.flip()
 
 
-game()
+#game()
+
+def main():
+
+   # Create 3 diffrent menus.  One of them is only text, another one is only
+   # images, and a third is -gasp- a mix of images and text buttons!  To
+   # understand the input factors, see the menu file
+   menu = cMenu(50, 50, 20, 10, 'vertical', 100, screen,
+               [('Start Game', 1, None),
+                ('Load Game',  2, None),
+                ('Options',    3, None),
+                ('Exit',       4, None)])
+
+   menu.set_center(True, True)
+   menu.set_alignment('center', 'center')
+
+   state = 0
+   prev_state = 1
+
+   rect_list = []
+
+   #pygame.event.set_blocked(pygame.MOUSEMOTION)
+
+   while 1:
+      if prev_state != state:
+         pygame.event.post(pygame.event.Event(EVENT_CHANGE_STATE, key = 0))
+         prev_state = state
+
+      # Get the next event
+      e = pygame.event.wait()
+
+      if e.type == pygame.KEYDOWN or e.type == EVENT_CHANGE_STATE:
+         if state == 0:
+            rect_list, state = menu.update(e, state)
+         elif state == 1:
+            print 'Start Game!'
+            state = 0
+            game()
+         elif state == 2:
+            print 'Load Game!'
+            state = 0
+         elif state == 3:
+            print 'Options!'
+            state = 0
+         else:
+            print 'Exit!'
+            pygame.quit()
+            sys.exit()
+
+      # Quit if the user presses the exit button
+      if e.type == pygame.QUIT:
+         pygame.quit()
+         sys.exit()
+
+      # Update the screen
+      pygame.display.update(rect_list)
+
+main()
