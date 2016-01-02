@@ -79,7 +79,7 @@ def game():
 
 def main():
 
-   # Create 3 diffrent menus.  One of them is only text, another one is only
+   # Create 3 different menus.  One of them is only text, another one is only
    # images, and a third is -gasp- a mix of images and text buttons!  To
    # understand the input factors, see the menu file
    menu = cMenu(50, 50, 20, 10, 'vertical', 100, screen,
