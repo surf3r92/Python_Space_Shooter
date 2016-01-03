@@ -41,7 +41,7 @@ def game():
     pygame.key.set_repeat(10, 10)
     while keepgoing:
         clock.tick(30)
-        for event in pygame.event.get():
+        # for event in pygame.event.get():
             # keystate = pygame.key.get_pressed()
             # if event.type == pygame.QUIT:
                 # keepgoing = False
@@ -64,6 +64,7 @@ def game():
                 # else:
                     # pass
 					
+		for event in pygame.event.get():		
 			# fixed movement	
 			if event.type == pygame.KEYDOWN:
 				#close windows
@@ -81,9 +82,7 @@ def game():
 					keyListVer.append(event.key)
 				if event.key == pygame.K_DOWN:
 					keyListVer.append(event.key)
-					
 
-			
 			if event.type == pygame.KEYUP:
 				try:
 					if event.key == pygame.K_LEFT:
