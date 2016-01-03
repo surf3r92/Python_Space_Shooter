@@ -17,8 +17,6 @@ background = pygame.Surface(screen.get_size())
 background = background.convert()
 background.fill((0, 0, 0))
 
-keyListHor = []
-keyListVer = []
 
 def game():
 
@@ -42,75 +40,27 @@ def game():
     while keepgoing:
         clock.tick(30)
         for event in pygame.event.get():
-            # keystate = pygame.key.get_pressed()
-            # if event.type == pygame.QUIT:
-                # keepgoing = False
-            # elif event.type == pygame.KEYDOWN:
-                # if event.key == pygame.K_ESCAPE:
-                    # keepgoing = False
-                # elif event.key == pygame.K_LEFT:
-                    # player.dx = -10
-                # elif event.key == pygame.K_RIGHT:
-                    # player.dx = 10
-                # elif event.key == pygame.K_UP:
-                    # player.dy = -10
-                # elif event.key == pygame.K_DOWN:
-                    # player.dy = 10
-            # elif event.type == pygame.KEYUP:
-                # if keystate[K_LEFT] == 0 and keystate[K_RIGHT] == 0 and \
-                                # keystate[K_UP] == 0 and keystate[K_DOWN] == 0:
-                    # player.dx = 0
-                    # player.dy = 0
-                # else:
-                    # pass
-					
-					
-			# fixed movment
-			if event.type == pygame.KEYDOWN:
-				#close windows
-				if event.key == pygame.K_ESCAPE:
-					pygame.quit()
-					sys.exit(0)
-				#key handling - player movement
-				if event.key == pygame.K_LEFT:
-					keyListHor.append(event.key)
-				if event.key == pygame.K_RIGHT:
-					keyListHor.append(event.key)
-
-				if event.key == pygame.K_UP:
-					keyListVer.append(event.key)
-				if event.key == pygame.K_DOWN:
-					keyListVer.append(event.key)
-
-			if event.type == pygame.KEYUP:
-				try:
-					if event.key == pygame.K_LEFT:
-						keyListHor.remove(event.key)
-					if event.key == pygame.K_RIGHT:
-						keyListHor.remove(event.key)
-					
-					if event.key == pygame.K_UP:
-						keyListVer.remove(event.key)
-					if event.key == pygame.K_DOWN:
-						keyListVer.remove(event.key)
-				except:
-					print "key error"
-
-			if len(keyListHor) == 0:
-				player.dx = 0	
-			else:
-				if keyListHor[-1] == pygame.K_LEFT:
-					player.dx = -10
-				if keyListHor[-1] == pygame.K_RIGHT:
-					player.dx = 10	
-				
-			if len(keyListVer) == 0:
-				player.dy = 0
-			else:
-				if keyListVer[-1] == pygame.K_UP:
-					player.dy = -10
-				if keyListVer[-1] == pygame.K_DOWN:
-					player.dy = 10
+            keystate = pygame.key.get_pressed()
+            if event.type == pygame.QUIT:
+                keepgoing = False
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    keepgoing = False
+                elif event.key == pygame.K_LEFT:
+                    player.dx = -10
+                elif event.key == pygame.K_RIGHT:
+                    player.dx = 10
+                elif event.key == pygame.K_UP:
+                    player.dy = -10
+                elif event.key == pygame.K_DOWN:
+                    player.dy = 10
+            elif event.type == pygame.KEYUP:
+                if keystate[K_LEFT] == 0 and keystate[K_RIGHT] == 0 and \
+                                keystate[K_UP] == 0 and keystate[K_DOWN] == 0:
+                    player.dx = 0
+                    player.dy = 0
+                else:
+                    pass
 
         # Update
         screen.blit(background, (0, 0))
