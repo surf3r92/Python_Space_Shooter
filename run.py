@@ -28,7 +28,7 @@ def game():
 
     # Arena
     arena = Arena()
-    arena = pygame.sprite.RenderPlain((arena))
+    #arena = pygame.sprite.RenderPlain((arena))
 
     # Projectiles
 
@@ -63,13 +63,13 @@ def game():
                     pass
 
         # Update
-        screen.blit(background, (0, 0))
+        #screen.blit(background, (0, 0))
         playerSprite.update()
-        arena.update()
+        arena.update(screen)
         laserSprites.update()
 
         # Draw
-        arena.draw(screen)
+        #arena.draw(screen)
         playerSprite.draw(screen)
         laserSprites.draw(screen)
         pygame.display.flip()
