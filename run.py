@@ -2,7 +2,7 @@ import os, sys, pygame, random
 from pygame.locals import *
 from lib.arena import *
 from lib.player import *
-from lib.menu import *
+from lib.buttons import *
 
 os.environ['SDL_VIDEO_CENTERED'] = "1"
 pygame.init()
@@ -10,7 +10,6 @@ pygame.display.set_caption("Space Shooter")
 icon = pygame.image.load("img/sprites/Space Shooter.png")
 size = width, height = 800, 600
 screen = pygame.display.set_mode(size)
-pygame.mouse.set_visible(0)
 
 
 background = pygame.Surface(screen.get_size())
@@ -38,6 +37,7 @@ def game():
     counter = 0
     pygame.key.set_repeat(10, 10)
     while keepgoing:
+        pygame.mouse.set_visible(0)
         clock.tick(30)
         for event in pygame.event.get():
             keystate = pygame.key.get_pressed()
@@ -74,62 +74,69 @@ def game():
         laserSprites.draw(screen)
         pygame.display.flip()
 
+def gameMenu():
 
-#game()
 
-def main():
+    menuBackground = pygame.image.load("img/sprites/background.png")
+    screen.blit(menuBackground, (0, 0))
 
-   # Create 3 different menus.  One of them is only text, another one is only
-   # images, and a third is -gasp- a mix of images and text buttons!  To
-   # understand the input factors, see the menu file
-   menu = cMenu(50, 50, 20, 10, 'vertical', 100, screen,
-               [('Start Game', 1, None),
-                ('Load Game',  2, None),
-                ('Options',    3, None),
-                ('Exit',       4, None)])
 
-   menu.set_center(True, True)
-   menu.set_alignment('center', 'center')
+    buttonWidth = 0
+    buttonHeight = 50
+    buttonLength = 200
+    buttonYDist = 100
+    buttonXPos = (screen.get_size()[0]/2) - (buttonLength/2)
+    buttonColor = (46,46,254)
+    buttonColorHovered = (8,8,138)
+    buttonTextColor = (255,255,255)
+    buttonTextFont = "Calibri"
+    buttonTextFontSize = 20
 
-   state = 0
-   prev_state = 1
+    button1YPos = (screen.get_size()[1]/2) - (buttonHeight/2) - buttonYDist
+    button2YPos = (screen.get_size()[1]/2) - (buttonHeight/2)
+    button3YPos = (screen.get_size()[1]/2) + (buttonHeight/2) + (buttonYDist - buttonHeight)
 
-   rect_list = []
+    button1Text = "Start Game"
+    button2Text = "High Score"
+    button3Text = "Quit"
 
-   #pygame.event.set_blocked(pygame.MOUSEMOTION)
+    button1 = Button(screen, buttonColor, buttonColorHovered, buttonXPos, button1YPos, buttonLength, buttonHeight, buttonWidth, button1Text, buttonTextColor, buttonTextFont, buttonTextFontSize)
+    button2 = Button(screen, buttonColor, buttonColorHovered, buttonXPos, button2YPos, buttonLength, buttonHeight, buttonWidth, button2Text, buttonTextColor, buttonTextFont, buttonTextFontSize)
+    button3 = Button(screen, buttonColor, buttonColorHovered, buttonXPos, button3YPos, buttonLength, buttonHeight, buttonWidth, button3Text, buttonTextColor, buttonTextFont, buttonTextFontSize)
 
-   while 1:
-      if prev_state != state:
-         pygame.event.post(pygame.event.Event(EVENT_CHANGE_STATE, key = 0))
-         prev_state = state
+    allButtons = [button1, button2, button3]
 
-      # Get the next event
-      e = pygame.event.wait()
 
-      if e.type == pygame.KEYDOWN or e.type == EVENT_CHANGE_STATE:
-         if state == 0:
-            rect_list, state = menu.update(e, state)
-         elif state == 1:
-            print 'Start Game!'
-            state = 0
-            game()
-         elif state == 2:
-            print 'Load Game!'
-            state = 0
-         elif state == 3:
-            print 'Options!'
-            state = 0
-         else:
-            print 'Exit!'
-            pygame.quit()
-            sys.exit()
+    while True:
+        pygame.mouse.set_visible(1)
 
-      # Quit if the user presses the exit button
-      if e.type == pygame.QUIT:
-         pygame.quit()
-         sys.exit()
+        #hintergrundfarbe
+        #screen.fill((30,144,255))
 
-      # Update the screen
-      pygame.display.update(rect_list)
+        button1.create_button()
+        button2.create_button()
+        button3.create_button()
 
-main()
+        pygame.display.flip()
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == MOUSEBUTTONDOWN:
+                if button1.pressed(pygame.mouse.get_pos()):
+                    print button1Text
+                    game()
+                if button2.pressed(pygame.mouse.get_pos()):
+                    print button2Text
+                if button3.pressed(pygame.mouse.get_pos()):
+                    print button3Text
+                    pygame.quit()
+                    sys.exit()
+            elif event.type == MOUSEMOTION:
+                for currButton in allButtons:
+                    if currButton.getRect().collidepoint(pygame.mouse.get_pos()):
+                        currButton.setHovered()
+                    else:
+                        currButton.setUnhovered()
+
+gameMenu()
