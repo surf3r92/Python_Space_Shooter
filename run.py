@@ -3,6 +3,7 @@ from pygame.locals import *
 from lib.arena import *
 from lib.player import *
 from lib.buttons import *
+from lib.eztext import *
 
 os.environ['SDL_VIDEO_CENTERED'] = "1"
 pygame.init()
@@ -11,10 +12,12 @@ icon = pygame.image.load("img/sprites/Space Shooter.png")
 size = width, height = 800, 600
 screen = pygame.display.set_mode(size)
 
+gameState = "Start"
 
 background = pygame.Surface(screen.get_size())
 background = background.convert()
 background.fill((0, 0, 0))
+
 
 
 def game():
@@ -37,48 +40,52 @@ def game():
     counter = 0
     pygame.key.set_repeat(10, 10)
     while keepgoing:
-        pygame.mouse.set_visible(0)
-        clock.tick(30)
-        for event in pygame.event.get():
-            keystate = pygame.key.get_pressed()
-            if event.type == pygame.QUIT:
-                keepgoing = False
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
+        global gameState
+        if gameState == "Start":
+            pygame.mouse.set_visible(0)
+            clock.tick(30)
+            for event in pygame.event.get():
+                keystate = pygame.key.get_pressed()
+                if event.type == pygame.QUIT:
                     keepgoing = False
-                elif event.key == pygame.K_LEFT:
-                    player.dx = -10
-                elif event.key == pygame.K_RIGHT:
-                    player.dx = 10
-                elif event.key == pygame.K_UP:
-                    player.dy = -10
-                elif event.key == pygame.K_DOWN:
-                    player.dy = 10
-            elif event.type == pygame.KEYUP:
-                if keystate[K_LEFT] == 0 and keystate[K_RIGHT] == 0 and \
-                                keystate[K_UP] == 0 and keystate[K_DOWN] == 0:
-                    player.dx = 0
-                    player.dy = 0
-                else:
-                    pass
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        #keepgoing = False
+                        gameState = "Pause"
+                        gameMenu()
+                    elif event.key == pygame.K_LEFT:
+                        player.dx = -10
+                    elif event.key == pygame.K_RIGHT:
+                        player.dx = 10
+                    elif event.key == pygame.K_UP:
+                        player.dy = -10
+                    elif event.key == pygame.K_DOWN:
+                        player.dy = 10
+                elif event.type == pygame.KEYUP:
+                    if keystate[K_LEFT] == 0 and keystate[K_RIGHT] == 0 and \
+                                    keystate[K_UP] == 0 and keystate[K_DOWN] == 0:
+                        player.dx = 0
+                        player.dy = 0
+                    else:
+                        pass
 
-        # Update
-        #screen.blit(background, (0, 0))
-        playerSprite.update()
-        arena.update(screen)
-        laserSprites.update()
+            # Update
+            #screen.blit(background, (0, 0))
+            playerSprite.update()
+            arena.update(screen)
+            laserSprites.update()
 
-        # Draw
-        #arena.draw(screen)
-        playerSprite.draw(screen)
-        laserSprites.draw(screen)
-        pygame.display.flip()
+            # Draw
+            #arena.draw(screen)
+            playerSprite.draw(screen)
+            laserSprites.draw(screen)
+            pygame.display.flip()
 
 def gameMenu():
 
-
-    menuBackground = pygame.image.load("img/sprites/background.png")
-    screen.blit(menuBackground, (0, 0))
+    if gameState == "Start":
+        menuBackground = pygame.image.load("img/sprites/background.png")
+        screen.blit(menuBackground, (0, 0))
 
 
     buttonWidth = 0
@@ -96,9 +103,15 @@ def gameMenu():
     button2YPos = (screen.get_size()[1]/2) - (buttonHeight/2)
     button3YPos = (screen.get_size()[1]/2) + (buttonHeight/2) + (buttonYDist - buttonHeight)
 
-    button1Text = "Start Game"
+    global gameState
+    if gameState == "Start":
+        button1Text = "Start Game"
+    else:
+        button1Text = "Continue"
     button2Text = "High Score"
     button3Text = "Quit"
+
+    box = Input(400, 50, 45, (255,0,0), 'type here: ')
 
     button1 = Button(screen, buttonColor, buttonColorHovered, buttonXPos, button1YPos, buttonLength, buttonHeight, buttonWidth, button1Text, buttonTextColor, buttonTextFont, buttonTextFontSize)
     button2 = Button(screen, buttonColor, buttonColorHovered, buttonXPos, button2YPos, buttonLength, buttonHeight, buttonWidth, button2Text, buttonTextColor, buttonTextFont, buttonTextFontSize)
@@ -106,8 +119,9 @@ def gameMenu():
 
     allButtons = [button1, button2, button3]
 
+    keepGoing = True
 
-    while True:
+    while keepGoing:
         pygame.mouse.set_visible(1)
 
         #hintergrundfarbe
@@ -117,15 +131,26 @@ def gameMenu():
         button2.create_button()
         button3.create_button()
 
+
         pygame.display.flip()
         for event in pygame.event.get():
+
+            box.update(event)
+            box.draw(screen)
+            box.set_pos(400,50)
+
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             elif event.type == MOUSEBUTTONDOWN:
                 if button1.pressed(pygame.mouse.get_pos()):
                     print button1Text
-                    game()
+                    if button1.getText() == "Start Game":
+                        button1.setText("Continue")
+                        game()
+                    else:
+                        gameState = "Start"
+                        keepGoing = False
                 if button2.pressed(pygame.mouse.get_pos()):
                     print button2Text
                 if button3.pressed(pygame.mouse.get_pos()):

@@ -67,3 +67,9 @@ class Button:
 
     def setUnhovered(self):
         self.hoverState = False
+
+    def setText(self, newText):
+        self.text = newText
+
+    def getText(self):
+        return self.text
