@@ -3,7 +3,7 @@ from pygame.locals import *
 from lib.arena import *
 from lib.player import *
 from lib.buttons import *
-from lib.eztext import *
+from lib.input import *
 
 os.environ['SDL_VIDEO_CENTERED'] = "1"
 pygame.init()
@@ -13,10 +13,12 @@ size = width, height = 800, 600
 screen = pygame.display.set_mode(size)
 
 gameState = "Start"
+currUserName = ""
 
 background = pygame.Surface(screen.get_size())
 background = background.convert()
 background.fill((0, 0, 0))
+
 
 
 
@@ -111,7 +113,21 @@ def gameMenu():
     button2Text = "High Score"
     button3Text = "Quit"
 
-    box = Input(400, 50, 45, (255,0,0), 'type here: ')
+    inputMaxLength = 20
+    inputTextColor = (255,255,255)
+    inputText = 'Enter your name!'
+    inputTextFont = "Calibri"
+    inputTextFontSize = 20
+    inputRectColor = (0,0,255)
+    inputRectLength = 200
+    inputRectHeight = inputTextFontSize
+    inputYPos = button3YPos + 3* buttonHeight
+    inputXPos = (screen.get_size()[0]/2) - (inputRectLength/2)
+
+    #if gameState == "Start":
+    #    inputText = 'Enter your name!'
+
+    inputBox = Input(screen, inputXPos, inputYPos, inputMaxLength, inputTextColor, inputText, inputRectColor, inputRectLength, inputRectHeight, inputTextFont, inputTextFontSize)
 
     button1 = Button(screen, buttonColor, buttonColorHovered, buttonXPos, button1YPos, buttonLength, buttonHeight, buttonWidth, button1Text, buttonTextColor, buttonTextFont, buttonTextFontSize)
     button2 = Button(screen, buttonColor, buttonColorHovered, buttonXPos, button2YPos, buttonLength, buttonHeight, buttonWidth, button2Text, buttonTextColor, buttonTextFont, buttonTextFontSize)
@@ -120,6 +136,7 @@ def gameMenu():
     allButtons = [button1, button2, button3]
 
     keepGoing = True
+    onStartClicked = False;
 
     while keepGoing:
         pygame.mouse.set_visible(1)
@@ -131,26 +148,33 @@ def gameMenu():
         button2.create_button()
         button3.create_button()
 
+        global currUserName
+
 
         pygame.display.flip()
         for event in pygame.event.get():
 
-            box.update(event)
-            box.draw(screen)
-            box.set_pos(400,50)
+            if onStartClicked and gameState == "Start":
+                inputBox.update(event)
+                inputBox.draw(screen)
 
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
             elif event.type == MOUSEBUTTONDOWN:
                 if button1.pressed(pygame.mouse.get_pos()):
-                    print button1Text
-                    if button1.getText() == "Start Game":
-                        button1.setText("Continue")
-                        game()
+
+                    if inputBox.getText() != inputText or gameState == "Pause":
+                        print button1Text
+                        currUserName = inputBox.getText()
+                        if button1.getText() == "Start Game":
+                            button1.setText("Continue")
+                            game()
+                        else:
+                            gameState = "Start"
+                            keepGoing = False
                     else:
-                        gameState = "Start"
-                        keepGoing = False
+                        onStartClicked = True
                 if button2.pressed(pygame.mouse.get_pos()):
                     print button2Text
                 if button3.pressed(pygame.mouse.get_pos()):

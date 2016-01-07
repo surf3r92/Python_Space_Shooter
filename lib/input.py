@@ -2,31 +2,24 @@
 from pygame.locals import *
 import pygame, string
 
-class ConfigError(KeyError): pass
-
-class Config:
-    """ A utility for configuration """
-    def __init__(self, options, *look_for):
-        assertions = []
-        for key in look_for:
-            if key[0] in options.keys(): exec('self.'+key[0]+' = options[\''+key[0]+'\']')
-            else: exec('self.'+key[0]+' = '+key[1])
-            assertions.append(key[0])
-        for key in options.keys():
-            if key not in assertions: raise ConfigError(key+' not expected as option')
-
 class Input:
     """ A text input for pygame apps """
-    def __init__(self, x, y, maxlength, color, text):
-        self.x = x;
+    def __init__(self, screen, x, y, maxlength, textColor, text, inputRectColor, inputRectLength, inputRectHeight, inputTextFont, inputTextFontSize):
+        self.screen = screen
+        self.x = x
         self.y = y
-        self.font = pygame.font.Font(None, 32)
-        self.color = color
+        self.textColor = textColor
         self.restricted = '\'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!"#$%&\\\'()*+,-./:;<=>?@[\]^_`{|}~\''
         self.maxlength = maxlength
         self.prompt = text
         self.value = ''
+        self.textStart = text
         self.shifted = False
+        self.inputRectColor = inputRectColor
+        self.inputRectLength = inputRectLength
+        self.inputRectHeight = inputRectHeight
+        self.inputTextFont = inputTextFont
+        self.inputTextFontSize = inputTextFontSize
 
     def set_pos(self, x, y):
         self.x = x
@@ -36,7 +29,9 @@ class Input:
         self.font = font
 
     def draw(self, surface):
-        text = self.font.render(self.prompt+self.value, 1, self.color)
+        myFont = pygame.font.SysFont(self.inputTextFont, self.inputTextFontSize)
+        text = myFont.render(self.prompt+self.value, 1, self.textColor)
+        pygame.draw.rect(self.screen, self.inputRectColor, (self.x,self.y,self.inputRectLength,self.inputRectHeight), 0)
         surface.blit(text, (self.x, self.y))
 
     def update(self, event):
@@ -44,6 +39,7 @@ class Input:
         if event.type == KEYUP:
             if event.key == K_LSHIFT or event.key == K_RSHIFT: self.shifted = False
         if event.type == KEYDOWN:
+            self.prompt = ""
             if event.key == K_BACKSPACE: self.value = self.value[:-1]
             elif event.key == K_LSHIFT or event.key == K_RSHIFT: self.shifted = True
             elif event.key == K_SPACE: self.value += ' '
@@ -95,6 +91,9 @@ class Input:
                 elif event.key == K_COMMA and ',' in self.restricted: self.value += ','
                 elif event.key == K_PERIOD and '.' in self.restricted: self.value += '.'
                 elif event.key == K_SLASH and '/' in self.restricted: self.value += '/'
+
+                #delet funktion
+                elif event.key == K_DELETE: self.value = self.value[:-1]
             elif self.shifted:
                 if event.key == K_a and 'A' in self.restricted: self.value += 'A'
                 elif event.key == K_b and 'B' in self.restricted: self.value += 'B'
@@ -145,3 +144,13 @@ class Input:
                 elif event.key == K_SLASH and '?' in self.restricted: self.value += '?'
 
         if len(self.value) > self.maxlength and self.maxlength >= 0: self.value = self.value[:-1]
+        if self.value == "" and self.prompt == "":
+            self.prompt = self.textStart
+
+    def getText(self):
+        return self.prompt+self.value
+
+    def setText(self, currUserName):
+        if currUserName != "":
+            self.prompt = ""
+        self.value = currUserName
