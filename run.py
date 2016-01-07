@@ -86,7 +86,7 @@ def game():
 def gameMenu():
 
     if gameState == "Start":
-        menuBackground = pygame.image.load("img/sprites/background.png")
+        menuBackground = pygame.image.load("img/sprites/startscreen.png")
         screen.blit(menuBackground, (0, 0))
 
 
