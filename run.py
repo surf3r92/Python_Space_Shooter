@@ -4,6 +4,7 @@ from lib.arena import *
 from lib.player import *
 from lib.buttons import *
 from lib.input import *
+from lib.enemy import *
 
 os.environ['SDL_VIDEO_CENTERED'] = "1"
 pygame.init()
@@ -19,7 +20,7 @@ background = pygame.Surface(screen.get_size())
 background = background.convert()
 background.fill((0, 0, 0))
 
-
+enemies = []
 
 
 def game():
@@ -30,22 +31,41 @@ def game():
 
     playerSprite = pygame.sprite.RenderPlain((player))
 
+    # global enemy
+    # enemy = Enemy()
+	
     # Arena
     arena = Arena()
     #arena = pygame.sprite.RenderPlain((arena))
 
     # Projectiles
-
+	
+	
 
     clock = pygame.time.Clock()
     keepgoing = True
-    counter = 0
+    frameCounter = 0
     pygame.key.set_repeat(10, 10)
     while keepgoing:
+		
         global gameState
         if gameState == "Start":
             pygame.mouse.set_visible(0)
             clock.tick(30)
+            frameCounter += 1
+			
+            if frameCounter%60 == 0:
+                # enemy.update(random.randint(0,7)
+                newEnemy = Enemy(random.randint(1,4)*100, -50)
+                # newEnemySprite = pygame.sprite.Sprite.RenderPlain((newEnemy))
+                enemies.append(newEnemy)
+                print "new Enemy created"
+			
+            
+                
+
+
+
             for event in pygame.event.get():
                 keystate = pygame.key.get_pressed()
                 if event.type == pygame.QUIT:
@@ -81,6 +101,16 @@ def game():
             #arena.draw(screen)
             playerSprite.draw(screen)
             laserSprites.draw(screen)
+            for enemy in enemies: 
+                enemy.update(random.randint(0,7),random.randint(0,5))
+                print laserSprites[0]
+                # enemy.update()
+                # enemy.update()
+                # enemy.update()
+
+                # newEnemySprite = pygame.sprite.Sprite.RenderPlain((newEnemy))
+                screen.blit(enemy.image, (enemy.x, enemy.y))
+				
             pygame.display.flip()
 
 def gameMenu():

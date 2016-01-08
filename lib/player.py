@@ -12,7 +12,7 @@ class Player(pygame.sprite.Sprite):
         self.laserTimer = 0
         self.laserMax = 5
         self.reset()
-
+		
     def update(self):
         self.rect.move_ip((self.dx, self.dy))
 
@@ -31,7 +31,10 @@ class Player(pygame.sprite.Sprite):
             self.rect.top = 260
         elif self.rect.bottom >= 600:
             self.rect.bottom = 600
-
+        
+		
+        
+		
     def reset(self):
         self.rect.bottom = 600
 
