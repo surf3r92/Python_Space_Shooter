@@ -20,7 +20,7 @@ background = pygame.Surface(screen.get_size())
 background = background.convert()
 background.fill((0, 0, 0))
 
-enemies = []
+# enemies = []
 
 
 def game():
@@ -54,16 +54,11 @@ def game():
             clock.tick(30)
             frameCounter += 1
 			
-            if frameCounter%60 == 0:
-                # enemy.update(random.randint(0,7)
-                newEnemy = Enemy(random.randint(1,4)*100, -50)
-                # newEnemySprite = pygame.sprite.Sprite.RenderPlain((newEnemy))
-                enemies.append(newEnemy)
+            if frameCounter%20 == 0:
+                # newEnemy = Enemy(random.randint(1,4)*100, -50)
+                # enemies.append(newEnemy)
+                enemies.add(Enemy((100,100)))
                 print "new Enemy created"
-			
-            
-                
-
 
 
             for event in pygame.event.get():
@@ -90,27 +85,38 @@ def game():
                         player.dy = 0
                     else:
                         pass
-
+            
             # Update
             #screen.blit(background, (0, 0))
             playerSprite.update()
             arena.update(screen)
             laserSprites.update()
+            enemies.update()
+            # enemyLaserSprites.update()
 
+            collide_list = pygame.sprite.groupcollide(laserSprites, enemies, True, True)
             # Draw
             #arena.draw(screen)
             playerSprite.draw(screen)
             laserSprites.draw(screen)
-            for enemy in enemies: 
-                enemy.update(random.randint(0,7),random.randint(0,5))
-                print laserSprites[0]
-                # enemy.update()
-                # enemy.update()
-                # enemy.update()
-
-                # newEnemySprite = pygame.sprite.Sprite.RenderPlain((newEnemy))
-                screen.blit(enemy.image, (enemy.x, enemy.y))
+            enemies.draw(screen)
+            # enemyLaserSprites.draw(screen)
+			
+            # for enemy in enemies: 
+                # enemy.update(random.randint(0,7),random.randint(0,5))
+                
+                # screen.blit(enemy.image, (enemy.x, enemy.y))
 				
+            # for eLaser in enemyLaserSprites: 
+                # eLaser.update()
+                # screen.blit(eLaser.image, (eLaser.x, eLaser.y))
+                # if eLaser.x > 600:
+					# enemyLaserSprites.remove(eLaser)
+            
+            # print laserSprites
+            
+            # print laserSprites
+            			
             pygame.display.flip()
 
 def gameMenu():

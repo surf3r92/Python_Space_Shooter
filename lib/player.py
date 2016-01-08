@@ -1,6 +1,7 @@
 import os, sys, pygame, random
 from pygame.locals import *
 from lib.methods import *
+from lib.enemy import *
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -46,11 +47,18 @@ class Laser(pygame.sprite.Sprite):
         self.rect.center = pos
 
     def update(self):
+	
         if self.rect.top < 0:
             self.kill()
         else:
             self.rect.move_ip(0, -15)
-
-
+			
+        # enemies_hit_list = pygame.sprite.spritecollide(self, enemies, True, self.kill())
+        # try:
+		    # print enemies_hit_list[0]
+        # except:
+            # pass
+    
+        
 global laserSprites
 laserSprites = pygame.sprite.RenderPlain()
