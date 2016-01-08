@@ -54,11 +54,11 @@ def game():
             clock.tick(30)
             frameCounter += 1
 			
-            if frameCounter%20 == 0:
+            if frameCounter%30 == 0:
                 # newEnemy = Enemy(random.randint(1,4)*100, -50)
                 # enemies.append(newEnemy)
-                enemies.add(Enemy((100,100)))
-                print "new Enemy created"
+                enemies.add(Enemy((random.randint(1,7)*100,50)))
+                # print "new Enemy created"
 
 
             for event in pygame.event.get():
@@ -92,15 +92,20 @@ def game():
             arena.update(screen)
             laserSprites.update()
             enemies.update()
-            # enemyLaserSprites.update()
+            enemyLaserSprites.update()
 
             collide_list = pygame.sprite.groupcollide(laserSprites, enemies, True, True)
+            player_hit = pygame.sprite.spritecollide(player, enemyLaserSprites, True)
+            # spritecollide kann noch erweitert werden mit callback function wenn player getroffen wird
+            # spritecollide(sprite, group, dokill, collided = None)
+            if len(player_hit) > 0:
+                print "player hit"
             # Draw
             #arena.draw(screen)
             playerSprite.draw(screen)
             laserSprites.draw(screen)
             enemies.draw(screen)
-            # enemyLaserSprites.draw(screen)
+            enemyLaserSprites.draw(screen)
 			
             # for enemy in enemies: 
                 # enemy.update(random.randint(0,7),random.randint(0,5))
