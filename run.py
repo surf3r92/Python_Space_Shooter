@@ -127,21 +127,24 @@ def game():
 
 def highScore():
 
-    highscoreBackground = pygame.image.load("img/sprites/arena.jpg")
+    highscoreBackground = pygame.image.load("img/sprites/startscreen.png")
     screen.blit(highscoreBackground, (0, 0))
 
-    dict = {"Hanni" : "2500", "Lukas" : "1200"}
+    list = []
+    list.append(("Hanni","2000"))
+    list.append(("Hanni","1000"))
+    list.append(("Lukas","2000"))
 
     heighScoreHeight = 350
-    heighScoreLength = 300
+    heighScoreLength = 330
     heighScoreXPos = (screen.get_size()[0]/2) - (heighScoreLength/2)
-    heighScoreYPos = (screen.get_size()[1]/2) - (heighScoreHeight/2)
+    heighScoreYPos = (screen.get_size()[1]/2) - (heighScoreHeight/2) + 50
     heighScoreColor = (46,46,254)
     heighScoreTextFont = "Calibri"
-    heighScoreTextFontSize = 30
-    heighScoreTextColor = (0,0,0)
+    heighScoreTextFontSize = 20
+    heighScoreTextColor = (255,255,255)
 
-    highScoreList = HighScore(screen, dict, heighScoreXPos, heighScoreYPos, heighScoreColor, heighScoreLength, heighScoreHeight, heighScoreTextFont, heighScoreTextFontSize, heighScoreTextColor)
+    highScoreList = HighScore(screen, list, heighScoreXPos, heighScoreYPos, heighScoreColor, heighScoreLength, heighScoreHeight, heighScoreTextFont, heighScoreTextFontSize, heighScoreTextColor)
 
     buttonWidth = 0
     buttonHeight = 50
