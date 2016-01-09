@@ -127,8 +127,9 @@ def game():
 
 def highScore():
 
-    highscoreBackground = pygame.image.load("img/sprites/startscreen.png")
-    screen.blit(highscoreBackground, (0, 0))
+    if gameState == "Start":
+        highscoreBackground = pygame.image.load("img/sprites/highscore_screen.png")
+        screen.blit(highscoreBackground, (0, 0))
 
     list = []
     list.append(("Hanni","2000"))
@@ -138,7 +139,7 @@ def highScore():
     heighScoreHeight = 350
     heighScoreLength = 330
     heighScoreXPos = (screen.get_size()[0]/2) - (heighScoreLength/2)
-    heighScoreYPos = (screen.get_size()[1]/2) - (heighScoreHeight/2) + 50
+    heighScoreYPos = (screen.get_size()[1]/2) - (heighScoreHeight/2) + 25
     heighScoreColor = (46,46,254)
     heighScoreTextFont = "Calibri"
     heighScoreTextFontSize = 20
@@ -220,7 +221,7 @@ def gameMenu():
         button1Text = "Start Game"
     else:
         button1Text = "Continue"
-    button2Text = "High Score"
+    button2Text = "Highscore"
     button3Text = "Quit"
 
     inputMaxLength = 20
@@ -287,6 +288,7 @@ def gameMenu():
                         onStartClicked = True
                 if button2.pressed(pygame.mouse.get_pos()):
                     print button2Text
+                    keepGoing = False
                     highScore()
                 if button3.pressed(pygame.mouse.get_pos()):
                     print button3Text
