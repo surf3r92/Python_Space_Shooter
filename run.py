@@ -57,7 +57,7 @@ def game():
             if frameCounter%30 == 0:
                 # newEnemy = Enemy(random.randint(1,4)*100, -50)
                 # enemies.append(newEnemy)
-                enemies.add(Enemy((random.randint(1,7)*100,50)))
+                enemies.add(Enemy((random.randint(1,7)*100,0)))
                 # print "new Enemy created"
 
 

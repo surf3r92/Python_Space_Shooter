@@ -11,16 +11,16 @@ class Player(pygame.sprite.Sprite):
         self.dx = 0
         self.dy = 0
         self.laserTimer = 0
-        self.laserMax = 5
+        self.laserMax = 20
         self.reset()
 		
     def update(self):
         self.rect.move_ip((self.dx, self.dy))
 
         key = pygame.key.get_pressed()
+        self.laserTimer += 1
         if key[pygame.K_SPACE]:
-            self.laserTimer += 1
-            if self.laserTimer == self.laserMax:
+            if self.laserTimer > self.laserMax:
                 laserSprites.add(Laser(self.rect.midtop))
                 self.laserTimer = 0
 
