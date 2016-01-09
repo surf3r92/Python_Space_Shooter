@@ -5,6 +5,7 @@ from lib.player import *
 from lib.buttons import *
 from lib.input import *
 from lib.enemy import *
+from lib.highscore import *
 
 os.environ['SDL_VIDEO_CENTERED'] = "1"
 pygame.init()
@@ -124,6 +125,71 @@ def game():
             			
             pygame.display.flip()
 
+def highScore():
+
+    highscoreBackground = pygame.image.load("img/sprites/arena.jpg")
+    screen.blit(highscoreBackground, (0, 0))
+
+    dict = {"Hanni" : "2500", "Lukas" : "1200"}
+
+    heighScoreHeight = 350
+    heighScoreLength = 300
+    heighScoreXPos = (screen.get_size()[0]/2) - (heighScoreLength/2)
+    heighScoreYPos = (screen.get_size()[1]/2) - (heighScoreHeight/2)
+    heighScoreColor = (46,46,254)
+    heighScoreTextFont = "Calibri"
+    heighScoreTextFontSize = 30
+    heighScoreTextColor = (0,0,0)
+
+    highScoreList = HighScore(screen, dict, heighScoreXPos, heighScoreYPos, heighScoreColor, heighScoreLength, heighScoreHeight, heighScoreTextFont, heighScoreTextFontSize, heighScoreTextColor)
+
+    buttonWidth = 0
+    buttonHeight = 50
+    buttonLength = 200
+    buttonYDist = 50
+    buttonXDist = buttonYDist
+    buttonXPos = (screen.get_size()[0]) - (buttonLength) - buttonXDist
+    buttonColor = (46,46,254)
+    buttonColorHovered = (8,8,138)
+    buttonTextColor = (255,255,255)
+    buttonTextFont = "Calibri"
+    buttonTextFontSize = 20
+
+    buttonBackYPos = (screen.get_size()[1]) - (buttonHeight) - buttonYDist
+    buttonBackText = "Back"
+
+    buttonBack = Button(screen, buttonColor, buttonColorHovered, buttonXPos, buttonBackYPos, buttonLength, buttonHeight, buttonWidth, buttonBackText, buttonTextColor, buttonTextFont, buttonTextFontSize)
+
+    keepGoing = True
+    allButtons = [buttonBack]
+
+    while keepGoing:
+        pygame.mouse.set_visible(1)
+
+
+        highScoreList.create_list()
+
+        buttonBack.create_button()
+        pygame.display.flip()
+
+        for event in pygame.event.get():
+
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            elif event.type == MOUSEBUTTONDOWN:
+                if buttonBack.pressed(pygame.mouse.get_pos()):
+                    keepGoing = False
+                    gameMenu()
+            elif event.type == MOUSEMOTION:
+                for currButton in allButtons:
+                    if currButton.getRect().collidepoint(pygame.mouse.get_pos()):
+                        currButton.setHovered()
+                    else:
+                        currButton.setUnhovered()
+
+
+
 def gameMenu():
 
     if gameState == "Start":
@@ -218,6 +284,7 @@ def gameMenu():
                         onStartClicked = True
                 if button2.pressed(pygame.mouse.get_pos()):
                     print button2Text
+                    highScore()
                 if button3.pressed(pygame.mouse.get_pos()):
                     print button3Text
                     pygame.quit()

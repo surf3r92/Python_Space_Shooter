@@ -19,6 +19,7 @@ class Button:
         self.font_size = font_size
 
     def create_button(self):
+        # surface = ...  sowie return statement kann weggelassen werden
         if self.hoverState:
             surface = self.draw_button(self.color_hovered)
         else:
