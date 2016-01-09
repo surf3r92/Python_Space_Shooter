@@ -48,9 +48,13 @@ def game():
     frameCounter = 0
     pygame.key.set_repeat(10, 10)
     while keepgoing:
+
 		
         global gameState
-        if gameState == "Start":
+        if gameState == "Start" or gameState == "Restart":
+            if gameState == "Restart":
+                gameState = "Start"
+                keepgoing = False
             pygame.mouse.set_visible(0)
             clock.tick(30)
             frameCounter += 1
@@ -221,8 +225,16 @@ def gameMenu():
         button1Text = "Start Game"
     else:
         button1Text = "Continue"
-    button2Text = "Highscore"
-    button3Text = "Quit"
+
+    if gameState == "Start":
+        button2Text = "Highscore"
+    else:
+        button2Text = "Restart"
+
+    if gameState == "Start":
+        button3Text = "Quit"
+    else:
+        button3Text = "Menu"
 
     inputMaxLength = 20
     inputTextColor = (255,255,255)
@@ -288,12 +300,21 @@ def gameMenu():
                         onStartClicked = True
                 if button2.pressed(pygame.mouse.get_pos()):
                     print button2Text
-                    keepGoing = False
-                    highScore()
+                    if button2.getText() == "Highscore":
+                        button2.setText("Restart")
+                        highScore()
+                    else:
+                        gameState = "Restart"
+                        keepGoing = False
+                        #game()
                 if button3.pressed(pygame.mouse.get_pos()):
                     print button3Text
-                    pygame.quit()
-                    sys.exit()
+                    if gameState == "Start":
+                        pygame.quit()
+                        sys.exit()
+                    else:
+                        gameState = "Start"
+                        gameMenu()
             elif event.type == MOUSEMOTION:
                 for currButton in allButtons:
                     if currButton.getRect().collidepoint(pygame.mouse.get_pos()):
