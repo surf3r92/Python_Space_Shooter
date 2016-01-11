@@ -1,0 +1,2 @@
+Buchstaben bei der Nameneingabe werden 6fach eingegeben
+Start Game erzeugt kein neues Spiel falls davor bereits ein Spiel erstellt wurde sondern macht an der Stelle vom vorherrigen Spiel weiter. Eventuell eine "setupNewGame" Methode Implementieren die beim Klicken auf Start Game ausgeführt wird und alle Variablen etc. auf Startzustand setzt

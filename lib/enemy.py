@@ -1,40 +1,7 @@
-import os, sys, pygame, random
+import os, sys, pygame, random, math
+import numpy as np
 from pygame.locals import *
 from lib.methods import *
-
-# class Enemy(pygame.sprite.Sprite):
-	# def __init__(self, x, y):
-		# pygame.sprite.Sprite.__init__(self)
-		# self.image, self.rect = load_image("img/sprites/enemy.png", -1)
-		# self.x = x
-		# self.y = y
-		# self.reverse = 0
-		# self.frame = random.randint(0,30)
-		
-
-	
-	# def update(self, dx, dy):
-		# self.frame += 1
-		# if self.x > 800 - self.image.get_width():
-			# self.reverse = 1
-		# elif self.x < 0:
-			# self.reverse = 0
-			
-		# if self.reverse == 1:
-			# dx *= -1
-			# dx += 2
-			
-		# if self.frame < 60:
-			# self.y += 3
-			# self.x += (dx-3)
-		# else:
-			# self.x += (dx-1)
-			# self.y += (dy-2)
-			
-		# if self.frame % 90 == 0:
-			# print "enemy shoot"
-			# enemyLaserSprites.append(EnemyLaser(self.x, self.y))
-		
 
 		
 class Enemy(pygame.sprite.Sprite):
@@ -42,24 +9,64 @@ class Enemy(pygame.sprite.Sprite):
 		pygame.sprite.Sprite.__init__(self)
 		self.image, self.rect = load_image("img/sprites/enemy.png", -1)
 		self.rect.center = pos
-		self.reverse = 0
-		self.counter = 0
-		
-	def update(self):
-		self.counter +=1
-		dx = random.randint(1,17)-5
-		dy = random.randint(1,10)-5
-		if self.rect.right > 800:
+		if pos[0] > 400:
 			self.reverse = 1
-		if self.rect.left < 0:
+		else:
 			self.reverse = 0
-		if self.reverse == 1:
-			dx *= -1
-		self.rect.move_ip(dx, dy)
+		self.counter = 50
+		self.xList = np.linspace(np.pi,np.pi*3,100)
+		self.yList = np.sin(self.xList)
+		print self.xList
+		print self.yList
+	# def update(self):
+		# self.counter +=1
+		# dx = random.randint(1,17)-5
+		# dy = random.randint(1,10)-5
+		# if self.rect.right > 800:
+			# self.reverse = 1
+		# if self.rect.left < 0:
+			# self.reverse = 0
+		# if self.reverse == 1:
+			# dx *= -1
+		# self.rect.move_ip(dx, dy)
 		
-		if self.counter%90 == 0:
-			enemyLaserSprites.add(EnemyLaser(self.rect.center))
-		
+		# if self.counter%90 == 0:
+			# enemyLaserSprites.add(EnemyLaser(self.rect.center))
+			
+	def update(self):
+		self.counter += 1
+		if self.counter > 100:
+			
+			dx = 5
+			dy = self.yList[self.counter%100]
+			if self.rect.right > 800:
+				self.reverse = 1
+			if self.rect.left < 0:
+				self.reverse = 0
+			if self.reverse == 1:
+				dx *= -1
+			self.rect.move_ip(dx,dy*6)
+			
+		else:
+			self.xStart = np.linspace(0,np.pi,50)
+			self.yStart = np.sin(self.xStart)
+			dx = 5
+			dy = self.yStart[self.counter%50]
+			if self.reverse == 1:
+				dx *= -1
+			self.rect.move_ip(dx,dy*8)
+			print "xstart"
+			print self.xStart
+			print "yStart"
+			print self.yStart
+			print "xList"
+			print self.xList
+			print "yList"
+			print self.yList
+	
+	# def cosineInterpolation(y1, y2, mu):
+		# mu2 = (1-cos(mu*PI))/2
+		# return (y1*(1-mu2)+y2*mu2);
 		
 class EnemyLaser(pygame.sprite.Sprite):
 	def __init__(self, pos):
