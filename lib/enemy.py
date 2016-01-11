@@ -33,7 +33,7 @@ class Enemy(pygame.sprite.Sprite):
 			self.rect.move_ip(dx,dy*6)
 			
 			if self.counter%75 == 0:
-			enemyLaserSprites.add(EnemyLaser(self.rect.center))
+				enemyLaserSprites.add(EnemyLaser(self.rect.center))
 			
 		else:
 			self.xStart = np.linspace(0,np.pi,50)
