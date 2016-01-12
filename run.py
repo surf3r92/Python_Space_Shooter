@@ -63,7 +63,6 @@ def game():
     frameCounter = 0
     pygame.key.set_repeat(10, 10)
     while keepgoing:
-
 		
         global gameState
         if gameState == "Start" or gameState == "Restart":
@@ -74,10 +73,10 @@ def game():
             clock.tick(30)
             frameCounter += 1
 			
-            if frameCounter%30 == 0:
+            if frameCounter%60 == 1:
                 # newEnemy = Enemy(random.randint(1,4)*100, -50)
                 # enemies.append(newEnemy)
-                enemies.add(Enemy((random.randint(1,7)*100,0)))
+                enemies.add(Enemy((-50 + random.randint(1,7)*100,random.randint(-50,0))))
                 # print "new Enemy created"
 
 
@@ -123,6 +122,7 @@ def game():
             # spritecollide(sprite, group, dokill, collided = None)
             if len(player_hit) > 0:
                 print "player hit"
+                #if len(playerlives) > 0:
                 playerlives.pop(-1)
                 print playerlives
                 if len(playerlives) == 0:
