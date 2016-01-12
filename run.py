@@ -11,6 +11,11 @@ os.environ['SDL_VIDEO_CENTERED'] = "1"
 pygame.init()
 pygame.display.set_caption("Space Shooter")
 icon = pygame.image.load("img/sprites/Space Shooter.png")
+playerLivesPictures = pygame.image.load("img/sprites/player.png")
+green = 0,255,0
+score = 0
+playerlives = []
+myFont = pygame.font.SysFont("monospace",24)
 size = width, height = 800, 600
 screen = pygame.display.set_mode(size)
 
@@ -38,6 +43,16 @@ def game():
     # Arena
     arena = Arena()
     #arena = pygame.sprite.RenderPlain((arena))
+
+    #lives vllt noch auslagern, in update einbeziehen, zZ noch unter arena
+    for lives in playerlives:
+        screen.blit(lives[0], (lives[1], lives[2]))
+    #score
+    global score
+    #score ausgelagert in score.py aber noch fehlerhaft, noch in update einbeziehen, zZ noch unter arena
+    scoreDisplay = myFont.render("".join(["Score:",str(score)]), 1, green)
+    screen.blit(scoreDisplay, (width-160, height-playerLivesPictures.get_height()-24))
+
 
     # Projectiles
 	
@@ -100,11 +115,19 @@ def game():
             enemyLaserSprites.update()
 
             collide_list = pygame.sprite.groupcollide(laserSprites, enemies, True, True)
+            if(collide_list != {}):
+                score += 10
+                print score
             player_hit = pygame.sprite.spritecollide(player, enemyLaserSprites, True)
             # spritecollide kann noch erweitert werden mit callback function wenn player getroffen wird
             # spritecollide(sprite, group, dokill, collided = None)
             if len(player_hit) > 0:
                 print "player hit"
+                playerlives.pop(-1)
+                print playerlives
+                if len(playerlives) == 0:
+                    print "game over"
+                    #endgame
             # Draw
             #arena.draw(screen)
             playerSprite.draw(screen)
@@ -128,6 +151,9 @@ def game():
             # print laserSprites
             			
             pygame.display.flip()
+
+
+
 
 def highScore():
 
@@ -204,6 +230,15 @@ def gameMenu():
         menuBackground = pygame.image.load("img/sprites/startscreen.png")
         screen.blit(menuBackground, (0, 0))
 
+    global score
+    global playerlives
+
+    score = 0
+
+    playerlives = []
+    playerlives.append((playerLivesPictures, 32 + (32+playerLivesPictures.get_width())*0, height - playerLivesPictures.get_height()-16))
+    playerlives.append((playerLivesPictures, 32 + (32+playerLivesPictures.get_width())*1, height - playerLivesPictures.get_height()-16))
+    playerlives.append((playerLivesPictures, 32 + (32+playerLivesPictures.get_width())*2, height - playerLivesPictures.get_height()-16))
 
     buttonWidth = 0
     buttonHeight = 50
