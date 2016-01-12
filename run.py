@@ -45,13 +45,11 @@ def game():
     #arena = pygame.sprite.RenderPlain((arena))
 
     #lives vllt noch auslagern, in update einbeziehen, zZ noch unter arena
-    for lives in playerlives:
-        screen.blit(lives[0], (lives[1], lives[2]))
+
     #score
     global score
     #score ausgelagert in score.py aber noch fehlerhaft, noch in update einbeziehen, zZ noch unter arena
-    scoreDisplay = myFont.render("".join(["Score:",str(score)]), 1, green)
-    screen.blit(scoreDisplay, (width-160, height-playerLivesPictures.get_height()-24))
+
 
 
     # Projectiles
@@ -113,6 +111,12 @@ def game():
             enemies.update()
             enemyLaserSprites.update()
 
+            scoreDisplay = myFont.render("".join(["Score:",str(score)]), 1, green)
+            screen.blit(scoreDisplay, (width-160, height-playerLivesPictures.get_height()-24))
+
+            for lives in playerlives:
+                screen.blit(lives[0], (lives[1], lives[2]))
+
             collide_list = pygame.sprite.groupcollide(laserSprites, enemies, True, True)
             if(collide_list != {}):
                 score += 10
@@ -122,8 +126,8 @@ def game():
             # spritecollide(sprite, group, dokill, collided = None)
             if len(player_hit) > 0:
                 print "player hit"
-                #if len(playerlives) > 0:
-                playerlives.pop(-1)
+                if len(playerlives) > 0:
+                    playerlives.pop(-1)
                 print playerlives
                 if len(playerlives) == 0:
                     print "game over"
