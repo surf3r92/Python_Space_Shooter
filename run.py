@@ -63,9 +63,12 @@ def game():
     while keepgoing:
 		
         global gameState
-        if gameState == "Start" or gameState == "Restart":
-            if gameState == "Restart":
-                gameState = "Start"
+        if gameState == "Start" or gameState == "Gameover":
+                #or gameState == "Restart"\
+            #if gameState == "Restart":
+                #gameState = "Start"
+                #keepgoing = False
+            if gameState == "Gameover":
                 keepgoing = False
             pygame.mouse.set_visible(0)
             clock.tick(30)
@@ -131,6 +134,8 @@ def game():
                 print playerlives
                 if len(playerlives) == 0:
                     print "game over"
+                    gameState = "Gameover"
+                    gameMenu()
                     #endgame
             # Draw
             #arena.draw(screen)
@@ -262,17 +267,15 @@ def gameMenu():
     global gameState
     if gameState == "Start":
         button1Text = "Start Game"
-    else:
-        button1Text = "Continue"
-
-    if gameState == "Start":
         button2Text = "Highscore"
-    else:
-        button2Text = "Restart"
-
-    if gameState == "Start":
         button3Text = "Quit"
-    else:
+    elif gameState == "Pause":
+        button1Text = "Continue"
+        button2Text = "Restart"
+        button3Text = "Menu"
+    elif gameState == "Gameover":
+        button1Text = "Restart"
+        button2Text = "Highscore"
         button3Text = "Menu"
 
     inputMaxLength = 20
@@ -285,9 +288,6 @@ def gameMenu():
     inputRectHeight = inputTextFontSize
     inputYPos = button3YPos + 3* buttonHeight
     inputXPos = (screen.get_size()[0]/2) - (inputRectLength/2)
-
-    #if gameState == "Start":
-    #    inputText = 'Enter your name!'
 
     inputBox = Input(screen, inputXPos, inputYPos, inputMaxLength, inputTextColor, inputText, inputRectColor, inputRectLength, inputRectHeight, inputTextFont, inputTextFontSize)
 
@@ -316,7 +316,7 @@ def gameMenu():
         pygame.display.flip()
         for event in pygame.event.get():
 
-            if onStartClicked and gameState == "Start":
+            if gameState == "Start":
                 inputBox.update(event)
                 inputBox.draw(screen)
 
@@ -325,33 +325,32 @@ def gameMenu():
                 sys.exit()
             elif event.type == MOUSEBUTTONDOWN:
                 if button1.pressed(pygame.mouse.get_pos()):
-
                     if inputBox.getText() != inputText or gameState == "Pause":
                         print button1Text
                         currUserName = inputBox.getText()
-                        if button1.getText() == "Start Game":
-                            button1.setText("Continue")
+                        if gameState == "Start":
                             game()
-                        else:
+                        elif gameState == "Pause":
                             gameState = "Start"
                             keepGoing = False
+                        elif gameState == "Gameover":
+                            pass
                     else:
-                        onStartClicked = True
+                        inputBox.setTextColor((255,0,0))
                 if button2.pressed(pygame.mouse.get_pos()):
                     print button2Text
-                    if button2.getText() == "Highscore":
-                        button2.setText("Restart")
+                    if gameState == "Start" or gameState == "Gameover":
                         highScore()
-                    else:
-                        gameState = "Restart"
+                    elif gameState == "Pause":
+                        #hier Restart einleisten ohne gameState = "Start"
+                        gameState = "Start"
                         keepGoing = False
-                        #game()
                 if button3.pressed(pygame.mouse.get_pos()):
                     print button3Text
                     if gameState == "Start":
                         pygame.quit()
                         sys.exit()
-                    else:
+                    elif gameState == "Pause" or gameState == "Gameover":
                         gameState = "Start"
                         gameMenu()
             elif event.type == MOUSEMOTION:

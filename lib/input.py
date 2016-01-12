@@ -9,6 +9,7 @@ class Input:
         self.x = x
         self.y = y
         self.textColor = textColor
+        self.textColorStart = textColor
         self.restricted = '\'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!"#$%&\\\'()*+,-./:;<=>?@[\]^_`{|}~\''
         self.maxlength = maxlength
         self.prompt = text
@@ -39,6 +40,7 @@ class Input:
         if event.type == KEYUP:
             if event.key == K_LSHIFT or event.key == K_RSHIFT: self.shifted = False
         if event.type == KEYDOWN:
+            self.textColor = self. textColorStart
             self.prompt = ""
             if event.key == K_BACKSPACE: self.value = self.value[:-1]
             elif event.key == K_LSHIFT or event.key == K_RSHIFT: self.shifted = True
@@ -146,6 +148,7 @@ class Input:
         if len(self.value) > self.maxlength and self.maxlength >= 0: self.value = self.value[:-1]
         if self.value == "" and self.prompt == "":
             self.prompt = self.textStart
+            self.textColor = self. textColorStart
 
     def getText(self):
         return self.prompt+self.value
@@ -154,3 +157,6 @@ class Input:
         if currUserName != "":
             self.prompt = ""
         self.value = currUserName
+
+    def setTextColor(self, color):
+        self.textColor = color
