@@ -29,8 +29,6 @@ class Run():
         self.background = self.background.convert()
         self.background.fill((0, 0, 0))
 
-        print "run py init"
-
         gameMenu(self)
 
 

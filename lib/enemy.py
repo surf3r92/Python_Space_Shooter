@@ -58,4 +58,3 @@ global enemyLaserSprites
 enemyLaserSprites = pygame.sprite.RenderPlain()
 global enemies
 enemies = pygame.sprite.RenderPlain()
-print "enemy py file"
