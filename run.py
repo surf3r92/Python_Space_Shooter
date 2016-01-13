@@ -15,10 +15,10 @@ class Run():
 
         self.icon = pygame.image.load("img/sprites/Space Shooter.png")
         self.playerLivesPictures = pygame.image.load("img/sprites/player.png")
-        self.green = 0,255,0
+        self.green = 0, 255, 0
         self.score = 0
         self.playerlives = []
-        self.myFont = pygame.font.SysFont("monospace",24)
+        self.myFont = pygame.font.SysFont("monospace", 24)
         self.size = self.width, self.height = 800, 600
         self.screen = pygame.display.set_mode(self.size)
 
@@ -32,67 +32,70 @@ class Run():
         gameMenu(self)
 
     # enemies = []
-    
+
     def callHighscore(self):
         highScore(self)
+
+    def callGame(self):
+        self.game()
 
     def game(self):
         # Game Objects
         global player
         player = Player()
-    
+
         playerSprite = pygame.sprite.RenderPlain((player))
-    
+
         # global enemy
         # enemy = Enemy()
-    
-        #lives vllt noch auslagern, in update einbeziehen, zZ noch unter arena
-    
-        #score
-        #score ausgelagert in score.py aber noch fehlerhaft, noch in update einbeziehen, zZ noch unter arena
 
+        # lives vllt noch auslagern, in update einbeziehen, zZ noch unter arena
+
+        # score
+        # score ausgelagert in score.py aber noch fehlerhaft, noch in update einbeziehen, zZ noch unter arena
 
         clock = pygame.time.Clock()
         keepgoing = True
         frameCounter = 0
         pygame.key.set_repeat(10, 10)
         while keepgoing:
-            
+
             if self.gameState == "Start" or self.gameState == "Gameover":
-                    #or gameState == "Restart"\
-                #if gameState == "Restart":
-                    #gameState = "Start"
-                    #keepgoing = False
+                # or gameState == "Restart"\
+                # if gameState == "Restart":
+                # gameState = "Start"
+                # keepgoing = False
                 if self.gameState == "Gameover":
                     keepgoing = False
                 pygame.mouse.set_visible(0)
                 clock.tick(30)
                 frameCounter += 1
-                
-                if frameCounter%60 == 1:
+
+                if frameCounter % 60 == 1:
                     # newEnemy = Enemy(random.randint(1,4)*100, -50)
                     # enemies.append(newEnemy)
-                    enemies.add(Enemy((-50 + random.randint(1,7)*100,random.randint(-50,0))))
+                    enemies.add(Enemy((-50 + random.randint(1, 7) * 100, random.randint(-50, 0))))
                     # print "new Enemy created"
 
                 keyControls(self, player)
 
                 # Update
-                #screen.blit(background, (0, 0))
+                # screen.blit(background, (0, 0))
                 playerSprite.update()
                 arena.update(self.screen)
                 laserSprites.update()
                 enemies.update()
                 enemyLaserSprites.update()
-    
-                scoreDisplay = self.myFont.render("".join(["Score:",str(self.score)]), 1, self.green)
-                self.screen.blit(scoreDisplay, (self.width-160, self.height-self.playerLivesPictures.get_height()-24))
-    
+
+                scoreDisplay = self.myFont.render("".join(["Score:", str(self.score)]), 1, self.green)
+                self.screen.blit(scoreDisplay,
+                                 (self.width - 160, self.height - self.playerLivesPictures.get_height() - 24))
+
                 for lives in self.playerlives:
                     self.screen.blit(lives[0], (lives[1], lives[2]))
-    
+
                 collide_list = pygame.sprite.groupcollide(laserSprites, enemies, True, True)
-                if(collide_list != {}):
+                if (collide_list != {}):
                     self.score += 10
                     print self.score
                 player_hit = pygame.sprite.spritecollide(player, enemyLaserSprites, True)
@@ -107,29 +110,30 @@ class Run():
                         print "game over"
                         self.gameState = "Gameover"
                         gameMenu(self)
-                        #endgame
-                # Draw
-                #arena.draw(screen)
+                        # endgame
+                        # Draw
+                        # arena.draw(screen)
                 playerSprite.draw(self.screen)
                 laserSprites.draw(self.screen)
                 enemies.draw(self.screen)
                 enemyLaserSprites.draw(self.screen)
-                
+
                 # for enemy in enemies: 
-                    # enemy.update(random.randint(0,7),random.randint(0,5))
-                    
-                    # screen.blit(enemy.image, (enemy.x, enemy.y))
-                    
+                # enemy.update(random.randint(0,7),random.randint(0,5))
+
+                # screen.blit(enemy.image, (enemy.x, enemy.y))
+
                 # for eLaser in enemyLaserSprites: 
-                    # eLaser.update()
-                    # screen.blit(eLaser.image, (eLaser.x, eLaser.y))
-                    # if eLaser.x > 600:
-                        # enemyLaserSprites.remove(eLaser)
-                
+                # eLaser.update()
+                # screen.blit(eLaser.image, (eLaser.x, eLaser.y))
+                # if eLaser.x > 600:
+                # enemyLaserSprites.remove(eLaser)
+
                 # print laserSprites
-                
+
                 # print laserSprites
-                            
+
                 pygame.display.flip()
+
 
 Run()

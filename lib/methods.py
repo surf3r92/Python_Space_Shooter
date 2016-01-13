@@ -2,6 +2,7 @@ import os, sys, pygame, random
 from pygame.locals import *
 from lib.menu import *
 
+
 def load_image(name, colorkey=None):
     try:
         image = pygame.image.load(name)
@@ -16,14 +17,14 @@ def load_image(name, colorkey=None):
     return image, image.get_rect()
 
 
-def keyControls(self,player):
+def keyControls(self, player):
     for event in pygame.event.get():
         keystate = pygame.key.get_pressed()
         if event.type == pygame.QUIT:
             keepgoing = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_ESCAPE:
-                #keepgoing = False
+                # keepgoing = False
                 self.gameState = "Pause"
                 gameMenu(self)
             elif event.key == pygame.K_LEFT:

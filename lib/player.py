@@ -50,11 +50,12 @@ class Laser(pygame.sprite.Sprite):
         else:
             self.rect.move_ip(0, -15)
 
-        # enemies_hit_list = pygame.sprite.spritecollide(self, enemies, True, self.kill())
-        # try:
-		    # print enemies_hit_list[0]
-        # except:
+            # enemies_hit_list = pygame.sprite.spritecollide(self, enemies, True, self.kill())
+            # try:
+            # print enemies_hit_list[0]
+            # except:
             # pass
+
 
 global laserSprites
 laserSprites = pygame.sprite.RenderPlain()
