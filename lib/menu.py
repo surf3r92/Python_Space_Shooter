@@ -110,7 +110,8 @@ def gameMenu(self):
                         print button1Text
                         currUserName = inputBox.getText()
                         if self.gameState == "Start":
-                            self.game()
+                            # self.game()
+                            self.setupNewGame()
                         elif self.gameState == "Pause":
                             self.gameState = "Start"
                             keepGoing = False
