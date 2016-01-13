@@ -21,6 +21,7 @@ class Player(pygame.sprite.Sprite):
         key = pygame.key.get_pressed()
         self.laserTimer += 1
         if key[pygame.K_SPACE]:
+            print "shoot"
             if self.laserTimer > self.laserMax:
                 laserSprites.add(Laser(self.rect.midtop))
                 self.laserTimer = 0
@@ -60,3 +61,4 @@ class Laser(pygame.sprite.Sprite):
 
 global laserSprites
 laserSprites = pygame.sprite.RenderPlain()
+print "player py file"

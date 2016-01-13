@@ -29,6 +29,8 @@ class Run():
         self.background = self.background.convert()
         self.background.fill((0, 0, 0))
 
+        print "run py init"
+
         gameMenu(self)
 
 
@@ -124,12 +126,15 @@ class Run():
 
 
     def setupNewGame(self):
-        global  enemyLaserSprites
-        enemyLaserSprites = pygame.sprite.RenderPlain()
-        global enemies
-        enemies = pygame.sprite.RenderPlain()
-        global laserSprites
-        laserSprites = pygame.sprite.RenderPlain()
+        # global  enemyLaserSprites
+        # enemyLaserSprites = pygame.sprite.RenderPlain()
+        # global enemies
+        # enemies = pygame.sprite.RenderPlain()
+        # global laserSprites
+        # laserSprites = pygame.sprite.RenderPlain()
+        enemies.empty()
+        enemyLaserSprites.empty()
+        laserSprites.empty()
         self.game()
 
 Run()
