@@ -61,6 +61,10 @@ class Run():
         frameCounter = 0
         pygame.key.set_repeat(10, 10)
         while keepgoing:
+            
+            clock.tick(30)
+            caption = "Space Shooter - FPS: {0:.2f}".format(clock.get_fps())
+            pygame.display.set_caption(caption)
 
             if self.gameState == "Start" or self.gameState == "Gameover":
                 # or gameState == "Restart"\
@@ -70,7 +74,7 @@ class Run():
                 if self.gameState == "Gameover":
                     keepgoing = False
                 pygame.mouse.set_visible(0)
-                clock.tick(30)
+
                 frameCounter += 1
 
                 if frameCounter % 60 == 1:
