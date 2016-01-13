@@ -6,6 +6,7 @@ from lib.buttons import *
 from lib.input import *
 from lib.enemy import *
 from lib.highscore import *
+from lib.menu import *
 
 class run():
 
@@ -28,12 +29,14 @@ class run():
         self.background = pygame.Surface(self.screen.get_size())
         self.background = self.background.convert()
         self.background.fill((0, 0, 0))
-
-        self.gameMenu()
+        print self
+        gameMenu(self)
 
     # enemies = []
     
-    
+    def callHighscore(self):
+        highScore(self)
+
     def game(self):
     
         # Game Objects
@@ -52,7 +55,6 @@ class run():
         #lives vllt noch auslagern, in update einbeziehen, zZ noch unter arena
     
         #score
-        global score
         #score ausgelagert in score.py aber noch fehlerhaft, noch in update einbeziehen, zZ noch unter arena
     
     
@@ -93,7 +95,7 @@ class run():
                         if event.key == pygame.K_ESCAPE:
                             #keepgoing = False
                             self.gameState = "Pause"
-                            self.gameMenu()
+                            gameMenu(self)
                         elif event.key == pygame.K_LEFT:
                             player.dx = -10
                         elif event.key == pygame.K_RIGHT:
@@ -118,28 +120,28 @@ class run():
                 enemies.update()
                 enemyLaserSprites.update()
     
-                scoreDisplay = self.myFont.render("".join(["Score:",str(score)]), 1, self.green)
+                scoreDisplay = self.myFont.render("".join(["Score:",str(self.score)]), 1, self.green)
                 self.screen.blit(scoreDisplay, (self.width-160, self.height-self.playerLivesPictures.get_height()-24))
     
-                for lives in playerlives:
+                for lives in self.playerlives:
                     self.screen.blit(lives[0], (lives[1], lives[2]))
     
                 collide_list = pygame.sprite.groupcollide(laserSprites, enemies, True, True)
                 if(collide_list != {}):
-                    score += 10
-                    print score
+                    self.score += 10
+                    print self.score
                 player_hit = pygame.sprite.spritecollide(player, enemyLaserSprites, True)
                 # spritecollide kann noch erweitert werden mit callback function wenn player getroffen wird
                 # spritecollide(sprite, group, dokill, collided = None)
                 if len(player_hit) > 0:
                     print "player hit"
-                    if len(playerlives) > 0:
-                        playerlives.pop(-1)
-                    print playerlives
-                    if len(playerlives) == 0:
+                    if len(self.playerlives) > 0:
+                        self.playerlives.pop(-1)
+                    print self.playerlives
+                    if len(self.playerlives) == 0:
                         print "game over"
                         self.gameState = "Gameover"
-                        self.gameMenu()
+                        gameMenu(self)
                         #endgame
                 # Draw
                 #arena.draw(screen)
@@ -164,137 +166,7 @@ class run():
                 # print laserSprites
                             
                 pygame.display.flip()
-    
-    
-    
-    
 
-    
-    
-    
-    def gameMenu(self):
-    
-        if self.gameState == "Start":
-            menuBackground = pygame.image.load("img/sprites/startscreen.png")
-            self.screen.blit(menuBackground, (0, 0))
-    
-        global score
-        global playerlives
-    
-        score = 0
-    
-        playerlives = []
-        playerlives.append((self.playerLivesPictures, 32 + (32+self.playerLivesPictures.get_width())*0, self.height - self.playerLivesPictures.get_height()-16))
-        playerlives.append((self.playerLivesPictures, 32 + (32+self.playerLivesPictures.get_width())*1, self.height - self.playerLivesPictures.get_height()-16))
-        playerlives.append((self.playerLivesPictures, 32 + (32+self.playerLivesPictures.get_width())*2, self.height - self.playerLivesPictures.get_height()-16))
-    
-        buttonWidth = 0
-        buttonHeight = 50
-        buttonLength = 200
-        buttonYDist = 100
-        buttonXPos = (self.screen.get_size()[0]/2) - (buttonLength/2)
-        buttonColor = (46,46,254)
-        buttonColorHovered = (8,8,138)
-        buttonTextColor = (255,255,255)
-        buttonTextFont = "Calibri"
-        buttonTextFontSize = 20
-    
-        button1YPos = (self.screen.get_size()[1]/2) - (buttonHeight/2) - buttonYDist
-        button2YPos = (self.screen.get_size()[1]/2) - (buttonHeight/2)
-        button3YPos = (self.screen.get_size()[1]/2) + (buttonHeight/2) + (buttonYDist - buttonHeight)
-    
-        if self.gameState == "Start":
-            button1Text = "Start Game"
-            button2Text = "Highscore"
-            button3Text = "Quit"
-        elif self.gameState == "Pause":
-            button1Text = "Continue"
-            button2Text = "Restart"
-            button3Text = "Menu"
-        elif self.gameState == "Gameover":
-            button1Text = "Restart"
-            button2Text = "Highscore"
-            button3Text = "Menu"
-    
-        inputMaxLength = 20
-        inputTextColor = (255,255,255)
-        inputText = 'Enter your name!'
-        inputTextFont = "Calibri"
-        inputTextFontSize = 20
-        inputRectColor = (0,0,255)
-        inputRectLength = 200
-        inputRectHeight = inputTextFontSize
-        inputYPos = button3YPos + 3* buttonHeight
-        inputXPos = (self.screen.get_size()[0]/2) - (inputRectLength/2)
-    
-        inputBox = Input(self.screen, inputXPos, inputYPos, inputMaxLength, inputTextColor, inputText, inputRectColor, inputRectLength, inputRectHeight, inputTextFont, inputTextFontSize)
-    
-        button1 = Button(self.screen, buttonColor, buttonColorHovered, buttonXPos, button1YPos, buttonLength, buttonHeight, buttonWidth, button1Text, buttonTextColor, buttonTextFont, buttonTextFontSize)
-        button2 = Button(self.screen, buttonColor, buttonColorHovered, buttonXPos, button2YPos, buttonLength, buttonHeight, buttonWidth, button2Text, buttonTextColor, buttonTextFont, buttonTextFontSize)
-        button3 = Button(self.screen, buttonColor, buttonColorHovered, buttonXPos, button3YPos, buttonLength, buttonHeight, buttonWidth, button3Text, buttonTextColor, buttonTextFont, buttonTextFontSize)
-    
-        allButtons = [button1, button2, button3]
-    
-        keepGoing = True
-        onStartClicked = False;
-    
-        while keepGoing:
-            pygame.mouse.set_visible(1)
-    
-            #hintergrundfarbe
-            #screen.fill((30,144,255))
-    
-            button1.create_button()
-            button2.create_button()
-            button3.create_button()
-    
-            global currUserName
-    
-    
-            pygame.display.flip()
-            for event in pygame.event.get():
-    
-                if self.gameState == "Start":
-                    inputBox.update(event)
-                    inputBox.draw(self.screen)
-    
-                if event.type == pygame.QUIT:
-                    pygame.quit()
-                    sys.exit()
-                elif event.type == MOUSEBUTTONDOWN:
-                    if button1.pressed(pygame.mouse.get_pos()):
-                        if inputBox.getText() != inputText or self.gameState == "Pause":
-                            print button1Text
-                            currUserName = inputBox.getText()
-                            if self.gameState == "Start":
-                                self.game()
-                            elif self.gameState == "Pause":
-                                self.gameState = "Start"
-                                keepGoing = False
-                            elif self.gameState == "Gameover":
-                                pass
-                        else:
-                            inputBox.setTextColor((255,0,0))
-                    if button2.pressed(pygame.mouse.get_pos()):
-                        print button2Text
-                        if self.gameState == "Start" or self.gameState == "Gameover":
-                            highScore(self)
-                        elif self.gameState == "Pause":
-                            #hier Restart einleisten ohne gameState = "Start"
-                            self.gameState = "Start"
-                            keepGoing = False
-                    if button3.pressed(pygame.mouse.get_pos()):
-                        print button3Text
-                        if self.gameState == "Start":
-                            pygame.quit()
-                            sys.exit()
-                        elif self.gameState == "Pause" or self.gameState == "Gameover":
-                            self.gameState = "Start"
-                            self.gameMenu()
-                elif event.type == MOUSEMOTION:
-                    for currButton in allButtons:
-                        if currButton.getRect().collidepoint(pygame.mouse.get_pos()):
-                            currButton.setHovered()
-                        else:
-                            currButton.setUnhovered()
+
+
 run()

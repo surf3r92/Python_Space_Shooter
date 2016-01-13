@@ -1,6 +1,7 @@
 import os, sys, pygame, random
 from pygame.locals import *
 from lib.buttons import *
+from lib.menu import *
 
 class HighScore:
     def __init__(self, screen, list, x, y, color, length, height, text_font, font_size, text_color):
@@ -45,7 +46,6 @@ class HighScore:
 
 
 def highScore(self):
-
     if self.gameState == "Start":
         highscoreBackground = pygame.image.load("img/sprites/highscore_screen.png")
         self.screen.blit(highscoreBackground, (0, 0))
@@ -103,7 +103,7 @@ def highScore(self):
             elif event.type == MOUSEBUTTONDOWN:
                 if buttonBack.pressed(pygame.mouse.get_pos()):
                     keepGoing = False
-                    self.gameMenu()
+                    gameMenu(self)
             elif event.type == MOUSEMOTION:
                 for currButton in allButtons:
                     if currButton.getRect().collidepoint(pygame.mouse.get_pos()):
