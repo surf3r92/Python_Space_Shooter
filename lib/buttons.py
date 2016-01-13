@@ -1,10 +1,10 @@
 import pygame
 from pygame.locals import *
-pygame.init()
+
+
 class Button:
     def __init__(self, surface, color, color_hovered, x, y, length, height, width, text, text_color, text_font, font_size):
         self.hoverState = False
-
         self.surface = surface
         self.color = color
         self.color_hovered = color_hovered

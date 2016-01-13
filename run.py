@@ -1,11 +1,9 @@
 import os, sys, pygame, random
 from pygame.locals import *
+from lib.highscore import *
 from lib.arena import *
 from lib.player import *
-from lib.buttons import *
-from lib.input import *
 from lib.enemy import *
-from lib.highscore import *
 from lib.menu import *
 
 class run():
@@ -14,6 +12,7 @@ class run():
         os.environ['SDL_VIDEO_CENTERED'] = "1"
         pygame.init()
         pygame.display.set_caption("Space Shooter")
+
         self.icon = pygame.image.load("img/sprites/Space Shooter.png")
         self.playerLivesPictures = pygame.image.load("img/sprites/player.png")
         self.green = 0,255,0
@@ -29,7 +28,7 @@ class run():
         self.background = pygame.Surface(self.screen.get_size())
         self.background = self.background.convert()
         self.background.fill((0, 0, 0))
-        print self
+
         gameMenu(self)
 
     # enemies = []
@@ -50,19 +49,13 @@ class run():
         
         # Arena
         arena = Arena()
-        #arena = pygame.sprite.RenderPlain((arena))
     
         #lives vllt noch auslagern, in update einbeziehen, zZ noch unter arena
     
         #score
         #score ausgelagert in score.py aber noch fehlerhaft, noch in update einbeziehen, zZ noch unter arena
-    
-    
-    
-        # Projectiles
-        
-        
-    
+
+
         clock = pygame.time.Clock()
         keepgoing = True
         frameCounter = 0
@@ -85,33 +78,9 @@ class run():
                     # enemies.append(newEnemy)
                     enemies.add(Enemy((-50 + random.randint(1,7)*100,random.randint(-50,0))))
                     # print "new Enemy created"
-    
-    
-                for event in pygame.event.get():
-                    keystate = pygame.key.get_pressed()
-                    if event.type == pygame.QUIT:
-                        keepgoing = False
-                    elif event.type == pygame.KEYDOWN:
-                        if event.key == pygame.K_ESCAPE:
-                            #keepgoing = False
-                            self.gameState = "Pause"
-                            gameMenu(self)
-                        elif event.key == pygame.K_LEFT:
-                            player.dx = -10
-                        elif event.key == pygame.K_RIGHT:
-                            player.dx = 10
-                        elif event.key == pygame.K_UP:
-                            player.dy = -10
-                        elif event.key == pygame.K_DOWN:
-                            player.dy = 10
-                    elif event.type == pygame.KEYUP:
-                        if keystate[K_LEFT] == 0 and keystate[K_RIGHT] == 0 and \
-                                        keystate[K_UP] == 0 and keystate[K_DOWN] == 0:
-                            player.dx = 0
-                            player.dy = 0
-                        else:
-                            pass
-                
+
+                keyControls(self, player)
+
                 # Update
                 #screen.blit(background, (0, 0))
                 playerSprite.update()
@@ -166,7 +135,5 @@ class run():
                 # print laserSprites
                             
                 pygame.display.flip()
-
-
 
 run()

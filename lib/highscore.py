@@ -88,15 +88,11 @@ def highScore(self):
 
     while keepGoing:
         pygame.mouse.set_visible(1)
-
-
         highScoreList.create_list()
-
         buttonBack.create_button()
         pygame.display.flip()
 
         for event in pygame.event.get():
-
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
