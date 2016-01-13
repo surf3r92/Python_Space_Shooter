@@ -31,7 +31,6 @@ class Run():
 
         gameMenu(self)
 
-    # enemies = []
 
     def callHighscore(self):
         highScore(self)
@@ -61,7 +60,7 @@ class Run():
         frameCounter = 0
         pygame.key.set_repeat(10, 10)
         while keepgoing:
-            
+
             clock.tick(30)
             caption = "Space Shooter - FPS: {0:.2f}".format(clock.get_fps())
             pygame.display.set_caption(caption)
@@ -78,15 +77,11 @@ class Run():
                 frameCounter += 1
 
                 if frameCounter % 60 == 1:
-                    # newEnemy = Enemy(random.randint(1,4)*100, -50)
-                    # enemies.append(newEnemy)
                     enemies.add(Enemy((-50 + random.randint(1, 7) * 100, random.randint(-50, 0))))
-                    # print "new Enemy created"
 
                 keyControls(self, player)
 
                 # Update
-                # screen.blit(background, (0, 0))
                 playerSprite.update()
                 arena.update(self.screen)
                 laserSprites.update()
@@ -124,20 +119,6 @@ class Run():
                 enemies.draw(self.screen)
                 enemyLaserSprites.draw(self.screen)
 
-                # for enemy in enemies: 
-                # enemy.update(random.randint(0,7),random.randint(0,5))
-
-                # screen.blit(enemy.image, (enemy.x, enemy.y))
-
-                # for eLaser in enemyLaserSprites: 
-                # eLaser.update()
-                # screen.blit(eLaser.image, (eLaser.x, eLaser.y))
-                # if eLaser.x > 600:
-                # enemyLaserSprites.remove(eLaser)
-
-                # print laserSprites
-
-                # print laserSprites
 
                 pygame.display.flip()
 
