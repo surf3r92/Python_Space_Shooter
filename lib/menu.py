@@ -20,13 +20,13 @@ def gameMenu(self):
 
     self.score = 0
 
-    self.playerlives.append(
-        (self.playerLivesPictures, 32 + (32 + self.playerLivesPictures.get_width()) * 0, self.height -
-         self.playerLivesPictures.get_height() - 16))
-    self.playerlives.append((self.playerLivesPictures, 32 + (self.playerLivesPictures.get_width()) * 1, self.height -
-                             self.playerLivesPictures.get_height() - 16))
-    self.playerlives.append((self.playerLivesPictures, 32 + (self.playerLivesPictures.get_width()) * 2, self.height -
-                             self.playerLivesPictures.get_height() - 16))
+    # self.playerlives.append(
+    #     (self.playerLivesPictures, 32 + (32 + self.playerLivesPictures.get_width()) * 0, self.height -
+    #      self.playerLivesPictures.get_height() - 16))
+    # self.playerlives.append((self.playerLivesPictures, 32 + (self.playerLivesPictures.get_width()) * 1, self.height -
+    #                          self.playerLivesPictures.get_height() - 16))
+    # self.playerlives.append((self.playerLivesPictures, 32 + (self.playerLivesPictures.get_width()) * 2, self.height -
+    #                          self.playerLivesPictures.get_height() - 16))
 
     buttonWidth = 0
     buttonHeight = 50

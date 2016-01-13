@@ -17,7 +17,11 @@ class Run():
         self.playerLivesPictures = pygame.image.load("img/sprites/player.png")
         self.green = 0, 255, 0
         self.score = 0
-        self.playerlives = []
+
+        # self.playerlives = []
+
+        self.lives = 3
+
         self.myFont = pygame.font.SysFont("monospace", 24)
         self.size = self.width, self.height = 800, 600
         self.screen = pygame.display.set_mode(self.size)
@@ -48,8 +52,9 @@ class Run():
         global enemy
         global enemyLaserSprites
         global laserSprites
-        # enemy = Enemy()
 
+        self.livesImage, self.livesRect = load_image("img/sprites/ship.png", -1)
+        self.livesImage = pygame.transform.scale(self.livesImage, (int(self.livesImage.get_width()*0.75), int(self.livesImage.get_height()*0.75)))
         # lives vllt noch auslagern, in update einbeziehen, zZ noch unter arena
 
         # score
@@ -89,11 +94,11 @@ class Run():
                 enemyLaserSprites.update()
 
                 scoreDisplay = self.myFont.render("".join(["Score:", str(self.score)]), 1, self.green)
-                self.screen.blit(scoreDisplay,
-                                 (self.width - 160, self.height - self.playerLivesPictures.get_height() - 24))
-
-                for lives in self.playerlives:
-                    self.screen.blit(lives[0], (lives[1], lives[2]))
+                # self.screen.blit(scoreDisplay,
+                #                  (self.width - 160, self.height - self.playerLivesPictures.get_height() - 24))
+                #
+                # for lives in self.playerlives:
+                #     self.screen.blit(lives[0], (lives[1], lives[2]))
 
                 collide_list = pygame.sprite.groupcollide(laserSprites, enemies, True, True)
                 if (collide_list != {}):
@@ -103,6 +108,7 @@ class Run():
                 # spritecollide kann noch erweitert werden mit callback function wenn player getroffen wird
                 # spritecollide(sprite, group, dokill, collided = None)
                 if len(player_hit) > 0:
+                    self.lives -= 1
                     print "player hit"
                     if len(self.playerlives) > 0:
                         self.playerlives.pop(-1)
@@ -119,6 +125,8 @@ class Run():
                 enemies.draw(self.screen)
                 enemyLaserSprites.draw(self.screen)
 
+                for i in range(0,self.lives):
+                    self.screen.blit(self.livesImage,(self.width - i*self.livesImage.get_width()*1.5 - self.livesImage.get_width()*2,self.height  - self.livesImage.get_height()-16))
 
                 pygame.display.flip()
 
@@ -133,6 +141,8 @@ class Run():
         enemies.empty()
         enemyLaserSprites.empty()
         laserSprites.empty()
+        self.lives = 3
+        self.score = 0
         self.game()
 
 Run()
