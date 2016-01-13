@@ -16,6 +16,7 @@ class Player(pygame.sprite.Sprite):
         self.reset()
 
     def update(self):
+        global laserSprites
         self.rect.move_ip((self.dx, self.dy))
         key = pygame.key.get_pressed()
         self.laserTimer += 1

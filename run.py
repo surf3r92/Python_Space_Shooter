@@ -46,7 +46,9 @@ class Run():
 
         playerSprite = pygame.sprite.RenderPlain((player))
 
-        # global enemy
+        global enemy
+        global enemyLaserSprites
+        global laserSprites
         # enemy = Enemy()
 
         # lives vllt noch auslagern, in update einbeziehen, zZ noch unter arena
@@ -135,5 +137,14 @@ class Run():
 
                 pygame.display.flip()
 
+
+    def setupNewGame(self):
+        global  enemyLaserSprites
+        enemyLaserSprites = pygame.sprite.RenderPlain()
+        global enemies
+        enemies = pygame.sprite.RenderPlain()
+        global laserSprites
+        laserSprites = pygame.sprite.RenderPlain()
+        self.game()
 
 Run()

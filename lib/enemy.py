@@ -53,6 +53,8 @@ class EnemyLaser(pygame.sprite.Sprite):
     def update(self):
         self.rect.move_ip(0, 10)
 
-
+global enemyLaserSprites
 enemyLaserSprites = pygame.sprite.RenderPlain()
+
+global enemies
 enemies = pygame.sprite.RenderPlain()

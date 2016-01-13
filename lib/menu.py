@@ -123,10 +123,9 @@ def gameMenu(self):
                     if self.gameState == "Start" or self.gameState == "Gameover":
                         self.callHighscore()
                     elif self.gameState == "Pause":
-                        # hier Restart einleisten ohne gameState = "Start"
                         self.gameState = "Start"
                         keepGoing = False
-                        #self.callGame()
+                        self.setupNewGame()
                 if button3.pressed(pygame.mouse.get_pos()):
                     print button3Text
                     if self.gameState == "Start":
