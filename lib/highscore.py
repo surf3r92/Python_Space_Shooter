@@ -44,9 +44,8 @@ class HighScore:
         return self.screen
 
 
-
 def highScore(self):
-    if self.gameState == "Start":
+    if self.gameState == "Start" or self.gameState == "Gameover":
         highscoreBackground = pygame.image.load("img/sprites/highscore_screen.png")
         self.screen.blit(highscoreBackground, (0, 0))
 

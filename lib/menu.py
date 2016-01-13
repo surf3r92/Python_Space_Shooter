@@ -9,10 +9,13 @@ class Menu:
         pass
 
 def gameMenu(self):
-    print self
     if self.gameState == "Start":
         menuBackground = pygame.image.load("img/sprites/startscreen.png")
         self.screen.blit(menuBackground, (0, 0))
+    elif self.gameState == "Gameover":
+        menuBackground = pygame.image.load("img/sprites/gameover_screen.png")
+        self.screen.blit(menuBackground, (0, 0))
+
 
     self.score = 0
 

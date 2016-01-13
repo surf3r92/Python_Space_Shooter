@@ -2,7 +2,7 @@ import os, sys, pygame, random
 from pygame.locals import *
 from lib.methods import *
 
-class Arena ():
+class Arena():
 
     def __init__(self):
         #pygame.sprite.Sprite.__init__(self)
@@ -29,3 +29,6 @@ class Arena ():
 
     def reset2(self):
         self.background2_y = self.background1_y - self.background1.get_height() #-1800
+
+
+arena = Arena()

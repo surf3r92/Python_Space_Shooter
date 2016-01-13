@@ -1,13 +1,13 @@
 import os, sys, pygame, random
 from pygame.locals import *
 from lib.highscore import *
-from lib.arena import *
+from lib.arena import arena
 from lib.player import *
 from lib.enemy import *
 from lib.menu import *
 
-class run():
 
+class Run():
     def __init__(self):
         os.environ['SDL_VIDEO_CENTERED'] = "1"
         pygame.init()
@@ -37,7 +37,6 @@ class run():
         highScore(self)
 
     def game(self):
-    
         # Game Objects
         global player
         player = Player()
@@ -46,9 +45,6 @@ class run():
     
         # global enemy
         # enemy = Enemy()
-        
-        # Arena
-        arena = Arena()
     
         #lives vllt noch auslagern, in update einbeziehen, zZ noch unter arena
     
@@ -136,4 +132,4 @@ class run():
                             
                 pygame.display.flip()
 
-run()
+Run()
