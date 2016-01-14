@@ -4,6 +4,7 @@ from lib.highscore import *
 from lib.arena import arena
 from lib.player import *
 from lib.enemy import *
+from lib.powerup import *
 from lib.menu import *
 
 
@@ -58,6 +59,7 @@ class Run():
         global enemy
         global enemyLaserSprites
         global laserSprites
+        global laserPowerup
 
         self.livesImage, self.livesRect = load_image("img/sprites/ship.png", -1)
         self.livesImage = pygame.transform.scale(self.livesImage, (int(self.livesImage.get_width()*0.75), int(self.livesImage.get_height()*0.75)))
@@ -86,6 +88,10 @@ class Run():
                 pygame.mouse.set_visible(0)
 
                 frameCounter += 1
+
+                if frameCounter % 100 == 1:
+                    laserPowerups.add(LaserPowerup((120, 250)))
+                    print "laserPowerup"
 
                 if frameCounter % 200 == 1 and frameCounter > 200:
                     self.xGroup = random.randint(1, 7) * 100 - 50
@@ -122,6 +128,7 @@ class Run():
 
 
 
+
                 keyControls(self, player)
 
                 # Update
@@ -130,6 +137,8 @@ class Run():
                 laserSprites.update()
                 enemies.update()
                 enemyLaserSprites.update()
+                laserPowerups.update()
+
 
                 if frameCounter < 140:
                     readyText = self.myFont.render("".join(["GET READY!", str("")]), 1, (200,10,10))
@@ -161,6 +170,8 @@ class Run():
                     self.gameState = "Gameover"
                     updateHighscore(self, self.currUserName, self.score)
                     gameMenu(self)
+                powerup_collected = pygame.sprite.spritecollide(player, laserPowerups, True)
+                print powerup_collected
                 # spritecollide kann noch erweitert werden mit callback function wenn player getroffen wird
                 # spritecollide(sprite, group, dokill, collided = None)
 
@@ -168,6 +179,7 @@ class Run():
                 laserSprites.draw(self.screen)
                 enemies.draw(self.screen)
                 enemyLaserSprites.draw(self.screen)
+                laserPowerups.draw(self.screen)
 
                 for i in range(0,self.lives):
                     self.screen.blit(self.livesImage,(8 + i*self.livesImage.get_width()*1.5,self.height  - self.livesImage.get_height()-8))
