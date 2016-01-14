@@ -176,7 +176,6 @@ class Run():
                     updateHighscore(self, self.currUserName, self.score)
                     gameMenu(self)
                 powerup_collected = pygame.sprite.spritecollide(player, laserPowerups, True)
-                print powerup_collected
                 # spritecollide kann noch erweitert werden mit callback function wenn player getroffen wird
                 # spritecollide(sprite, group, dokill, collided = None)
 

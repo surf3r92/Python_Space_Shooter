@@ -43,7 +43,6 @@ class Input:
         """ Update the input based on passed events """
         if event.type == KEYUP:
             if event.key == K_LSHIFT or event.key == K_RSHIFT: self.shifted = False
-        if event.type == KEYDOWN:
             self.textColor = self.textColorStart
             self.prompt = ""
             if event.key == K_BACKSPACE:
