@@ -108,7 +108,7 @@ def gameMenu(self):
                 if button1.pressed(pygame.mouse.get_pos()):
                     if inputBox.getText() != inputText or self.gameState == "Pause" or self.gameState == "Gameover":
                         print button1Text
-                        currUserName = inputBox.getText()
+                        self.currUserName = inputBox.getText()
                         if self.gameState == "Start":
                             # self.game()
                             self.setupNewGame()

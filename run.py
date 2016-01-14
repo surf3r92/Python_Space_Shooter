@@ -18,6 +18,10 @@ class Run():
         self.green = 0, 255, 0
         self.score = 0
 
+        self.highscoreList = open("csv/highscore.csv").read().split()
+
+
+
         # self.playerlives = []
 
         self.lives = 3
@@ -155,6 +159,7 @@ class Run():
                 if self.lives == 0:
                     print "game over"
                     self.gameState = "Gameover"
+                    updateHighscore(self, self.currUserName, self.score)
                     gameMenu(self)
                 # spritecollide kann noch erweitert werden mit callback function wenn player getroffen wird
                 # spritecollide(sprite, group, dokill, collided = None)

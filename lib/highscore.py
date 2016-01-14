@@ -45,15 +45,20 @@ class HighScore:
         return self.screen
 
 
+
+
 def highScore(self):
+
     if self.gameState == "Start" or self.gameState == "Gameover":
         highscoreBackground = pygame.image.load("img/sprites/highscore_screen.png")
         self.screen.blit(highscoreBackground, (0, 0))
 
     list = []
-    list.append(("Hanni", "2000"))
-    list.append(("Hanni", "1000"))
-    list.append(("Lukas", "2000"))
+    highscoreList = self.highscoreList
+    for highscoreElement in highscoreList:
+        highscoreElementListWithoutEnd = highscoreElement.strip()
+        highscoreElementList = highscoreElementListWithoutEnd.split(",")
+        list.append((highscoreElementList[0],highscoreElementList[1]))
 
     heighScoreHeight = 350
     heighScoreLength = 330
@@ -108,3 +113,20 @@ def highScore(self):
                         currButton.setHovered()
                     else:
                         currButton.setUnhovered()
+
+def updateHighscore(self, playerName, playerScore):
+    bool = False
+    for index in range(0,len(self.highscoreList)):
+        if int(self.highscoreList[index].split(",")[1]) < playerScore:
+            self.highscoreList.insert(index,playerName + "," + str(playerScore))
+            bool = True
+            break
+    if bool == False and len(self.highscoreList) < 10:
+        self.highscoreList.append(playerName + "," + str(playerScore))
+
+    file = open("csv/highscore.csv", "w")
+    file.truncate()
+    for element in self.highscoreList:
+        string = element + "\n"
+        file.write(string)
+    file.close()
