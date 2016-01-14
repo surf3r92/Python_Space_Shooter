@@ -40,6 +40,7 @@ class Run():
         self.background.fill((0, 0, 0))
 
         self.xGroup = 0
+        self.xPowerups = 0
 
         gameMenu(self)
 
@@ -90,9 +91,18 @@ class Run():
 
                 frameCounter += 1
 
-                if frameCounter % 100 == 1:
-                    laserPowerups.add(LaserPowerup((120, 250)))
-                    print "laserPowerup"
+                if frameCounter % 200 == 1:
+                    self.xPowerups = random.randint(1, 7) * 100 - 50
+                    randomInt = random.randint(0, 3)
+                    if randomInt == 0:
+                        randomPowerup = "fasterLaser"
+                    elif randomInt == 1:
+                        randomPowerup = "health"
+                    elif randomInt == 2:
+                        randomPowerup = "shield"
+                    elif randomInt == 3:
+                        randomPowerup = "damage"
+                    laserPowerups.add(Powerup((self.xPowerups, -20), randomPowerup))
 
                 if frameCounter % 200 == 1 and frameCounter > 200:
                     self.xGroup = random.randint(1, 7) * 100 - 50
@@ -126,10 +136,6 @@ class Run():
                     self.xGroup = random.randint(1, 7) * 100 - 50
                     enemies.add(Enemy((self.xGroup, -20)))
 
-
-
-
-
                 keyControls(self, player)
 
                 # Update
@@ -148,12 +154,11 @@ class Run():
                     goText = self.myFont.render("".join(["GO!", str("")]), 1, (200,10,10))
                     self.screen.blit(goText,(self.width/2 - 8, self.height/3))
 
-
                 pygame.draw.rect(self.screen,(0,0,0),(0,self.height-60,self.width,self.height))
                 pygame.draw.line(self.screen, (0,194,244), (0, self.height - 60), (self.width,self.height - 60), 4)
 
                 scoreDisplay = self.myFont.render("".join(["Score:", str(self.score)]), 1, self.green)
-                self.screen.blit(scoreDisplay,(self.width - 160, self.height - 48))
+                self.screen.blit(scoreDisplay, (self.width - 160, self.height - 48))
                 #
                 # for lives in self.playerlives:
                 #     self.screen.blit(lives[0], (lives[1], lives[2]))
@@ -161,7 +166,6 @@ class Run():
                 collide_list = pygame.sprite.groupcollide(laserSprites, enemies, True, True)
                 if (collide_list != {}):
                     self.score += 10
-                    print self.score
                 player_hit = pygame.sprite.spritecollide(player, enemyLaserSprites, True)
                 if len(player_hit):
                     self.lives -= 1
@@ -172,6 +176,7 @@ class Run():
                     updateHighscore(self, self.currUserName, self.score)
                     gameMenu(self)
                 powerup_collected = pygame.sprite.spritecollide(player, laserPowerups, True)
+                print powerup_collected
                 # spritecollide kann noch erweitert werden mit callback function wenn player getroffen wird
                 # spritecollide(sprite, group, dokill, collided = None)
 
