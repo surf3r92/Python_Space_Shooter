@@ -14,6 +14,7 @@ class Enemy(pygame.sprite.Sprite):
         else:
             self.reverse = 0
         self.counter = 50
+        self.factor = random.randint(2,7)
         self.xList = np.linspace(np.pi, np.pi * 3, 100)
         self.yList = np.sin(self.xList)
 
@@ -29,7 +30,7 @@ class Enemy(pygame.sprite.Sprite):
                 self.reverse = 0
             if self.reverse == 1:
                 dx *= -1
-            self.rect.move_ip(dx, dy * 6)
+            self.rect.move_ip(dx, dy * self.factor)
 
             if self.counter % 75 == 0:
                 enemyLaserSprites.add(EnemyLaser(self.rect.center))
@@ -41,7 +42,7 @@ class Enemy(pygame.sprite.Sprite):
             dy = self.yStart[self.counter % 50]
             if self.reverse == 1:
                 dx *= -1
-            self.rect.move_ip(dx, dy * 8)
+            self.rect.move_ip(dx, dy * 9)
 
 
 class EnemyLaser(pygame.sprite.Sprite):

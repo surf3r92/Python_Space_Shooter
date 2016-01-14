@@ -33,6 +33,8 @@ class Run():
         self.background = self.background.convert()
         self.background.fill((0, 0, 0))
 
+        self.xGroup = 0
+
         gameMenu(self)
 
 
@@ -81,8 +83,40 @@ class Run():
 
                 frameCounter += 1
 
-                if frameCounter % 60 == 1:
-                    enemies.add(Enemy((-50 + random.randint(1, 7) * 100, random.randint(-50, 0))))
+                if frameCounter % 200 == 1 and frameCounter > 200:
+                    self.xGroup = random.randint(1, 7) * 100 - 50
+                    enemies.add(Enemy((self.xGroup, -20)))
+
+                if frameCounter % 200 == 21 and frameCounter > 200:
+                    self.xGroup = random.randint(1, 7) * 100 - 50
+                    enemies.add(Enemy((self.xGroup, -20)))
+
+                if frameCounter % 200 == 41 and frameCounter > 200:
+                    self.xGroup = random.randint(1, 7) * 100 - 50
+                    enemies.add(Enemy((self.xGroup, -20)))
+
+                if frameCounter % 200 == 61 and frameCounter > 200:
+                    self.xGroup = random.randint(1, 7) * 100 - 50
+                    enemies.add(Enemy((self.xGroup, -20)))
+
+                if frameCounter % 400 == 81 and frameCounter > 400:
+                    self.xGroup = random.randint(1, 7) * 100 - 50
+                    enemies.add(Enemy((self.xGroup, -20)))
+
+                if frameCounter % 400 == 101 and frameCounter > 400:
+                    self.xGroup = random.randint(1, 7) * 100 - 50
+                    enemies.add(Enemy((self.xGroup, -20)))
+
+                if frameCounter % 400 == 121 and frameCounter > 400:
+                    self.xGroup = random.randint(1, 7) * 100 - 50
+                    enemies.add(Enemy((self.xGroup, -20)))
+
+                if frameCounter % 400 == 141 and frameCounter > 400:
+                    self.xGroup = random.randint(1, 7) * 100 - 50
+                    enemies.add(Enemy((self.xGroup, -20)))
+
+
+
 
                 keyControls(self, player)
 
@@ -92,6 +126,13 @@ class Run():
                 laserSprites.update()
                 enemies.update()
                 enemyLaserSprites.update()
+
+                if frameCounter < 140:
+                    readyText = self.myFont.render("".join(["GET READY!", str("")]), 1, (200,10,10))
+                    self.screen.blit(readyText,(self.width/2 - 64, self.height/3))
+                elif frameCounter < 170:
+                    goText = self.myFont.render("".join(["GO!", str("")]), 1, (200,10,10))
+                    self.screen.blit(goText,(self.width/2 - 8, self.height/3))
 
                 scoreDisplay = self.myFont.render("".join(["Score:", str(self.score)]), 1, self.green)
                 self.screen.blit(scoreDisplay,(self.width - 160, self.height - 48))
