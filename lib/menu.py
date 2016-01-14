@@ -106,7 +106,7 @@ def gameMenu(self):
                 sys.exit()
             elif event.type == MOUSEBUTTONDOWN:
                 if button1.pressed(pygame.mouse.get_pos()):
-                    if inputBox.getText() != inputText or self.gameState == "Pause":
+                    if inputBox.getText() != inputText or self.gameState == "Pause" or self.gameState == "Gameover":
                         print button1Text
                         currUserName = inputBox.getText()
                         if self.gameState == "Start":
@@ -116,7 +116,9 @@ def gameMenu(self):
                             self.gameState = "Start"
                             keepGoing = False
                         elif self.gameState == "Gameover":
-                            pass
+                            self.gameState = "Start"
+                            keepGoing = False
+                            self.setupNewGame()
                     else:
                         inputBox.setTextColor((255, 0, 0))
                 if button2.pressed(pygame.mouse.get_pos()):
