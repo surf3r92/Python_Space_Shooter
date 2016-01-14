@@ -31,11 +31,11 @@ class Player(pygame.sprite.Sprite):
             self.rect.right = 800
         if self.rect.top <= 260:
             self.rect.top = 260
-        elif self.rect.bottom >= 600:
-            self.rect.bottom = 600
+        elif self.rect.bottom >= 600 - 64:
+            self.rect.bottom = 600 - 64
 
     def reset(self):
-        self.rect.bottom = 600
+        self.rect.bottom = 600 - 64
 
 
 class Laser(pygame.sprite.Sprite):
