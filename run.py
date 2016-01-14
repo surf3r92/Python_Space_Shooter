@@ -134,6 +134,10 @@ class Run():
                     goText = self.myFont.render("".join(["GO!", str("")]), 1, (200,10,10))
                     self.screen.blit(goText,(self.width/2 - 8, self.height/3))
 
+
+                pygame.draw.rect(self.screen,(0,0,0),(0,self.height-60,self.width,self.height))
+                pygame.draw.line(self.screen, (0,194,244), (0, self.height - 60), (self.width,self.height - 60), 4)
+
                 scoreDisplay = self.myFont.render("".join(["Score:", str(self.score)]), 1, self.green)
                 self.screen.blit(scoreDisplay,(self.width - 160, self.height - 48))
                 #
@@ -155,7 +159,6 @@ class Run():
                 # spritecollide kann noch erweitert werden mit callback function wenn player getroffen wird
                 # spritecollide(sprite, group, dokill, collided = None)
 
-                pygame.draw.line(self.screen, (0,194,244), (0, self.height - 60), (self.width,self.height - 60), 4)
                 playerSprite.draw(self.screen)
                 laserSprites.draw(self.screen)
                 enemies.draw(self.screen)

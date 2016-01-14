@@ -53,6 +53,8 @@ class EnemyLaser(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.move_ip(0, 10)
+        if self.rect.bottom > 540:
+            self.kill()
 
 
 global enemyLaserSprites
