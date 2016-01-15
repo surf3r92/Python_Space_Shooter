@@ -19,10 +19,7 @@ class Run():
         self.playerLivesPictures = pygame.image.load("img/sprites/player.png")
         self.green = 0, 255, 0
         self.score = 0
-
         self.highscoreList = open("csv/highscore.csv").read().split()
-
-        # self.playerlives = []
 
         self.lives = 3
 
@@ -44,6 +41,7 @@ class Run():
         self.xGroup = 0
         self.xPowerups = 0
 
+        self.randomPowerup = ""
         self.laserSpeed = -15
         self.damage = 1
 
@@ -55,7 +53,6 @@ class Run():
 
         gameMenu(self)
 
-
     def callHighscore(self):
         highScore(self)
 
@@ -63,12 +60,6 @@ class Run():
         self.game()
 
     def game(self):
-        # Game Objects
-
-        #global player
-        #player = Player()
-
-        #playerSprite = pygame.sprite.RenderPlain((player))
 
         global enemy
         global enemyLaserSprites
@@ -107,14 +98,14 @@ class Run():
                     self.xPowerups = random.randint(1, 7) * 100 - 50
                     randomInt = random.randint(0, 3)
                     if randomInt == 0:
-                        randomPowerup = "fasterLaser"
+                        self.randomPowerup = "fasterLaser"
                     elif randomInt == 1:
-                        randomPowerup = "health"
+                        self.randomPowerup = "health"
                     elif randomInt == 2:
-                        randomPowerup = "shield"
+                        self.randomPowerup = "shield"
                     elif randomInt == 3:
-                        randomPowerup = "damage"
-                    laserPowerups.add(Powerup((self.xPowerups, -20), randomPowerup))
+                        self.randomPowerup = "damage"
+                    laserPowerups.add(Powerup((self.xPowerups, -20), self.randomPowerup))
 
                 if len(boss.sprites()) == 1:
                     if boss.sprites()[0].health == 0:
@@ -122,7 +113,7 @@ class Run():
                         self.score += 1000
                         self.nextLevel()
 
-                if self.enemiesSpawned <20:
+                if self.enemiesSpawned < 20:
                     if frameCounter % 200 == 1 and frameCounter > 200:
                         self.enemiesSpawned += 1
                         self.xGroup = random.randint(1, 7) * 100 - 50
@@ -221,12 +212,16 @@ class Run():
                     gameMenu(self)
                 powerup_collected = pygame.sprite.spritecollide(player, laserPowerups, True)
                 if len(powerup_collected):
-                    if randomPowerup == "fasterLaser":
+                    if self.randomPowerup == "fasterLaser":
                         self.laserSpeed -= 5
-                    elif randomPowerup == "health":
+                    elif self.randomPowerup == "health":
                         self.lives += 1
-                    elif randomPowerup == "damage":
+                    elif self.randomPowerup == "damage":
                         self.damage += 1
+                collide_Player_Enemy = pygame.sprite.spritecollide(player, enemies, True)
+                if len(collide_Player_Enemy):
+                    self.lives -= 1
+                    print "player hit"
                 # spritecollide kann noch erweitert werden mit callback function wenn player getroffen wird
                 # spritecollide(sprite, group, dokill, collided = None)
 
@@ -237,30 +232,33 @@ class Run():
                 boss.draw(self.screen)
                 laserPowerups.draw(self.screen)
 
-                for i in range(0,self. lives):
-                    self.screen.blit(self.livesImage, (8 + i*self.livesImage.get_width()*1.5,self.height  - self.livesImage.get_height()-8))
+                for i in range(0, self. lives):
+                    self.screen.blit(self.livesImage, (8 + i*self.livesImage.get_width()*1.5, self.height -
+                                                       self.livesImage.get_height()-8))
 
                 pygame.display.flip()
 
     def nextLevel(self):
-        enemies.empty()
-        enemyLaserSprites.empty()
-        laserSprites.empty()
-        self.enemiesSpawned = 0
+        self.resetSprites()
         self.level += 1
         print self.level
         self.game()
 
     def setupNewGame(self):
-        enemies.empty()
-        enemyLaserSprites.empty()
-        laserSprites.empty()
+        self.resetSprites()
         self.lives = 3
         self.score = 0
         self.laserSpeed = -15
         self.damage = 1
-        self.enemiesSpawned = 0
         self.level += 1
         self.game()
+
+    def resetSprites(self):
+        enemies.empty()
+        enemyLaserSprites.empty()
+        laserSprites.empty()
+        laserPowerups.empty()
+        self.enemiesSpawned = 0
+
 
 Run()
