@@ -44,12 +44,12 @@ class Laser(pygame.sprite.Sprite):
         self.image, self.rect = load_image("img/sprites/laser.png", -1)
         self.rect.center = pos
 
-    def update(self):
-
+    def update(self, laserSpeed):
+        print laserSpeed
         if self.rect.top < 0:
             self.kill()
         else:
-            self.rect.move_ip(0, -15)
+            self.rect.move_ip(0, laserSpeed)
 
             # enemies_hit_list = pygame.sprite.spritecollide(self, enemies, True, self.kill())
             # try:

@@ -21,8 +21,6 @@ class Run():
 
         self.highscoreList = open("csv/highscore.csv").read().split()
 
-
-
         # self.playerlives = []
 
         self.lives = 3
@@ -41,6 +39,8 @@ class Run():
 
         self.xGroup = 0
         self.xPowerups = 0
+
+        self.laserSpeed = -15
 
         gameMenu(self)
 
@@ -141,7 +141,7 @@ class Run():
                 # Update
                 playerSprite.update()
                 arena.update(self.screen)
-                laserSprites.update()
+                laserSprites.update(self.laserSpeed)
                 enemies.update()
                 enemyLaserSprites.update()
                 laserPowerups.update()
@@ -176,6 +176,11 @@ class Run():
                     updateHighscore(self, self.currUserName, self.score)
                     gameMenu(self)
                 powerup_collected = pygame.sprite.spritecollide(player, laserPowerups, True)
+                if len(powerup_collected):
+                    if randomPowerup == "fasterLaser":
+                        self.laserSpeed -= 5
+                    elif randomPowerup == "health":
+                        self.lives += 1
                 # spritecollide kann noch erweitert werden mit callback function wenn player getroffen wird
                 # spritecollide(sprite, group, dokill, collided = None)
 
@@ -185,7 +190,7 @@ class Run():
                 enemyLaserSprites.draw(self.screen)
                 laserPowerups.draw(self.screen)
 
-                for i in range(0,self.lives):
+                for i in range(0,self. lives):
                     self.screen.blit(self.livesImage,(8 + i*self.livesImage.get_width()*1.5,self.height  - self.livesImage.get_height()-8))
 
                 pygame.display.flip()
@@ -197,6 +202,7 @@ class Run():
         laserSprites.empty()
         self.lives = 3
         self.score = 0
+        self.laserSpeed = -15
         self.game()
 
 Run()

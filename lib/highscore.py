@@ -58,6 +58,7 @@ def highScore(self):
     for highscoreElement in highscoreList:
         highscoreElementListWithoutEnd = highscoreElement.strip()
         highscoreElementList = highscoreElementListWithoutEnd.split(",")
+        print highscoreElementList
         list.append((highscoreElementList[0],highscoreElementList[1]))
 
     heighScoreHeight = 350
