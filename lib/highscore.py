@@ -58,8 +58,10 @@ def highScore(self):
     for highscoreElement in highscoreList:
         highscoreElementListWithoutEnd = highscoreElement.strip()
         highscoreElementList = highscoreElementListWithoutEnd.split(",")
-        list.append((highscoreElementList[0],highscoreElementList[1]))
-
+        try:
+            list.append((highscoreElementList[0],highscoreElementList[1]))
+        except:
+            print "Highscore Element has no Score or Name Value"
     heighScoreHeight = 350
     heighScoreLength = 330
     heighScoreXPos = (self.screen.get_size()[0] / 2) - (heighScoreLength / 2)
