@@ -45,7 +45,6 @@ class Laser(pygame.sprite.Sprite):
         self.rect.center = pos
 
     def update(self, laserSpeed):
-        print laserSpeed
         if self.rect.top < 0:
             self.kill()
         else:
@@ -60,3 +59,4 @@ class Laser(pygame.sprite.Sprite):
 
 global laserSprites
 laserSprites = pygame.sprite.RenderPlain()
+
