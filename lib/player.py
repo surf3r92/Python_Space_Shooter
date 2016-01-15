@@ -15,22 +15,32 @@ class Player(pygame.sprite.Sprite):
         self.laserMax = 20
         self.reset()
 
-    def update(self):
+    def update(self, damage):
         global laserSprites
         self.rect.move_ip((self.dx, self.dy))
         key = pygame.key.get_pressed()
         self.laserTimer += 1
         if key[pygame.K_SPACE]:
             if self.laserTimer > self.laserMax:
-                laserSprites.add(Laser(self.rect.midtop))
-                self.laserTimer = 0
+                if damage == 1:
+                    laserSprites.add(Laser(self.rect.midtop))
+                    self.laserTimer = 0
+                elif damage == 2:
+                    laserSprites.add(Laser((self.rect.left+5, self.rect.top)))
+                    laserSprites.add(Laser((self.rect.right-5, self.rect.top)))
+                    self.laserTimer = 0
+                elif damage >= 3:
+                    laserSprites.add(Laser((self.rect.left+5, self.rect.top)))
+                    laserSprites.add(Laser((self.rect.right-5, self.rect.top)))
+                    laserSprites.add(Laser(self.rect.midtop))
+                    self.laserTimer = 0
 
         if self.rect.left < 0:
             self.rect.left = 0
         elif self.rect.right > 800:
             self.rect.right = 800
-        if self.rect.top <= 260:
-            self.rect.top = 260
+        if self.rect.top <= 160:
+            self.rect.top = 160
         elif self.rect.bottom >= 600 - 64:
             self.rect.bottom = 600 - 64
 

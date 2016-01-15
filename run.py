@@ -29,7 +29,6 @@ class Run():
         self.enemiesSpawned = 0
         self.level = 0
 
-
         self.myFont = pygame.font.SysFont("monospace", 24)
         self.size = self.width, self.height = 800, 600
         self.screen = pygame.display.set_mode(self.size)
@@ -46,6 +45,7 @@ class Run():
         self.xPowerups = 0
 
         self.laserSpeed = -15
+        self.damage = 1
 
         global player
         player = Player()
@@ -103,11 +103,6 @@ class Run():
 
                 frameCounter += 1
 
-
-
-
-
-
                 if frameCounter % 200 == 1 and frameCounter > 200:
                     self.xPowerups = random.randint(1, 7) * 100 - 50
                     randomInt = random.randint(0, 3)
@@ -120,7 +115,6 @@ class Run():
                     elif randomInt == 3:
                         randomPowerup = "damage"
                     laserPowerups.add(Powerup((self.xPowerups, -20), randomPowerup))
-
 
                 if len(boss.sprites()) == 1:
                     if boss.sprites()[0].health == 0:
@@ -171,20 +165,16 @@ class Run():
                 elif len(enemies.sprites()) == 0 and len(boss.sprites()) == 0:
                     boss.add(Boss((self.width/2, -50)))
 
-
-
-
                 keyControls(self, player)
 
                 # Update
-                playerSprite.update()
+                playerSprite.update(self.damage)
                 arena.update(self.screen)
                 laserSprites.update(self.laserSpeed)
                 enemies.update()
                 enemyLaserSprites.update()
                 boss.update()
                 laserPowerups.update()
-
 
                 if frameCounter < 80 and self.level == 1:
                     readyText = self.myFont.render("".join(["GET READY!", str("")]), 1, (200,10,10))
@@ -199,13 +189,13 @@ class Run():
                 if self.level > 1:
                     if frameCounter < 80:
                         readyText = self.myFont.render("".join(["LEVEL COMPLETED!!", str("")]), 1, (200,10,10))
-                        self.screen.blit(readyText,(self.width/2 - 100, self.height/3))
+                        self.screen.blit(readyText, (self.width/2 - 100, self.height/3))
                     elif frameCounter < 140:
                         levelText = self.myFont.render("".join(["LEVEL ", str(self.level)]), 1, (200,10,10))
-                        self.screen.blit(levelText,(self.width/2 - 64, self.height/3))
+                        self.screen.blit(levelText, (self.width/2 - 64, self.height/3))
                     elif frameCounter < 170:
                         goText = self.myFont.render("".join(["GO!", str("")]), 1, (200,10,10))
-                        self.screen.blit(goText,(self.width/2 - 8, self.height/3))
+                        self.screen.blit(goText, (self.width/2 - 80, self.height/3))
 
                 pygame.draw.rect(self.screen,(0,0,0),(0,self.height-60,self.width,self.height))
                 pygame.draw.line(self.screen, (0,194,244), (0, self.height - 60), (self.width,self.height - 60), 4)
@@ -235,6 +225,8 @@ class Run():
                         self.laserSpeed -= 5
                     elif randomPowerup == "health":
                         self.lives += 1
+                    elif randomPowerup == "damage":
+                        self.damage += 1
                 # spritecollide kann noch erweitert werden mit callback function wenn player getroffen wird
                 # spritecollide(sprite, group, dokill, collided = None)
 
@@ -246,7 +238,7 @@ class Run():
                 laserPowerups.draw(self.screen)
 
                 for i in range(0,self. lives):
-                    self.screen.blit(self.livesImage,(8 + i*self.livesImage.get_width()*1.5,self.height  - self.livesImage.get_height()-8))
+                    self.screen.blit(self.livesImage, (8 + i*self.livesImage.get_width()*1.5,self.height  - self.livesImage.get_height()-8))
 
                 pygame.display.flip()
 
@@ -256,11 +248,8 @@ class Run():
         laserSprites.empty()
         self.enemiesSpawned = 0
         self.level += 1
-
         print self.level
-
         self.game()
-
 
     def setupNewGame(self):
         enemies.empty()
@@ -269,6 +258,7 @@ class Run():
         self.lives = 3
         self.score = 0
         self.laserSpeed = -15
+        self.damage = 1
         self.enemiesSpawned = 0
         self.level += 1
         self.game()

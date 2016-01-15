@@ -27,7 +27,7 @@ class Powerup(pygame.sprite.Sprite):
         if self.rect.bottom > 540:
             self.kill()
         else:
-            self.rect.move_ip(0, 5)
+            self.rect.move_ip(0, 6)
 
 
 global laserPowerups
