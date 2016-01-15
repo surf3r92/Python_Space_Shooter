@@ -6,6 +6,7 @@ from lib.player import *
 from lib.enemy import *
 from lib.powerup import *
 from lib.menu import *
+from lib.boss import *
 
 
 class Run():
@@ -22,10 +23,11 @@ class Run():
         self.highscoreList = open("csv/highscore.csv").read().split()
 
 
-
-        # self.playerlives = []
-
         self.lives = 3
+
+        self.enemiesSpawned = 0
+        self.level = 0
+
 
         self.myFont = pygame.font.SysFont("monospace", 24)
         self.size = self.width, self.height = 800, 600
@@ -42,6 +44,13 @@ class Run():
         self.xGroup = 0
         self.xPowerups = 0
 
+
+        global player
+        player = Player()
+
+        global playerSprite
+        playerSprite = pygame.sprite.RenderPlain((player))
+
         gameMenu(self)
 
 
@@ -53,10 +62,11 @@ class Run():
 
     def game(self):
         # Game Objects
-        global player
-        player = Player()
 
-        playerSprite = pygame.sprite.RenderPlain((player))
+        #global player
+        #player = Player()
+
+        #playerSprite = pygame.sprite.RenderPlain((player))
 
         global enemy
         global enemyLaserSprites
@@ -91,7 +101,12 @@ class Run():
 
                 frameCounter += 1
 
-                if frameCounter % 200 == 1:
+
+
+
+
+
+                if frameCounter % 200 == 1 and frameCounter > 200:
                     self.xPowerups = random.randint(1, 7) * 100 - 50
                     randomInt = random.randint(0, 3)
                     if randomInt == 0:
@@ -104,37 +119,58 @@ class Run():
                         randomPowerup = "damage"
                     laserPowerups.add(Powerup((self.xPowerups, -20), randomPowerup))
 
-                if frameCounter % 200 == 1 and frameCounter > 200:
-                    self.xGroup = random.randint(1, 7) * 100 - 50
-                    enemies.add(Enemy((self.xGroup, -20)))
 
-                if frameCounter % 200 == 21 and frameCounter > 200:
-                    self.xGroup = random.randint(1, 7) * 100 - 50
-                    enemies.add(Enemy((self.xGroup, -20)))
+                if len(boss.sprites()) == 1:
+                    if boss.sprites()[0].health == 0:
+                        boss.sprites()[0].kill()
+                        self.score += 1000
+                        self.nextLevel()
 
-                if frameCounter % 200 == 41 and frameCounter > 200:
-                    self.xGroup = random.randint(1, 7) * 100 - 50
-                    enemies.add(Enemy((self.xGroup, -20)))
+                if self.enemiesSpawned <20:
+                    if frameCounter % 200 == 1 and frameCounter > 200:
+                        self.enemiesSpawned += 1
+                        self.xGroup = random.randint(1, 7) * 100 - 50
+                        enemies.add(Enemy((self.xGroup, -20)))
 
-                if frameCounter % 200 == 61 and frameCounter > 200:
-                    self.xGroup = random.randint(1, 7) * 100 - 50
-                    enemies.add(Enemy((self.xGroup, -20)))
+                    if frameCounter % 200 == 21 and frameCounter > 200:
+                        self.enemiesSpawned += 1
+                        self.xGroup = random.randint(1, 7) * 100 - 50
+                        enemies.add(Enemy((self.xGroup, -20)))
 
-                if frameCounter % 400 == 81 and frameCounter > 400:
-                    self.xGroup = random.randint(1, 7) * 100 - 50
-                    enemies.add(Enemy((self.xGroup, -20)))
+                    if frameCounter % 200 == 41 and frameCounter > 200:
+                        self.enemiesSpawned += 1
+                        self.xGroup = random.randint(1, 7) * 100 - 50
+                        enemies.add(Enemy((self.xGroup, -20)))
 
-                if frameCounter % 400 == 101 and frameCounter > 400:
-                    self.xGroup = random.randint(1, 7) * 100 - 50
-                    enemies.add(Enemy((self.xGroup, -20)))
+                    if frameCounter % 200 == 61 and frameCounter > 200:
+                        self.enemiesSpawned += 1
+                        self.xGroup = random.randint(1, 7) * 100 - 50
+                        enemies.add(Enemy((self.xGroup, -20)))
 
-                if frameCounter % 400 == 121 and frameCounter > 400:
-                    self.xGroup = random.randint(1, 7) * 100 - 50
-                    enemies.add(Enemy((self.xGroup, -20)))
+                    if frameCounter % 400 == 81 and frameCounter > 400:
+                        self.enemiesSpawned += 1
+                        self.xGroup = random.randint(1, 7) * 100 - 50
+                        enemies.add(Enemy((self.xGroup, -20)))
 
-                if frameCounter % 400 == 141 and frameCounter > 400:
-                    self.xGroup = random.randint(1, 7) * 100 - 50
-                    enemies.add(Enemy((self.xGroup, -20)))
+                    if frameCounter % 400 == 101 and frameCounter > 400:
+                        self.enemiesSpawned += 1
+                        self.xGroup = random.randint(1, 7) * 100 - 50
+                        enemies.add(Enemy((self.xGroup, -20)))
+
+                    if frameCounter % 400 == 121 and frameCounter > 400:
+                        self.enemiesSpawned += 1
+                        self.xGroup = random.randint(1, 7) * 100 - 50
+                        enemies.add(Enemy((self.xGroup, -20)))
+
+                    if frameCounter % 400 == 141 and frameCounter > 400:
+                        self.enemiesSpawned += 1
+                        self.xGroup = random.randint(1, 7) * 100 - 50
+                        enemies.add(Enemy((self.xGroup, -20)))
+                elif len(enemies.sprites()) == 0 and len(boss.sprites()) == 0:
+                    boss.add(Boss((self.width/2, -50)))
+
+
+
 
                 keyControls(self, player)
 
@@ -144,24 +180,40 @@ class Run():
                 laserSprites.update()
                 enemies.update()
                 enemyLaserSprites.update()
+                boss.update()
                 laserPowerups.update()
 
 
-                if frameCounter < 140:
+                if frameCounter < 80 and self.level == 1:
                     readyText = self.myFont.render("".join(["GET READY!", str("")]), 1, (200,10,10))
                     self.screen.blit(readyText,(self.width/2 - 64, self.height/3))
-                elif frameCounter < 170:
+                elif frameCounter < 140 and self.level == 1:
+                    levelText = self.myFont.render("".join(["LEVEL ", str(self.level)]), 1, (200,10,10))
+                    self.screen.blit(levelText,(self.width/2 - 64, self.height/3))
+                elif frameCounter < 170 and self.level == 1:
                     goText = self.myFont.render("".join(["GO!", str("")]), 1, (200,10,10))
                     self.screen.blit(goText,(self.width/2 - 8, self.height/3))
+
+                if self.level > 1:
+                    if frameCounter < 80:
+                        readyText = self.myFont.render("".join(["LEVEL COMPLETED!!", str("")]), 1, (200,10,10))
+                        self.screen.blit(readyText,(self.width/2 - 100, self.height/3))
+                    elif frameCounter < 140:
+                        levelText = self.myFont.render("".join(["LEVEL ", str(self.level)]), 1, (200,10,10))
+                        self.screen.blit(levelText,(self.width/2 - 64, self.height/3))
+                    elif frameCounter < 170:
+                        goText = self.myFont.render("".join(["GO!", str("")]), 1, (200,10,10))
+                        self.screen.blit(goText,(self.width/2 - 8, self.height/3))
 
                 pygame.draw.rect(self.screen,(0,0,0),(0,self.height-60,self.width,self.height))
                 pygame.draw.line(self.screen, (0,194,244), (0, self.height - 60), (self.width,self.height - 60), 4)
 
                 scoreDisplay = self.myFont.render("".join(["Score:", str(self.score)]), 1, self.green)
                 self.screen.blit(scoreDisplay, (self.width - 160, self.height - 48))
-                #
-                # for lives in self.playerlives:
-                #     self.screen.blit(lives[0], (lives[1], lives[2]))
+
+                boss_hit = pygame.sprite.groupcollide(laserSprites, boss, True, False)
+                if boss_hit != {}:
+                    boss.sprites()[0].health -= 1
 
                 collide_list = pygame.sprite.groupcollide(laserSprites, enemies, True, True)
                 if (collide_list != {}):
@@ -183,12 +235,24 @@ class Run():
                 laserSprites.draw(self.screen)
                 enemies.draw(self.screen)
                 enemyLaserSprites.draw(self.screen)
+                boss.draw(self.screen)
                 laserPowerups.draw(self.screen)
 
                 for i in range(0,self.lives):
                     self.screen.blit(self.livesImage,(8 + i*self.livesImage.get_width()*1.5,self.height  - self.livesImage.get_height()-8))
 
                 pygame.display.flip()
+
+    def nextLevel(self):
+        enemies.empty()
+        enemyLaserSprites.empty()
+        laserSprites.empty()
+        self.enemiesSpawned = 0
+        self.level += 1
+
+        print self.level
+
+        self.game()
 
 
     def setupNewGame(self):
@@ -197,6 +261,9 @@ class Run():
         laserSprites.empty()
         self.lives = 3
         self.score = 0
+        self.enemiesSpawned = 0
+        self.level += 1
+
         self.game()
 
 Run()

@@ -49,7 +49,7 @@ class Laser(pygame.sprite.Sprite):
         if self.rect.top < 0:
             self.kill()
         else:
-            self.rect.move_ip(0, -15)
+            self.rect.move_ip(0, -20)
 
             # enemies_hit_list = pygame.sprite.spritecollide(self, enemies, True, self.kill())
             # try:
@@ -60,3 +60,4 @@ class Laser(pygame.sprite.Sprite):
 
 global laserSprites
 laserSprites = pygame.sprite.RenderPlain()
+
