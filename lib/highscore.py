@@ -59,8 +59,10 @@ def highScore(self):
         highscoreElementListWithoutEnd = highscoreElement.strip()
         highscoreElementList = highscoreElementListWithoutEnd.split(",")
         print highscoreElementList
-        list.append((highscoreElementList[0],highscoreElementList[1]))
-
+        try:
+            list.append((highscoreElementList[0],highscoreElementList[1]))
+        except:
+            print "highscore list append error"
         try:
             list.append((highscoreElementList[0],highscoreElementList[1]))
         except:
