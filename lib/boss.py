@@ -14,8 +14,6 @@ class Boss(pygame.sprite.Sprite):
         self.health = 20
         self.reverse = 0
 
-
-
     def update(self):
         self.counter += 1
         dx = 5
@@ -30,7 +28,6 @@ class Boss(pygame.sprite.Sprite):
             self.rect.move_ip(dx,0)
         else:
             self.rect.move_ip(0,2)
-
 
 
 class BossLaser(pygame.sprite.Sprite):

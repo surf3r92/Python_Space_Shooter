@@ -168,25 +168,25 @@ class Run():
                 laserPowerups.update()
 
                 if frameCounter < 80 and self.level == 1:
-                    readyText = self.myFont.render("".join(["GET READY!", str("")]), 1, (200,10,10))
-                    self.screen.blit(readyText,(self.width/2 - 64, self.height/3))
+                    readyText = self.myFont.render("".join(["GET READY!", str("")]), 1, (200, 10, 10))
+                    self.screen.blit(readyText, (self.width/2 - 64, self.height/3))
                 elif frameCounter < 140 and self.level == 1:
-                    levelText = self.myFont.render("".join(["LEVEL ", str(self.level)]), 1, (200,10,10))
-                    self.screen.blit(levelText,(self.width/2 - 64, self.height/3))
+                    levelText = self.myFont.render("".join(["LEVEL ", str(self.level)]), 1, (200, 10, 10))
+                    self.screen.blit(levelText, (self.width/2 - 64, self.height/3))
                 elif frameCounter < 170 and self.level == 1:
-                    goText = self.myFont.render("".join(["GO!", str("")]), 1, (200,10,10))
-                    self.screen.blit(goText,(self.width/2 - 8, self.height/3))
+                    goText = self.myFont.render("".join(["GO!", str("")]), 1, (200, 10, 10))
+                    self.screen.blit(goText, (self.width/2 - 20, self.height/3))
 
                 if self.level > 1:
                     if frameCounter < 80:
-                        readyText = self.myFont.render("".join(["LEVEL COMPLETED!!", str("")]), 1, (200,10,10))
+                        readyText = self.myFont.render("".join(["LEVEL COMPLETED!!", str("")]), 1, (200, 10, 10))
                         self.screen.blit(readyText, (self.width/2 - 100, self.height/3))
                     elif frameCounter < 140:
-                        levelText = self.myFont.render("".join(["LEVEL ", str(self.level)]), 1, (200,10,10))
+                        levelText = self.myFont.render("".join(["LEVEL ", str(self.level)]), 1, (200, 10, 10))
                         self.screen.blit(levelText, (self.width/2 - 64, self.height/3))
                     elif frameCounter < 170:
-                        goText = self.myFont.render("".join(["GO!", str("")]), 1, (200,10,10))
-                        self.screen.blit(goText, (self.width/2 - 80, self.height/3))
+                        goText = self.myFont.render("".join(["GO!", str("")]), 1, (200, 10, 10))
+                        self.screen.blit(goText, (self.width/2 - 20, self.height/3))
 
                 pygame.draw.rect(self.screen,(0,0,0),(0,self.height-60,self.width,self.height))
                 pygame.draw.line(self.screen, (0,194,244), (0, self.height - 60), (self.width,self.height - 60), 4)
@@ -250,10 +250,11 @@ class Run():
         self.score = 0
         self.laserSpeed = -15
         self.damage = 1
-        self.level += 1
+        self.level = 1
         self.game()
 
     def resetSprites(self):
+        boss.empty()
         enemies.empty()
         enemyLaserSprites.empty()
         laserSprites.empty()
