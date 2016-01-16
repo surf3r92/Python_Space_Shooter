@@ -113,7 +113,7 @@ class Run():
                         self.score += 1000
                         self.nextLevel()
 
-                if self.enemiesSpawned < 20:
+                if self.enemiesSpawned < 4:
                     if frameCounter % 200 == 1 and frameCounter > 200:
                         self.enemiesSpawned += 1
                         self.xGroup = random.randint(1, 7) * 100 - 50
@@ -162,6 +162,7 @@ class Run():
                 playerSprite.update(self.damage)
                 arena.update(self.screen)
                 laserSprites.update(self.laserSpeed)
+                bossLaserSprites.update()
                 enemies.update()
                 enemyLaserSprites.update()
                 boss.update()
@@ -227,6 +228,7 @@ class Run():
 
                 playerSprite.draw(self.screen)
                 laserSprites.draw(self.screen)
+                bossLaserSprites.draw(self.screen)
                 enemies.draw(self.screen)
                 enemyLaserSprites.draw(self.screen)
                 boss.draw(self.screen)

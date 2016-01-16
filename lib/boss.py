@@ -14,6 +14,11 @@ class Boss(pygame.sprite.Sprite):
         self.health = 20
         self.reverse = 0
 
+        self.special = 0
+        self.dxMid = 0
+        self.dyMid = 0
+        self.midCounter = 0
+
     def update(self):
         self.counter += 1
         dx = 5
@@ -25,19 +30,41 @@ class Boss(pygame.sprite.Sprite):
         if self.reverse == 1:
             dx *= -1
         if self.counter > 100:
-            self.rect.move_ip(dx,0)
+
+            if self.special == 1:
+                self.midCounter += 1
+                self.rect.move_ip(self.dxMid,self.dyMid)
+                if self.midCounter == 30:
+                    for i in range(0,16):
+                        bossLaserSprites.add(BossLaser(self.rect.center,i-8))
+                        self.special = 0
+                        self.midCounter = 0
+
+            else:
+                self.rect.move_ip(dx*random.randint(1,2),random.randint(0,1))
+                if self.counter % 45 == 0:
+
+                    bossLaserSprites.add(BossLaser(self.rect.center,random.randint(-3,3)))
+                elif self.counter % 33 == 0:
+                    bossLaserSprites.add(BossLaser(self.rect.center,random.randint(-3,3)))
+                elif self.counter % 333 == 0:
+                    self.special = 1
+                    self.dxMid = (400 - self.rect.center[0])/30
+                    self.dyMid = (100 - self.rect.center[1])/30
+
+
         else:
             self.rect.move_ip(0,2)
 
-
 class BossLaser(pygame.sprite.Sprite):
-    def __init__(self, pos):
+    def __init__(self, pos, direction):
         pygame.sprite.Sprite.__init__(self)
-        self.image, self.rect = load_image("img/sprites/bosslaser.png", -1)
+        self.image, self.rect = load_image("img/sprites/elaser.png", -1)
         self.rect.center = pos
+        self.direction = direction
 
     def update(self):
-        self.rect.move_ip(0, 10)
+        self.rect.move_ip(self.direction, 10)
 
 
 global bossLaserSprites
