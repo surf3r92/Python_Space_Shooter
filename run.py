@@ -20,6 +20,7 @@ class Run():
         self.green = 0, 255, 0
         self.score = 0
         self.highscoreList = open("csv/highscore.csv").read().split()
+
         self.lives = 3
 
         self.enemiesSpawned = 0

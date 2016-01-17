@@ -58,6 +58,11 @@ def highScore(self):
     for highscoreElement in highscoreList:
         highscoreElementListWithoutEnd = highscoreElement.strip()
         highscoreElementList = highscoreElementListWithoutEnd.split(",")
+        print highscoreElementList
+        try:
+            list.append((highscoreElementList[0],highscoreElementList[1]))
+        except:
+            print "highscore list append error"
         try:
             list.append((highscoreElementList[0],highscoreElementList[1]))
         except:
@@ -79,33 +84,26 @@ def highScore(self):
     buttonLength = 200
     buttonYDist = 50
     buttonXDist = buttonYDist
+    buttonXPos = (self.screen.get_size()[0]) - (buttonLength) - buttonXDist
     buttonColor = (46, 46, 254)
     buttonColorHovered = (8, 8, 138)
     buttonTextColor = (255, 255, 255)
     buttonTextFont = "Calibri"
     buttonTextFontSize = 20
 
-    buttonBackXPos = (self.screen.get_size()[0]) - buttonLength - buttonXDist
-    buttonBackYPos = (self.screen.get_size()[1]) - buttonHeight - buttonYDist
+    buttonBackYPos = (self.screen.get_size()[1]) - (buttonHeight) - buttonYDist
     buttonBackText = "Back"
 
-    buttonResetXPos = buttonYDist
-    buttonResetYPos = (self.screen.get_size()[1]) - (buttonHeight) - buttonYDist
-    buttonResetText = "Reset List"
-
-    buttonBack = Button(self.screen, buttonColor, buttonColorHovered, buttonBackXPos, buttonBackYPos, buttonLength,
+    buttonBack = Button(self.screen, buttonColor, buttonColorHovered, buttonXPos, buttonBackYPos, buttonLength,
                         buttonHeight, buttonWidth, buttonBackText, buttonTextColor, buttonTextFont, buttonTextFontSize)
-    buttonResetHighscore = Button(self.screen, buttonColor, buttonColorHovered, buttonResetXPos, buttonResetYPos, buttonLength,
-                        buttonHeight, buttonWidth, buttonResetText, buttonTextColor, buttonTextFont, buttonTextFontSize)
 
     keepGoing = True
-    allButtons = [buttonBack, buttonResetHighscore]
+    allButtons = [buttonBack]
 
     while keepGoing:
         pygame.mouse.set_visible(1)
         highScoreList.create_list()
         buttonBack.create_button()
-        buttonResetHighscore.create_button()
         pygame.display.flip()
 
         for event in pygame.event.get():
@@ -116,9 +114,6 @@ def highScore(self):
                 if buttonBack.pressed(pygame.mouse.get_pos()):
                     keepGoing = False
                     gameMenu(self)
-                if buttonResetHighscore.pressed(pygame.mouse.get_pos()):
-                    print "reset list"
-                    resetHighscore(self)
             elif event.type == MOUSEMOTION:
                 for currButton in allButtons:
                     if currButton.getRect().collidepoint(pygame.mouse.get_pos()):
@@ -136,23 +131,9 @@ def updateHighscore(self, playerName, playerScore):
     if bool == False and len(self.highscoreList) < 10:
         self.highscoreList.append(playerName + "," + str(playerScore))
 
-    listWithLessThen10Elements = []
-
-    for index in range(0,10):
-        if len(self.highscoreList)>index:
-            listWithLessThen10Elements.append(self.highscoreList[index])
-    self.highscoreList = listWithLessThen10Elements
-
     file = open("csv/highscore.csv", "w")
     file.truncate()
     for element in self.highscoreList:
         string = element + "\n"
         file.write(string)
     file.close()
-
-def resetHighscore(self):
-    file = open("csv/highscore.csv", "w")
-    file.truncate()
-    file.close()
-    self.highscoreList = []
-
