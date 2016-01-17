@@ -58,7 +58,13 @@ def gameMenu(self):
 
     inputMaxLength = 20
     inputTextColor = (255, 255, 255)
-    inputText = 'Enter your name!'
+
+    inputText = ""
+    if self.gameState == "Start":
+        inputText = 'Enter your name!'
+    else:
+        inputText = self.currUserName
+
     inputTextFont = "Calibri"
     inputTextFontSize = 20
     inputRectColor = (0, 0, 255)
@@ -106,7 +112,6 @@ def gameMenu(self):
                 sys.exit()
             elif event.type == MOUSEBUTTONDOWN:
                 if button1.pressed(pygame.mouse.get_pos()):
-                    #if inputBox.getText() != inputText or self.gameState == "Pause" or self.gameState == "Gameover":
                     if self.gameState == "Start" or self.gameState == "Pause" or self.gameState == "Gameover":
                         print button1Text
 
