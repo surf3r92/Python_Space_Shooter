@@ -50,7 +50,7 @@ class Input:
             elif event.key == K_LSHIFT or event.key == K_RSHIFT:
                 self.shifted = True
             elif event.key == K_SPACE:
-                self.value += ' '
+                self.value += '_'
             if not self.shifted:
                 if event.key == K_a and 'a' in self.restricted:
                     self.value += 'a'
