@@ -22,7 +22,7 @@ def keyControls(self, player):
         keystate = pygame.key.get_pressed()
         if event.type == pygame.QUIT:
             keepgoing = False
-        elif event.type == pygame.KEYDOWN:
+        elif event.type == pygame.KEYUP:
             if event.key == pygame.K_ESCAPE:
                 # keepgoing = False
                 self.gameState = "Pause"
