@@ -23,7 +23,6 @@ def keyControls(self, player):
         if event.type == pygame.QUIT:
             keepgoing = False
         elif event.type == pygame.KEYDOWN:
-
             if event.key == pygame.K_LEFT:
                 player.dx = -10
             elif event.key == pygame.K_RIGHT:

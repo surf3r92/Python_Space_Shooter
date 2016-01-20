@@ -210,7 +210,10 @@ class Run():
                     if self.randomPowerup == "fasterLaser":
                        player.decreaseLaser()
                     elif self.randomPowerup == "health":
-                        self.lives += 1
+                        if self.lives < 6:
+                            self.lives += 1
+                        elif self.lives > 5:
+                            pass
                     elif self.randomPowerup == "multipleShoot":
                         self.damage += 1
                     elif self.randomPowerup == "shield":
