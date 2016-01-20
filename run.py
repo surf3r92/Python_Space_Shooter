@@ -112,7 +112,6 @@ class Run():
                         self.score += 1000
                         self.nextLevel()
 
-                if self.enemiesSpawned < 4:
                     if frameCounter % 200 == 1 and frameCounter > 200:
                         self.enemiesSpawned += 1
                         self.xGroup = random.randint(1, 7) * 100 - 50
