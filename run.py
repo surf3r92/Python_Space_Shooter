@@ -219,7 +219,10 @@ class Run():
                     elif self.randomPowerup == "multipleShoot":
                         self.damage += 1
                     elif self.randomPowerup == "shield":
-                        pass
+                        playerPos = playerSprite.sprites()[0].rect.center
+                        playerSprite.sprites()[0].image, playerSprite.sprites()[0].rect = \
+                            load_image("img/sprites/shipWithShield.png", -1)
+                        playerSprite.sprites()[0].rect.center = playerPos
                 collide_Player_Enemy = pygame.sprite.spritecollide(player, enemies, True)
                 if len(collide_Player_Enemy):
                     self.lives -= 1
