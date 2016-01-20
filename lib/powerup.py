@@ -6,6 +6,7 @@ from lib.methods import *
 
 class Powerup(pygame.sprite.Sprite):
     def __init__(self, pos, type):
+        print type
         if type == "fasterLaser":
             pygame.sprite.Sprite.__init__(self)
             self.image, self.rect = load_image("img/sprites/powerup_faster_shoot.png", -1)
@@ -14,7 +15,7 @@ class Powerup(pygame.sprite.Sprite):
             pygame.sprite.Sprite.__init__(self)
             self.image, self.rect = load_image("img/sprites/powerup_heart.png", -1)
             self.rect.center = pos
-        elif type == "damage":
+        elif type == "multipleShoot":
             pygame.sprite.Sprite.__init__(self)
             self.image, self.rect = load_image("img/sprites/power_up_double_shoot.png", -1)
             self.rect.center = pos

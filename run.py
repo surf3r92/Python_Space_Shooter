@@ -103,7 +103,7 @@ class Run():
                     elif randomInt == 2:
                         self.randomPowerup = "shield"
                     elif randomInt == 3:
-                        self.randomPowerup = "damage"
+                        self.randomPowerup = "multipleShoot"
                     laserPowerups.add(Powerup((self.xPowerups, -20), self.randomPowerup))
 
                 if len(boss.sprites()) == 1:
@@ -216,7 +216,7 @@ class Run():
                         self.laserSpeed -= 5
                     elif self.randomPowerup == "health":
                         self.lives += 1
-                    elif self.randomPowerup == "damage":
+                    elif self.randomPowerup == "multipleShoot":
                         self.damage += 1
                 collide_Player_Enemy = pygame.sprite.spritecollide(player, enemies, True)
                 if len(collide_Player_Enemy):

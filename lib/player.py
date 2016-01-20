@@ -23,16 +23,16 @@ class Player(pygame.sprite.Sprite):
         if key[pygame.K_SPACE]:
             if self.laserTimer > self.laserMax:
                 if damage == 1:
-                    laserSprites.add(Laser(self.rect.midtop))
+                    laserSprites.add(Laser(self.rect.midtop, damage))
                     self.laserTimer = 0
                 elif damage == 2:
-                    laserSprites.add(Laser((self.rect.left+5, self.rect.top)))
-                    laserSprites.add(Laser((self.rect.right-5, self.rect.top)))
+                    laserSprites.add(Laser((self.rect.left+5, self.rect.top),damage))
+                    laserSprites.add(Laser((self.rect.right-5, self.rect.top),damage))
                     self.laserTimer = 0
                 elif damage >= 3:
-                    laserSprites.add(Laser((self.rect.left+5, self.rect.top)))
-                    laserSprites.add(Laser((self.rect.right-5, self.rect.top)))
-                    laserSprites.add(Laser(self.rect.midtop))
+                    laserSprites.add(Laser((self.rect.left+5, self.rect.top),damage))
+                    laserSprites.add(Laser((self.rect.right-5, self.rect.top),damage))
+                    laserSprites.add(Laser(self.rect.midtop),damage)
                     self.laserTimer = 0
 
         if self.rect.left < 0:
@@ -49,11 +49,15 @@ class Player(pygame.sprite.Sprite):
 
 
 class Laser(pygame.sprite.Sprite):
-    def __init__(self, pos):
-        pygame.sprite.Sprite.__init__(self)
-        self.image, self.rect = load_image("img/sprites/laser.png", -1)
-        self.rect.center = pos
-
+    def __init__(self, pos, damage):
+        if damage == 1:
+            pygame.sprite.Sprite.__init__(self)
+            self.image, self.rect = load_image("img/sprites/laser.png", -1)
+            self.rect.center = pos
+        elif damage > 1:
+            pygame.sprite.Sprite.__init__(self)
+            self.image, self.rect = load_image("img/sprites/laser_double.png", -1)
+            self.rect.center = pos
     def update(self, laserSpeed):
         if self.rect.top < 0:
             self.kill()
