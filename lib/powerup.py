@@ -22,6 +22,10 @@ class Powerup(pygame.sprite.Sprite):
             pygame.sprite.Sprite.__init__(self)
             self.image, self.rect = load_image("img/sprites/powerup_shield.png", -1)
             self.rect.center = pos
+        elif type == "fasterMovement":
+            pygame.sprite.Sprite.__init__(self)
+            self.image, self.rect = load_image("img/sprites/power_up_faster.png", -1)
+            self.rect.center = pos
 
     def update(self):
         if self.rect.bottom > 540:

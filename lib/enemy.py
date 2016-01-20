@@ -12,17 +12,17 @@ class Enemy(pygame.sprite.Sprite):
         self.rect.center = self.pos
         print self.pos
         if self.pos[0] == 400:
-            self.reverse = random.randint(0,1)
+            self.reverse = random.randint(0, 1)
         elif self.pos[0] > 400:
             self.reverse = 1
         elif self.pos[0] < 400:
             self.reverse = 0
 
         self.counter = 50
-        self.factor = random.randint(2,7)
+        self.factor = random.randint(2, 7)
         self.xList = np.linspace(np.pi, np.pi * 3, 100)
         self.yList = np.sin(self.xList)
-        self.dx = random.randint(4,6)
+        self.dx = random.randint(4, 6)
 
     def update(self):
         self.counter += 1

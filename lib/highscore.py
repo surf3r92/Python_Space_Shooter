@@ -75,8 +75,6 @@ class HighScore:
         return self.screen
 
 
-
-
 def highScore(self):
 
     if self.gameState == "Start" or self.gameState == "Gameover":
@@ -147,7 +145,6 @@ def highScore(self):
                     keepGoing = False
                     gameMenu(self)
                 if buttonResetHighscore.pressed(pygame.mouse.get_pos()):
-                    print "reset list"
                     resetHighscore(self)
             elif event.type == MOUSEMOTION:
                 for currButton in allButtons:
@@ -155,6 +152,7 @@ def highScore(self):
                         currButton.setHovered()
                     else:
                         currButton.setUnhovered()
+
 
 def updateHighscore(self, playerName, playerScore):
     bool = False

@@ -15,24 +15,24 @@ class Player(pygame.sprite.Sprite):
         self.laserMax = 20
         self.reset()
 
-    def update(self, damage):
+    def update(self, multipleShoot):
         global laserSprites
         self.rect.move_ip((self.dx, self.dy))
         key = pygame.key.get_pressed()
         self.laserTimer += 1
         if key[pygame.K_SPACE]:
             if self.laserTimer > self.laserMax:
-                if damage == 1:
-                    laserSprites.add(Laser(self.rect.midtop, damage))
+                if multipleShoot == 1:
+                    laserSprites.add(Laser(self.rect.midtop, multipleShoot))
                     self.laserTimer = 0
-                elif damage == 2:
-                    laserSprites.add(Laser((self.rect.left+5, self.rect.top), damage))
-                    laserSprites.add(Laser((self.rect.right-5, self.rect.top), damage))
+                elif multipleShoot == 2:
+                    laserSprites.add(Laser((self.rect.left+5, self.rect.top), multipleShoot))
+                    laserSprites.add(Laser((self.rect.right-5, self.rect.top), multipleShoot))
                     self.laserTimer = 0
-                elif damage >= 3:
-                    laserSprites.add(Laser(self.rect.midtop, damage))
-                    laserSprites.add(Laser((self.rect.left+5, self.rect.top), damage))
-                    laserSprites.add(Laser((self.rect.right-5, self.rect.top), damage))
+                elif multipleShoot >= 3:
+                    laserSprites.add(Laser(self.rect.midtop, multipleShoot))
+                    laserSprites.add(Laser((self.rect.left+5, self.rect.top), multipleShoot))
+                    laserSprites.add(Laser((self.rect.right-5, self.rect.top), multipleShoot))
                     self.laserTimer = 0
 
         if self.rect.left < 0:
@@ -54,27 +54,23 @@ class Player(pygame.sprite.Sprite):
     def resetLaser(self):
         self.laserMax = 20
 
+
 class Laser(pygame.sprite.Sprite):
-    def __init__(self, pos, damage):
-        if damage == 1:
+    def __init__(self, pos, multipleShoot):
+        if multipleShoot == 1:
             pygame.sprite.Sprite.__init__(self)
             self.image, self.rect = load_image("img/sprites/laser.png", -1)
             self.rect.center = pos
-        elif damage > 1:
+        elif multipleShoot > 1:
             pygame.sprite.Sprite.__init__(self)
             self.image, self.rect = load_image("img/sprites/laser_double.png", -1)
             self.rect.center = pos
+
     def update(self):
         if self.rect.top < 0:
             self.kill()
         else:
             self.rect.move_ip(0, -15)
-
-            # enemies_hit_list = pygame.sprite.spritecollide(self, enemies, True, self.kill())
-            # try:
-            # print enemies_hit_list[0]
-            # except:
-            # pass
 
 
 global laserSprites

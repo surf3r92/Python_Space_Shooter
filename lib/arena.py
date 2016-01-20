@@ -18,17 +18,15 @@ class Arena():
         self.background2_y += 3
 
         if self.background1_y >= 600:
-            print("background1")
             self.reset()
         if self.background2_y >= 600:
-            print("background2")
             self.reset2()
 
     def reset(self):
-        self.background1_y = self.background2_y - self.background2.get_height()  # -1800
+        self.background1_y = self.background2_y - self.background2.get_height()
 
     def reset2(self):
-        self.background2_y = self.background1_y - self.background1.get_height()  # -1800
+        self.background2_y = self.background1_y - self.background1.get_height()
 
 
 arena = Arena()

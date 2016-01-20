@@ -17,7 +17,7 @@ class Run():
 
         self.icon = pygame.image.load("img/sprites/Space Shooter.png")
         self.playerLivesPictures = pygame.image.load("img/sprites/player.png")
-        self.blue = 0,194,244
+        self.blue = 0, 194, 244
         self.score = 0
         self.highscoreList = open("csv/highscore.csv").read().split()
         self.lives = 3
@@ -41,9 +41,12 @@ class Run():
         self.xPowerups = 0
 
         self.randomPowerup = ""
-        self.damage = 1
+        self.multipleShoot = 1
         self.shieldTime = 0
         self.shieldStatus = False
+        self.additionalMovementSpeed = 0
+        self.fasterMovementTime = 0
+        self.fasterMovementStatus = False
 
         global player
         player = Player()
@@ -61,17 +64,10 @@ class Run():
 
     def game(self):
 
-        global enemy
-        global enemyLaserSprites
-        global laserSprites
-        global laserPowerup
-
         self.livesImage, self.livesRect = load_image("img/sprites/ship.png", -1)
-        self.livesImage = pygame.transform.scale(self.livesImage, (int(self.livesImage.get_width()*0.75), int(self.livesImage.get_height()*0.75)))
-        # lives vllt noch auslagern, in update einbeziehen, zZ noch unter arena
-
-        # score
-        # score ausgelagert in score.py aber noch fehlerhaft, noch in update einbeziehen, zZ noch unter arena
+        self.livesImage = pygame.transform.scale(self.livesImage,
+                                                 (int(self.livesImage.get_width()*0.75),
+                                                  int(self.livesImage.get_height()*0.75)))
 
         clock = pygame.time.Clock()
         keepgoing = True
@@ -92,7 +88,7 @@ class Run():
 
                 if frameCounter % 100 == 1 and frameCounter > 200:
                     self.xPowerups = random.randint(1, 7) * 100 - 50
-                    randomInt = random.randint(0, 3)
+                    randomInt = random.randint(0, 4)
                     if randomInt == 0:
                         self.randomPowerup = "fasterLaser"
                     elif randomInt == 1:
@@ -101,10 +97,15 @@ class Run():
                         self.randomPowerup = "shield"
                     elif randomInt == 3:
                         self.randomPowerup = "multipleShoot"
+                    elif randomInt == 4:
+                        self.randomPowerup = "fasterMovement"
+
                     laserPowerups.add(Powerup((self.xPowerups, -20), self.randomPowerup))
 
                 if self.shieldStatus:
                     self.shieldTime += 1
+                if self.fasterMovementStatus:
+                    self.fasterMovementTime += 1
 
                 if len(boss.sprites()) == 1:
                     if boss.sprites()[0].health <= 0:
@@ -173,10 +174,10 @@ class Run():
                 elif len(enemies.sprites()) == 0 and len(boss.sprites()) == 0:
                     boss.add(Boss((self.width/2, -50)))
 
-                keyControls(self, player)
+                keyControls(self, player, self.additionalMovementSpeed)
 
                 # Update
-                playerSprite.update(self.damage)
+                playerSprite.update(self.multipleShoot)
                 arena.update(self.screen)
                 laserSprites.update()
                 bossLaserSprites.update()
@@ -214,10 +215,10 @@ class Run():
 
                 boss_hit = pygame.sprite.groupcollide(laserSprites, boss, True, False)
                 if boss_hit != {}:
-                    boss.sprites()[0].health -= self.damage
+                    boss.sprites()[0].health -= self.multipleShoot
 
                 collide_list = pygame.sprite.groupcollide(laserSprites, enemies, True, True)
-                if (collide_list != {}):
+                if collide_list != {}:
                     self.score += 10
                 player_hit = pygame.sprite.spritecollide(player, enemyLaserSprites, True)
                 if len(player_hit):
@@ -237,11 +238,15 @@ class Run():
                         elif self.lives > 4:
                             pass
                     elif self.randomPowerup == "multipleShoot":
-                        self.damage += 1
+                        self.multipleShoot += 1
                     elif self.randomPowerup == "shield":
                         activateShield(playerSprite)
                         self.shieldTime = 0
                         self.shieldStatus = True
+                    elif self.randomPowerup == "fasterMovement":
+                        self.additionalMovementSpeed = 5
+                        self.fasterMovementTime = 0
+                        self.fasterMovementStatus = True
 
                 collide_Player_Enemy = pygame.sprite.spritecollide(player, enemies, True)
                 if len(collide_Player_Enemy):
@@ -251,6 +256,9 @@ class Run():
                 if self.shieldTime > 150:
                     deActivateShield(playerSprite)
                     self.shieldTime = 0
+
+                if self.fasterMovementTime > 250:
+                    self.additionalMovementSpeed = 0
 
                 playerSprite.draw(self.screen)
                 laserSprites.draw(self.screen)
@@ -271,6 +279,7 @@ class Run():
         self.game()
 
     def setupNewGame(self):
+        self.additionalMovementSpeed = 0
         self.shieldStatus = False
         deActivateShield(playerSprite)
         player.rect.center = (400, 500)
@@ -292,7 +301,8 @@ class Run():
         player.dy = 0
 
     def resetPowerups(self):
-        self.damage = 1
+        self.additionalMovementSpeed = 0
+        self.multipleShoot = 1
         self.shield = False
         player.resetLaser()
 

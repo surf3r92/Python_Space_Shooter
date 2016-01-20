@@ -17,27 +17,26 @@ def load_image(name, colorkey=None):
     return image, image.get_rect()
 
 
-def keyControls(self, player):
+def keyControls(self, player, additionalMovementSpeed):
     for event in pygame.event.get():
         keystate = pygame.key.get_pressed()
         if event.type == pygame.QUIT:
             keepgoing = False
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                player.dx = -10
+                player.dx = -10 - additionalMovementSpeed
             elif event.key == pygame.K_RIGHT:
-                player.dx = 10
+                player.dx = 10 + additionalMovementSpeed
             elif event.key == pygame.K_UP:
-                player.dy = -10
+                player.dy = -10 - additionalMovementSpeed
             elif event.key == pygame.K_DOWN:
-                player.dy = 10
+                player.dy = 10 + additionalMovementSpeed
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_ESCAPE:
                 # keepgoing = False
                 self.gameState = "Pause"
                 gameMenu(self)
-            if keystate[K_LEFT] == 0 and keystate[K_RIGHT] == 0 and \
-                            keystate[K_UP] == 0 and keystate[K_DOWN] == 0:
+            if keystate[K_LEFT] == 0 and keystate[K_RIGHT] == 0 and keystate[K_UP] == 0 and keystate[K_DOWN] == 0:
                 player.dx = 0
                 player.dy = 0
             else:
