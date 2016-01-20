@@ -17,7 +17,7 @@ class Run():
 
         self.icon = pygame.image.load("img/sprites/Space Shooter.png")
         self.playerLivesPictures = pygame.image.load("img/sprites/player.png")
-        self.green = 0, 255, 0
+        self.blue = 0,194,244
         self.score = 0
         self.highscoreList = open("csv/highscore.csv").read().split()
         self.lives = 3
@@ -188,7 +188,7 @@ class Run():
                 pygame.draw.rect(self.screen,(0,0,0),(0,self.height-60,self.width,self.height))
                 pygame.draw.line(self.screen, (0,194,244), (0, self.height - 60), (self.width,self.height - 60), 4)
 
-                scoreDisplay = self.myFont.render("".join(["Score:", str(self.score)]), 1, self.green)
+                scoreDisplay = self.myFont.render("".join(["Score:", str(self.score)]), 1, self.blue)
                 self.screen.blit(scoreDisplay, (self.width - 160, self.height - 48))
 
                 boss_hit = pygame.sprite.groupcollide(laserSprites, boss, True, False)
