@@ -32,3 +32,7 @@ class Powerup(pygame.sprite.Sprite):
 
 global laserPowerups
 laserPowerups = pygame.sprite.RenderPlain()
+
+
+def activateShield():
+    pass
