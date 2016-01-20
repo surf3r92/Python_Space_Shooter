@@ -193,7 +193,7 @@ class Run():
                 pygame.draw.line(self.screen, (0,194,244), (0, self.height - 60), (self.width,self.height - 60), 4)
 
                 scoreDisplay = self.myFont.render("".join(["Score:", str(self.score)]), 1, self.blue)
-                self.screen.blit(scoreDisplay, (self.width - 160, self.height - 48))
+                self.screen.blit(scoreDisplay, (self.width - 160, self.height - 45))
 
                 boss_hit = pygame.sprite.groupcollide(laserSprites, boss, True, False)
                 if boss_hit != {}:
