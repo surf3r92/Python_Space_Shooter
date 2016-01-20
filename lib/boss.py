@@ -65,6 +65,8 @@ class BossLaser(pygame.sprite.Sprite):
 
     def update(self):
         self.rect.move_ip(self.direction, 10)
+        if self.rect.bottom > 540:
+            self.kill()
 
 
 global bossLaserSprites
