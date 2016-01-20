@@ -104,7 +104,7 @@ class Run():
                     laserPowerups.add(Powerup((self.xPowerups, -20), self.randomPowerup))
 
                 if len(boss.sprites()) == 1:
-                    if boss.sprites()[0].health == 0:
+                    if boss.sprites()[0].health <= 0:
                         boss.sprites()[0].kill()
                         self.score += 1000
                         self.nextLevel()
@@ -193,7 +193,7 @@ class Run():
 
                 boss_hit = pygame.sprite.groupcollide(laserSprites, boss, True, False)
                 if boss_hit != {}:
-                    boss.sprites()[0].health -= 1
+                    boss.sprites()[0].health -= self.damage
 
                 collide_list = pygame.sprite.groupcollide(laserSprites, enemies, True, True)
                 if (collide_list != {}):
