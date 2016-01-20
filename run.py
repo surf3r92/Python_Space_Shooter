@@ -43,6 +43,7 @@ class Run():
         self.randomPowerup = ""
         self.laserMax = 20
         self.damage = 1
+        self.shield = False
 
         global player
         player = Player()
@@ -83,10 +84,6 @@ class Run():
             pygame.display.set_caption(caption)
 
             if self.gameState == "Start" or self.gameState == "Gameover":
-                # or gameState == "Restart"\
-                # if gameState == "Restart":
-                # gameState = "Start"
-                # keepgoing = False
                 if self.gameState == "Gameover":
                     keepgoing = False
                 pygame.mouse.set_visible(0)
@@ -204,9 +201,7 @@ class Run():
                 player_hit = pygame.sprite.spritecollide(player, enemyLaserSprites, True)
                 if len(player_hit):
                     self.lives -= 1
-                    print "player hit"
                 if self.lives == 0:
-                    print "game over"
                     self.gameState = "Gameover"
                     updateHighscore(self, self.currUserName, self.score)
                     gameMenu(self)
@@ -219,16 +214,16 @@ class Run():
                     elif self.randomPowerup == "multipleShoot":
                         self.damage += 1
                     elif self.randomPowerup == "shield":
+                        self.shield = True
                         playerPos = playerSprite.sprites()[0].rect.center
                         playerSprite.sprites()[0].image, playerSprite.sprites()[0].rect = \
                             load_image("img/sprites/shipWithShield.png", -1)
                         playerSprite.sprites()[0].rect.center = playerPos
                 collide_Player_Enemy = pygame.sprite.spritecollide(player, enemies, True)
+                
+
                 if len(collide_Player_Enemy):
                     self.lives -= 1
-                    print "player hit"
-                # spritecollide kann noch erweitert werden mit callback function wenn player getroffen wird
-                # spritecollide(sprite, group, dokill, collided = None)
 
                 playerSprite.draw(self.screen)
                 laserSprites.draw(self.screen)
@@ -241,13 +236,11 @@ class Run():
                 for i in range(0, self. lives):
                     self.screen.blit(self.livesImage, (8 + i*self.livesImage.get_width()*1.5, self.height -
                                                        self.livesImage.get_height()-8))
-
                 pygame.display.flip()
 
     def nextLevel(self):
         self.resetSprites()
         self.level += 1
-        print self.level
         self.game()
 
     def setupNewGame(self):
@@ -272,6 +265,7 @@ class Run():
     def resetPowerups(self):
         self.laserMax = 20
         self.damage = 1
+        self.shield = False
 
 
 Run()

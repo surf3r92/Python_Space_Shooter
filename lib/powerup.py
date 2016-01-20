@@ -6,7 +6,6 @@ from lib.methods import *
 
 class Powerup(pygame.sprite.Sprite):
     def __init__(self, pos, type):
-        print type
         if type == "fasterLaser":
             pygame.sprite.Sprite.__init__(self)
             self.image, self.rect = load_image("img/sprites/powerup_faster_shoot.png", -1)
