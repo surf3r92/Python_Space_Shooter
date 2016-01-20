@@ -258,6 +258,7 @@ class Run():
         self.lives = 3
         self.score = 0
         self.level = 1
+        laserPowerups.empty()
         self.game()
 
     def resetSprites(self):
@@ -265,7 +266,6 @@ class Run():
         enemies.empty()
         enemyLaserSprites.empty()
         laserSprites.empty()
-        laserPowerups.empty()
         self.enemiesSpawned = 0
         player.dx = 0
         player.dy = 0
