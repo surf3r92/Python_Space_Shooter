@@ -158,3 +158,7 @@ def gameMenu(self):
                         currButton.setHovered()
                     else:
                         currButton.setUnhovered()
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    self.gameState = "Start"
+                    keepGoing = False
