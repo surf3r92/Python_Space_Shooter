@@ -246,6 +246,7 @@ class Run():
         self.game()
 
     def setupNewGame(self):
+        player.rect.center = (400, 500)
         self.resetSprites()
         self.lives = 3
         self.score = 0
@@ -263,7 +264,6 @@ class Run():
         self.enemiesSpawned = 0
         player.dx = 0
         player.dy = 0
-        player.rect.center = (400, 500)
 
     def resetPowerups(self):
         self.damageSpeed = -15

@@ -49,7 +49,8 @@ class Player(pygame.sprite.Sprite):
         self.rect.bottom = 600 - 64
 
     def decreaseLaser(self):
-        self.laserMax -= 5;
+        if self.laserMax > 5:
+            self.laserMax *= 0.85
 
 class Laser(pygame.sprite.Sprite):
     def __init__(self, pos, damage):
