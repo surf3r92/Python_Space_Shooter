@@ -246,6 +246,9 @@ class Run():
         self.game()
 
     def setupNewGame(self):
+        player.dx = 0
+        player.dy = 0
+        player.rect.center = (400, 500)
         self.resetSprites()
         self.lives = 3
         self.score = 0
