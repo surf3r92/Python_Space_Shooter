@@ -54,6 +54,7 @@ class Boss(pygame.sprite.Sprite):
 
 
         else:
+            self.health = 20
             self.rect.move_ip(0,2)
 
 class BossLaser(pygame.sprite.Sprite):
