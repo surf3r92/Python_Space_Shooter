@@ -262,5 +262,9 @@ class Run():
         laserPowerups.empty()
         self.enemiesSpawned = 0
 
+    def resetPowerups(self):
+        self.damageSpeed = -15
+        self.damage = 1
+
 
 Run()

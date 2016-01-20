@@ -1,2 +1,4 @@
 lib/*.pyc
+csv/*.csv
 .idea/
+
