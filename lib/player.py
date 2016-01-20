@@ -47,7 +47,7 @@ class Player(pygame.sprite.Sprite):
     def reset(self):
         self.rect.bottom = 600 - 64
 
-    def increaseLaser(self):
+    def increaseLaserSpeed(self):
         if self.laserMax > 5:
             self.laserMax *= 0.85
 

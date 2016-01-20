@@ -217,21 +217,28 @@ class Run():
                 if boss_hit != {}:
                     boss.sprites()[0].health -= self.multipleShoot
 
-                collide_list = pygame.sprite.groupcollide(laserSprites, enemies, True, True)
-                if collide_list != {}:
+                collide_Laser_Enemy = pygame.sprite.groupcollide(laserSprites, enemies, True, True)
+                if collide_Laser_Enemy != {}:
                     self.score += 10
-                player_hit = pygame.sprite.spritecollide(player, enemyLaserSprites, True)
-                if len(player_hit):
+
+                collide_Player_Laser = pygame.sprite.spritecollide(player, enemyLaserSprites, True)
+                if len(collide_Player_Laser) and self.shieldStatus == False:
                     self.lives -= 1
                     self.resetPowerups()
                 if self.lives == 0:
                     self.gameState = "Gameover"
                     updateHighscore(self, self.currUserName, self.score)
                     gameMenu(self)
+
+                collide_Player_Enemy = pygame.sprite.spritecollide(player, enemies, True)
+                if len(collide_Player_Enemy) and self.shieldStatus == False:
+                    self.lives -= 1
+                    self.resetPowerups()
+
                 powerup_collected = pygame.sprite.spritecollide(player, laserPowerups, True)
                 if len(powerup_collected):
                     if self.randomPowerup == "fasterLaser":
-                       player.increaseLaser()
+                       player.increaseLaserSpeed()
                     elif self.randomPowerup == "health":
                         if self.lives < 5:
                             self.lives += 1
@@ -248,14 +255,10 @@ class Run():
                         self.fasterMovementTime = 0
                         self.fasterMovementStatus = True
 
-                collide_Player_Enemy = pygame.sprite.spritecollide(player, enemies, True)
-                if len(collide_Player_Enemy):
-                    self.lives -= 1
-                    self.resetPowerups()
-
                 if self.shieldTime > 150:
                     deActivateShield(playerSprite)
                     self.shieldTime = 0
+                    self.shieldStatus = False
 
                 if self.fasterMovementTime > 250:
                     self.additionalMovementSpeed = 0
@@ -303,7 +306,6 @@ class Run():
     def resetPowerups(self):
         self.additionalMovementSpeed = 0
         self.multipleShoot = 1
-        self.shield = False
         player.resetLaser()
 
 
