@@ -41,7 +41,7 @@ class Run():
         self.xPowerups = 0
 
         self.randomPowerup = ""
-        self.laserSpeed = -15
+        self.laserMax = 20
         self.damage = 1
 
         global player
@@ -93,7 +93,7 @@ class Run():
 
                 frameCounter += 1
 
-                if frameCounter % 200 == 1 and frameCounter > 200:
+                if frameCounter % 100 == 1 and frameCounter > 200:
                     self.xPowerups = random.randint(1, 7) * 100 - 50
                     randomInt = random.randint(0, 3)
                     if randomInt == 0:
@@ -160,7 +160,7 @@ class Run():
                 # Update
                 playerSprite.update(self.damage)
                 arena.update(self.screen)
-                laserSprites.update(self.laserSpeed)
+                laserSprites.update()
                 bossLaserSprites.update()
                 enemies.update()
                 enemyLaserSprites.update()
@@ -213,7 +213,7 @@ class Run():
                 powerup_collected = pygame.sprite.spritecollide(player, laserPowerups, True)
                 if len(powerup_collected):
                     if self.randomPowerup == "fasterLaser":
-                        self.laserSpeed -= 5
+                       player.decreaseLaser()
                     elif self.randomPowerup == "health":
                         self.lives += 1
                     elif self.randomPowerup == "multipleShoot":
@@ -249,7 +249,7 @@ class Run():
         self.resetSprites()
         self.lives = 3
         self.score = 0
-        self.laserSpeed = -15
+        self.laserMax = 20
         self.damage = 1
         self.level = 1
         self.game()

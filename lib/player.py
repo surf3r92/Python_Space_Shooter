@@ -16,6 +16,7 @@ class Player(pygame.sprite.Sprite):
         self.reset()
 
     def update(self, damage):
+        #self.laserMax -= laserMax
         global laserSprites
         self.rect.move_ip((self.dx, self.dy))
         key = pygame.key.get_pressed()
@@ -26,13 +27,13 @@ class Player(pygame.sprite.Sprite):
                     laserSprites.add(Laser(self.rect.midtop, damage))
                     self.laserTimer = 0
                 elif damage == 2:
-                    laserSprites.add(Laser((self.rect.left+5, self.rect.top),damage))
-                    laserSprites.add(Laser((self.rect.right-5, self.rect.top),damage))
+                    laserSprites.add(Laser((self.rect.left+5, self.rect.top), damage))
+                    laserSprites.add(Laser((self.rect.right-5, self.rect.top), damage))
                     self.laserTimer = 0
                 elif damage >= 3:
-                    laserSprites.add(Laser((self.rect.left+5, self.rect.top),damage))
-                    laserSprites.add(Laser((self.rect.right-5, self.rect.top),damage))
-                    laserSprites.add(Laser(self.rect.midtop),damage)
+                    laserSprites.add(Laser(self.rect.midtop, damage))
+                    laserSprites.add(Laser((self.rect.left+5, self.rect.top), damage))
+                    laserSprites.add(Laser((self.rect.right-5, self.rect.top), damage))
                     self.laserTimer = 0
 
         if self.rect.left < 0:
@@ -47,6 +48,8 @@ class Player(pygame.sprite.Sprite):
     def reset(self):
         self.rect.bottom = 600 - 64
 
+    def decreaseLaser(self):
+        self.laserMax -= 5;
 
 class Laser(pygame.sprite.Sprite):
     def __init__(self, pos, damage):
@@ -58,11 +61,11 @@ class Laser(pygame.sprite.Sprite):
             pygame.sprite.Sprite.__init__(self)
             self.image, self.rect = load_image("img/sprites/laser_double.png", -1)
             self.rect.center = pos
-    def update(self, laserSpeed):
+    def update(self):
         if self.rect.top < 0:
             self.kill()
         else:
-            self.rect.move_ip(0, laserSpeed)
+            self.rect.move_ip(0, -15)
 
             # enemies_hit_list = pygame.sprite.spritecollide(self, enemies, True, self.kill())
             # try:
