@@ -34,5 +34,15 @@ global laserPowerups
 laserPowerups = pygame.sprite.RenderPlain()
 
 
-def activateShield():
-    pass
+def deActivateShield(playerSprite):
+    playerPos = playerSprite.sprites()[0].rect.center
+    playerSprite.sprites()[0].image, playerSprite.sprites()[0].rect = \
+        load_image("img/sprites/ship.png", -1)
+    playerSprite.sprites()[0].rect.center = playerPos
+
+def activateShield(playerSprite):
+    playerPos = playerSprite.sprites()[0].rect.center
+    playerSprite.sprites()[0].image, playerSprite.sprites()[0].rect = \
+        load_image("img/sprites/shipWithShield.png", -1)
+    playerSprite.sprites()[0].rect.center = playerPos
+

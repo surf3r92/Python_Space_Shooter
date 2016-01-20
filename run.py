@@ -43,7 +43,8 @@ class Run():
         self.randomPowerup = ""
         self.laserMax = 20
         self.damage = 1
-        self.shield = False
+        self.shieldTime = 0
+        self.shieldStatus = False
 
         global player
         player = Player()
@@ -102,6 +103,9 @@ class Run():
                     elif randomInt == 3:
                         self.randomPowerup = "multipleShoot"
                     laserPowerups.add(Powerup((self.xPowerups, -20), self.randomPowerup))
+
+                if self.shieldStatus:
+                    self.shieldTime += 1
 
                 if len(boss.sprites()) == 1:
                     if boss.sprites()[0].health <= 0:
@@ -215,24 +219,17 @@ class Run():
                     elif self.randomPowerup == "multipleShoot":
                         self.damage += 1
                     elif self.randomPowerup == "shield":
-                        self.shield = True
-                        shieldTime = frameCounter
-                        playerPos = playerSprite.sprites()[0].rect.center
-                        playerSprite.sprites()[0].image, playerSprite.sprites()[0].rect = \
-                            load_image("img/sprites/shipWithShield.png", -1)
-                        playerSprite.sprites()[0].rect.center = playerPos
-                collide_Player_Enemy = pygame.sprite.spritecollide(player, enemies, True)
+                        activateShield(playerSprite)
+                        self.shieldTime = 0
+                        self.shieldStatus = True
 
+                collide_Player_Enemy = pygame.sprite.spritecollide(player, enemies, True)
                 if len(collide_Player_Enemy):
                     self.lives -= 1
 
-                if self.shield == True:
-                    if (frameCounter - shieldTime) > 100:
-                        self.shield = False
-                        playerPos = playerSprite.sprites()[0].rect.center
-                        playerSprite.sprites()[0].image, playerSprite.sprites()[0].rect = \
-                            load_image("img/sprites/ship.png", -1)
-                        playerSprite.sprites()[0].rect.center = playerPos
+                if self.shieldTime > 150:
+                    deActivateShield(playerSprite)
+                    self.shieldTime = 0
 
                 playerSprite.draw(self.screen)
                 laserSprites.draw(self.screen)
@@ -253,6 +250,7 @@ class Run():
         self.game()
 
     def setupNewGame(self):
+        self.shieldStatus = False
         player.rect.center = (400, 500)
         self.resetPowerups()
         self.resetSprites()
