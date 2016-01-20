@@ -265,5 +265,9 @@ class Run():
         player.dy = 0
         player.rect.center = (400, 500)
 
+    def resetPowerups(self):
+        self.damageSpeed = -15
+        self.damage = 1
+
 
 Run()
