@@ -229,6 +229,7 @@ class Run():
                 collide_Player_Enemy = pygame.sprite.spritecollide(player, enemies, True)
                 if len(collide_Player_Enemy):
                     self.lives -= 1
+                    self.resetPowerups()
 
                 if self.shieldTime > 150:
                     deActivateShield(playerSprite)
