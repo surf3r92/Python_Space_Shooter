@@ -135,7 +135,6 @@ def gameMenu(self):
                             self.setupNewGame()
                     else:
                         pass
-                        #inputBox.setTextColor((255, 0, 0))
                 if button2.pressed(pygame.mouse.get_pos()):
                     print button2Text
                     if self.gameState == "Start" or self.gameState == "Gameover":
