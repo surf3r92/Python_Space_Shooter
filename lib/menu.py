@@ -18,7 +18,6 @@ def gameMenu(self):
         menuBackground = pygame.image.load("img/sprites/gameover_screen.png")
         self.screen.blit(menuBackground, (0, 0))
 
-    self.score = 0
 
     # self.playerlives.append(
     #     (self.playerLivesPictures, 32 + (32 + self.playerLivesPictures.get_width()) * 0, self.height -
