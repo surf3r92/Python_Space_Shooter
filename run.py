@@ -116,43 +116,61 @@ class Run():
                 if self.enemiesSpawned < 20:
                     if frameCounter % 200 == 1 and frameCounter > 200:
                         self.enemiesSpawned += 1
-                        self.xGroup = random.randint(1, 7) * 100 - 50
-                        enemies.add(Enemy((self.xGroup, -20)))
+                        self.xGroup = random.randint(0, 8) * 100 - 50
+                        if self.xGroup <= 50:
+                            self.enemyY = 400
+                            self.xGroup = - 20
+                        elif self.xGroup >= 650:
+                            self.enemyY = 400
+                            self.xGroup = self.width + 20
+                        else:
+                            self.enemyY = -20
+                        print self.xGroup
+                        print self.enemyY
+                        enemies.add(Enemy((self.xGroup, self.enemyY)))
 
                     if frameCounter % 200 == 21 and frameCounter > 200:
                         self.enemiesSpawned += 1
-                        self.xGroup = random.randint(1, 7) * 100 - 50
-                        enemies.add(Enemy((self.xGroup, -20)))
+                        #self.xGroup = random.randint(1, 7) * 100 - 50
+                        enemies.add(Enemy((self.xGroup, self.enemyY)))
 
                     if frameCounter % 200 == 41 and frameCounter > 200:
                         self.enemiesSpawned += 1
-                        self.xGroup = random.randint(1, 7) * 100 - 50
-                        enemies.add(Enemy((self.xGroup, -20)))
+                        #self.xGroup = random.randint(1, 7) * 100 - 50
+                        enemies.add(Enemy((self.xGroup, self.enemyY)))
 
                     if frameCounter % 200 == 61 and frameCounter > 200:
                         self.enemiesSpawned += 1
-                        self.xGroup = random.randint(1, 7) * 100 - 50
-                        enemies.add(Enemy((self.xGroup, -20)))
+                        #self.xGroup = random.randint(1, 7) * 100 - 50
+                        enemies.add(Enemy((self.xGroup, self.enemyY)))
 
                     if frameCounter % 400 == 81 and frameCounter > 400:
                         self.enemiesSpawned += 1
                         self.xGroup = random.randint(1, 7) * 100 - 50
-                        enemies.add(Enemy((self.xGroup, -20)))
+                        if self.xGroup <= 50:
+                            self.enemyY = 400
+                            self.xGroup = - 20
+                        elif self.xGroup >= 650:
+                            self.enemyY = 400
+                            self.xGroup = self.width + 20
+                        else:
+                            self.enemyY = -20
+                        enemies.add(Enemy((self.xGroup, self.enemyY)))
 
                     if frameCounter % 400 == 101 and frameCounter > 400:
                         self.enemiesSpawned += 1
-                        self.xGroup = random.randint(1, 7) * 100 - 50
-                        enemies.add(Enemy((self.xGroup, -20)))
+                        #self.xGroup = random.randint(1, 7) * 100 - 50
+                        enemies.add(Enemy((self.xGroup, self.enemyY)))
 
                     if frameCounter % 400 == 121 and frameCounter > 400:
                         self.enemiesSpawned += 1
-                        self.xGroup = random.randint(1, 7) * 100 - 50
-                        enemies.add(Enemy((self.xGroup, -20)))
+                        #self.xGroup = random.randint(1, 7) * 100 - 50
+                        enemies.add(Enemy((self.xGroup, self.enemyY)))
 
                     if frameCounter % 400 == 141 and frameCounter > 400:
                         self.enemiesSpawned += 1
-                        self.xGroup = random.randint(1, 7) * 100 - 50
-                        enemies.add(Enemy((self.xGroup, -20)))
+                        #self.xGroup = random.randint(1, 7) * 100 - 50
+                        enemies.add(Enemy((self.xGroup, self.enemyY)))
                 elif len(enemies.sprites()) == 0 and len(boss.sprites()) == 0:
                     boss.add(Boss((self.width/2, -50)))
 

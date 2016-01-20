@@ -8,21 +8,27 @@ class Enemy(pygame.sprite.Sprite):
     def __init__(self, pos):
         pygame.sprite.Sprite.__init__(self)
         self.image, self.rect = load_image("img/sprites/enemy.png", -1)
-        self.rect.center = pos
-        if pos[0] > 400:
+        self.pos = pos
+        self.rect.center = self.pos
+        print self.pos
+        if self.pos[0] == 400:
+            self.reverse = random.randint(0,1)
+        elif self.pos[0] > 400:
             self.reverse = 1
-        else:
+        elif self.pos[0] < 400:
             self.reverse = 0
+
         self.counter = 50
         self.factor = random.randint(2,7)
         self.xList = np.linspace(np.pi, np.pi * 3, 100)
         self.yList = np.sin(self.xList)
+        self.dx = random.randint(4,6)
 
     def update(self):
         self.counter += 1
         if self.counter > 100:
 
-            dx = 5
+            dx = self.dx
             dy = self.yList[self.counter % 100]
             if self.rect.right > 800:
                 self.reverse = 1
@@ -36,8 +42,14 @@ class Enemy(pygame.sprite.Sprite):
                 enemyLaserSprites.add(EnemyLaser(self.rect.center))
 
         else:
-            self.xStart = np.linspace(0, np.pi, 50)
-            self.yStart = np.sin(self.xStart)
+            if self.pos[0] <= 100 or self.pos[0] >= 700:
+                self.xStart = np.linspace(np.pi, np.pi*2, 50)
+                self.yStart = np.sin(self.xStart)
+
+            else:
+                self.xStart = np.linspace(0, np.pi, 50)
+                self.yStart = np.sin(self.xStart)
+
             dx = 5
             dy = self.yStart[self.counter % 50]
             if self.reverse == 1:
