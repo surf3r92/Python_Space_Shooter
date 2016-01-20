@@ -215,15 +215,23 @@ class Run():
                         self.damage += 1
                     elif self.randomPowerup == "shield":
                         self.shield = True
+                        shieldTime = frameCounter
                         playerPos = playerSprite.sprites()[0].rect.center
                         playerSprite.sprites()[0].image, playerSprite.sprites()[0].rect = \
                             load_image("img/sprites/shipWithShield.png", -1)
                         playerSprite.sprites()[0].rect.center = playerPos
                 collide_Player_Enemy = pygame.sprite.spritecollide(player, enemies, True)
-                
 
                 if len(collide_Player_Enemy):
                     self.lives -= 1
+
+                if self.shield == True:
+                    if (frameCounter - shieldTime) > 100:
+                        self.shield = False
+                        playerPos = playerSprite.sprites()[0].rect.center
+                        playerSprite.sprites()[0].image, playerSprite.sprites()[0].rect = \
+                            load_image("img/sprites/ship.png", -1)
+                        playerSprite.sprites()[0].rect.center = playerPos
 
                 playerSprite.draw(self.screen)
                 laserSprites.draw(self.screen)
