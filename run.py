@@ -201,6 +201,7 @@ class Run():
                 player_hit = pygame.sprite.spritecollide(player, enemyLaserSprites, True)
                 if len(player_hit):
                     self.lives -= 1
+                    self.resetPowerups()
                 if self.lives == 0:
                     self.gameState = "Gameover"
                     updateHighscore(self, self.currUserName, self.score)
