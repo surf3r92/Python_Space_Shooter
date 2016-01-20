@@ -218,6 +218,8 @@ class Run():
                         self.lives += 1
                     elif self.randomPowerup == "multipleShoot":
                         self.damage += 1
+                    elif self.randomPowerup == "shield":
+                        pass
                 collide_Player_Enemy = pygame.sprite.spritecollide(player, enemies, True)
                 if len(collide_Player_Enemy):
                     self.lives -= 1
@@ -247,11 +249,10 @@ class Run():
 
     def setupNewGame(self):
         player.rect.center = (400, 500)
+        self.resetPowerups()
         self.resetSprites()
         self.lives = 3
         self.score = 0
-        self.laserMax = 20
-        self.damage = 1
         self.level = 1
         self.game()
 
@@ -266,7 +267,7 @@ class Run():
         player.dy = 0
 
     def resetPowerups(self):
-        self.damageSpeed = -15
+        self.laserMax = 20
         self.damage = 1
 
 
