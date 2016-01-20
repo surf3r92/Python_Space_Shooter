@@ -55,7 +55,7 @@ def gameMenu(self):
         button2Text = "Highscore"
         button3Text = "Menu"
 
-    inputMaxLength = 20
+    inputMaxLength = 12
     inputTextColor = (255, 255, 255)
 
     inputText = ""
