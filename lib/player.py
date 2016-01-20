@@ -47,9 +47,14 @@ class Player(pygame.sprite.Sprite):
     def reset(self):
         self.rect.bottom = 600 - 64
 
-    def decreaseLaser(self):
+    def increaseLaser(self):
         if self.laserMax > 5:
             self.laserMax *= 0.85
+
+    def resetLaserFrequency(self):
+        self.laserMax = 20
+
+
 
 class Laser(pygame.sprite.Sprite):
     def __init__(self, pos, damage):
@@ -66,12 +71,6 @@ class Laser(pygame.sprite.Sprite):
             self.kill()
         else:
             self.rect.move_ip(0, -15)
-
-            # enemies_hit_list = pygame.sprite.spritecollide(self, enemies, True, self.kill())
-            # try:
-            # print enemies_hit_list[0]
-            # except:
-            # pass
 
 
 global laserSprites

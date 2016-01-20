@@ -41,7 +41,6 @@ class Run():
         self.xPowerups = 0
 
         self.randomPowerup = ""
-        self.laserMax = 20
         self.damage = 1
         self.shieldTime = 0
         self.shieldStatus = False
@@ -213,7 +212,7 @@ class Run():
                 powerup_collected = pygame.sprite.spritecollide(player, laserPowerups, True)
                 if len(powerup_collected):
                     if self.randomPowerup == "fasterLaser":
-                       player.decreaseLaser()
+                       player.increaseLaser()
                     elif self.randomPowerup == "health":
                         self.lives += 1
                     elif self.randomPowerup == "multipleShoot":
@@ -226,6 +225,7 @@ class Run():
                 collide_Player_Enemy = pygame.sprite.spritecollide(player, enemies, True)
                 if len(collide_Player_Enemy):
                     self.lives -= 1
+                    self.resetPowerups()
 
                 if self.shieldTime > 150:
                     deActivateShield(playerSprite)
@@ -250,6 +250,7 @@ class Run():
         self.game()
 
     def setupNewGame(self):
+        self.shield = False
         self.shieldStatus = False
         player.rect.center = (400, 500)
         self.resetPowerups()
@@ -270,9 +271,8 @@ class Run():
         player.dy = 0
 
     def resetPowerups(self):
-        self.laserMax = 20
+        player.resetLaserFrequency()
         self.damage = 1
-        self.shield = False
 
 
 Run()
