@@ -53,6 +53,11 @@ class Run():
         self.fasterMovementTime = 0
         self.fasterMovementStatus = False
 
+        self.powerupShieldCountDownLength = 202.0
+        self.powerupFasterMovementCountDownLength = 202.0
+        self.powerupShieldCountDownStartLength = 200.0
+        self.powerupFasterMovementCountDownStartLength = 200.0
+
         global player
         player = Player()
 
@@ -109,8 +114,10 @@ class Run():
 
                 if self.shieldStatus:
                     self.shieldTime += 1
+                    self.powerupShieldCountDownLength -= self.powerupShieldCountDownStartLength / 150
                 if self.fasterMovementStatus:
                     self.fasterMovementTime += 1
+                    self.powerupFasterMovementCountDownLength -= self.powerupFasterMovementCountDownStartLength / 250
 
                 if len(boss.sprites()) == 1:
                     if boss.sprites()[0].health <= 0:
@@ -218,6 +225,14 @@ class Run():
                 scoreDisplay = self.myFont.render("".join(["Score:", str(self.score)]), 1, self.blue)
                 self.screen.blit(scoreDisplay, (self.width - 180, self.height - 40))
 
+                if self.shieldStatus == True:
+                    powerupCountDownHeight = 15
+                    pygame.draw.rect(self.screen, (250,223,76), (self.width/2, self.height - 45, self.powerupShieldCountDownLength, powerupCountDownHeight), 0)
+
+                if self.fasterMovementStatus == True:
+                    powerupCountDownHeight = 15
+                    pygame.draw.rect(self.screen, (70,250,60), (self.width/2, self.height - 25, self.powerupFasterMovementCountDownLength, powerupCountDownHeight), 0)
+
                 boss_hit = pygame.sprite.groupcollide(laserSprites, boss, True, False)
                 if boss_hit != {}:
                     boss.sprites()[0].health -= self.multipleShoot
@@ -254,19 +269,24 @@ class Run():
                     elif self.randomPowerup == "shield":
                         activateShield(playerSprite)
                         self.shieldTime = 0
+                        self.powerupShieldCountDownLength = self.powerupShieldCountDownStartLength
                         self.shieldStatus = True
                     elif self.randomPowerup == "fasterMovement":
                         self.additionalMovementSpeed = 5
                         self.fasterMovementTime = 0
+                        self.powerupFasterMovementCountDownLength = self.powerupFasterMovementCountDownStartLength
                         self.fasterMovementStatus = True
 
                 if self.shieldTime > 150:
                     deActivateShield(playerSprite)
                     self.shieldTime = 0
+                    self.powerupShieldCountDownLength = self.powerupShieldCountDownStartLength
                     self.shieldStatus = False
 
                 if self.fasterMovementTime > 250:
                     self.additionalMovementSpeed = 0
+                    self.powerupFasterMovementCountDownLength = self.powerupFasterMovementCountDownStartLength
+                    self.fasterMovementStatus = False
 
                 playerSprite.draw(self.screen)
                 laserSprites.draw(self.screen)
