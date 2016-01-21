@@ -156,3 +156,7 @@ def gameMenu(self):
                 if event.key == pygame.K_ESCAPE:
                     self.gameState = "Start"
                     keepGoing = False
+                ENTER_KEY_CODE = 13
+                if event.key == ENTER_KEY_CODE:
+                    if self.gameState == "Start":
+                        self.setupNewGame()
