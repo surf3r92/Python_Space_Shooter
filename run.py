@@ -329,6 +329,8 @@ class Run():
         player.dy = 0
 
     def resetPowerups(self):
+        self.fasterMovementStatus = False
+        self.shieldStatus = False
         self.additionalMovementSpeed = 0
         self.multipleShoot = 1
         player.resetLaser()
