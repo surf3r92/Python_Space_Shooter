@@ -41,14 +41,15 @@ class Input:
 
     def update(self, event):
         """ Update the input based on passed events """
+        if event.type == KEYDOWN:
+            if event.key == K_LSHIFT or event.key == K_RSHIFT:
+                self.shifted = True
         if event.type == KEYUP:
             if event.key == K_LSHIFT or event.key == K_RSHIFT: self.shifted = False
             self.textColor = self.textColorStart
             self.prompt = ""
             if event.key == K_BACKSPACE:
                 self.value = self.value[:-1]
-            elif event.key == K_LSHIFT or event.key == K_RSHIFT:
-                self.shifted = True
             elif event.key == K_SPACE:
                 self.value += '_'
             if not self.shifted:
@@ -100,9 +101,11 @@ class Input:
                     self.value += 'w'
                 elif event.key == K_x and 'x' in self.restricted:
                     self.value += 'x'
-                elif event.key == K_y and 'y' in self.restricted:
+                # wegen englischer Tastatur "y" und "z" vertauscht
+                elif event.key == K_z and 'y' in self.restricted:
                     self.value += 'y'
-                elif event.key == K_z and 'z' in self.restricted:
+                elif event.key == K_y and 'z' in self.restricted:
+                    print event.key
                     self.value += 'z'
                 elif event.key == K_0 and '0' in self.restricted:
                     self.value += '0'

@@ -53,7 +53,7 @@ class HighScore:
         listingNum = myFont.render(str(index + 1) + ".", 1, self.text_color)
 
         distFromHeader = 35
-        yPos = (self.y + (key.get_height()*1.3 / 2) - key.get_height() / 2) + index * 30 + distFromHeader
+        yPos = (self.y + (key.get_height()*1.5 / 2) - key.get_height() / 2) + index * 30 + distFromHeader
         yPosBackground = self.y + index * 30 + distFromHeader
         #yPosBackground = (self.y + index * 30 + 30)
 
