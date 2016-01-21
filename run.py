@@ -22,6 +22,11 @@ class Run():
         self.highscoreList = open("csv/highscore.csv").read().split()
         self.lives = 3
 
+        #self.fontLink = "fonts/arial.ttf"
+        #self.fontLink = "fonts/orbitron-medium.otf"
+        #self.fontLink = "fonts/orbitron-light.otf"
+        self.fontLink = "fonts/orbitron-light.otf"
+
         self.enemiesSpawned = 0
         self.level = 0
 

@@ -30,7 +30,7 @@ class Button:
         return surface
 
     def write_text(self):
-        myFont = pygame.font.SysFont(self.text_font, self.font_size)
+        myFont = pygame.font.Font(self.text_font, self.font_size)
         myText = myFont.render(self.text, 1, self.text_color)
         self.surface.blit(myText, (
         (self.x + self.length / 2) - myText.get_width() / 2, (self.y + self.height / 2) - myText.get_height() / 2))

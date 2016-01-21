@@ -30,10 +30,12 @@ class HighScore:
 
 
         #pygame.draw.rect(self.screen, self.colors[2], (self.x, self.y, self.length, rectHeight*1.3), 1)
-        myFont = pygame.font.SysFont("comicsansms", int(self.font_size*1.2), bold = True)
+        myFont = pygame.font.Font(self.text_font, int(self.font_size*1.2))
+        myFont.set_bold(True)
+        myFont.set_underline(True)
 
         name = myFont.render("Name", 1, self.text_color)
-        headerTextYPos = self.y+(rectHeight/2)-(name.get_height()/2)
+        headerTextYPos = (self.y + rectHeight*1.3 / 2) - name.get_height() / 2
         nameXPos = self.x+(self.length/4)*3-(name.get_width()/2)
 
         score = myFont.render("Score", 1, self.text_color)
@@ -43,18 +45,19 @@ class HighScore:
         self.screen.blit(name, (scoreXPos, headerTextYPos))
 
     def write_text(self, key, value, index):
-        myFont = pygame.font.SysFont(self.text_font, self.font_size)
+        myFont = pygame.font.Font(self.text_font, self.font_size)
 
         key = myFont.render(key, 1, self.text_color)
         colon = myFont.render(":", 1, self.text_color)
         value = myFont.render(value, 1, self.text_color)
         listingNum = myFont.render(str(index + 1) + ".", 1, self.text_color)
 
-        mediumDist = 20
-        yPos = (self.y + index * 30 + 35)
-        yPosBackground = (self.y + index * 30 + 30)
+        distFromHeader = 35
+        yPos = (self.y + (key.get_height()*1.3 / 2) - key.get_height() / 2) + index * 30 + distFromHeader
+        yPosBackground = self.y + index * 30 + distFromHeader
+        #yPosBackground = (self.y + index * 30 + 30)
 
-        self.setBackground(key, index, yPosBackground)
+        self.setBackground(key, index, yPosBackground, myFont)
 
         self.screen.blit(key, (self.x+(self.length/4)-(key.get_width()/2), yPos))
         #self.screen.blit(colon, ((self.x + self.length / 2) - colon.get_width() / 2, yPos))
@@ -62,13 +65,13 @@ class HighScore:
         #self.screen.blit(listingNum, (self.x - listingNum.get_width() - 40, yPos))
         return self.screen
 
-    def setBackground(self, key, index, yPos):
+    def setBackground(self, key, index, yPos, myFont):
         if (index%2 == 0):
             currLineColor = self.colors[0]
         else:
             currLineColor = self.colors[1]
 
-        pygame.draw.rect(self.screen, currLineColor, (self.x, yPos, self.length, key.get_height()*1.3), 0)
+        pygame.draw.rect(self.screen, currLineColor, (self.x, yPos, self.length, key.get_height()*1.5), 0)
 
     def draw(self):
         # pygame.draw.rect(self.screen, self.color, (self.x,self.y,self.length,self.height), 0)
@@ -95,8 +98,8 @@ def highScore(self):
     heighScoreXPos = (self.screen.get_size()[0] / 2) - (heighScoreLength / 2)
     heighScoreYPos = (self.screen.get_size()[1] / 2) - (heighScoreHeight / 2) + 5
     heighScoreColors = [(25,16,134), (17,10,87), (190, 190, 190), (5,5,40)]
-    heighScoreTextFont = "Calibri"
-    heighScoreTextFontSize = 23
+    heighScoreTextFont = self.fontLink
+    heighScoreTextFontSize = 18
     heighScoreTextColor = (255, 255, 255)
 
     highScoreList = HighScore(self.screen, list, heighScoreXPos, heighScoreYPos, heighScoreColors, heighScoreLength,
@@ -110,7 +113,7 @@ def highScore(self):
     buttonColor = (46, 46, 254)
     buttonColorHovered = (8, 8, 138)
     buttonTextColor = (255, 255, 255)
-    buttonTextFont = "Calibri"
+    buttonTextFont = self.fontLink
     buttonTextFontSize = 20
 
     buttonBackXPos = (self.screen.get_size()[0]) - buttonLength - buttonXDist

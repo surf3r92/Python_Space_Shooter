@@ -33,11 +33,11 @@ class Input:
         self.font = font
 
     def draw(self, surface):
-        myFont = pygame.font.SysFont(self.inputTextFont, self.inputTextFontSize)
+        myFont = pygame.font.Font(self.inputTextFont, self.inputTextFontSize)
         text = myFont.render(self.prompt + self.value, 1, self.textColor)
         pygame.draw.rect(self.screen, self.inputRectColor, (self.x, self.y, self.inputRectLength, self.inputRectHeight),
                          0)
-        surface.blit(text, (self.x, self.y))
+        surface.blit(text, ((self.x + self.inputRectLength / 2) - text.get_width() / 2, (self.y + self.inputRectHeight / 2) - text.get_height() / 2))
 
     def update(self, event):
         """ Update the input based on passed events """

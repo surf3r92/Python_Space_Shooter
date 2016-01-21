@@ -35,7 +35,7 @@ def gameMenu(self):
     buttonColor = (46, 46, 254)
     buttonColorHovered = (8, 8, 138)
     buttonTextColor = (255, 255, 255)
-    buttonTextFont = "Calibri"
+    buttonTextFont = self.fontLink
     buttonTextFontSize = 20
 
     button1YPos = (self.screen.get_size()[1] / 2) - (buttonHeight / 2) - buttonYDist
@@ -64,11 +64,11 @@ def gameMenu(self):
     else:
         inputText = self.currUserName
 
-    inputTextFont = "Calibri"
-    inputTextFontSize = 20
+    inputTextFont = self.fontLink
+    inputTextFontSize = 18
     inputRectColor = (0, 0, 255)
     inputRectLength = 200
-    inputRectHeight = inputTextFontSize
+    inputRectHeight = inputTextFontSize*1.8
     inputYPos = button3YPos + 3 * buttonHeight
     inputXPos = (self.screen.get_size()[0] / 2) - (inputRectLength / 2)
 
