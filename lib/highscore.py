@@ -60,9 +60,9 @@ class HighScore:
         self.setBackground(key, index, yPosBackground, myFont)
 
         self.screen.blit(key, (self.x+(self.length/4)-(key.get_width()/2), yPos))
-        #self.screen.blit(colon, ((self.x + self.length / 2) - colon.get_width() / 2, yPos))
+        self.screen.blit(colon, ((self.x + self.length / 2) - colon.get_width() / 2, yPos))
         self.screen.blit(value, (self.x+(self.length/4)*3-(value.get_width()/2), yPos))
-        #self.screen.blit(listingNum, (self.x - listingNum.get_width() - 40, yPos))
+        self.screen.blit(listingNum, (self.x + 20 - listingNum.get_width()/2, yPos))
         return self.screen
 
     def setBackground(self, key, index, yPos, myFont):

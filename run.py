@@ -30,7 +30,7 @@ class Run():
         self.enemiesSpawned = 0
         self.level = 0
 
-        self.myFont = pygame.font.SysFont("monospace", 24)
+        self.myFont = pygame.font.Font(self.fontLink, 24)
         self.size = self.width, self.height = 800, 600
         self.screen = pygame.display.set_mode(self.size)
 
