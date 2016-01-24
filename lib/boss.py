@@ -12,6 +12,7 @@ class Boss(pygame.sprite.Sprite):
         self.counter = 0
         self.health = 20
         self.reverse = 0
+        self.invincible = 1
 
         self.special = 0
         self.dxMid = 0
@@ -29,7 +30,7 @@ class Boss(pygame.sprite.Sprite):
         if self.reverse == 1:
             dx *= -1
         if self.counter > 100:
-
+            self.invincible = 0
             if self.special == 1:
                 self.midCounter += 1
                 self.rect.move_ip(self.dxMid, self.dyMid)
@@ -52,7 +53,6 @@ class Boss(pygame.sprite.Sprite):
                     self.dyMid = (100 - self.rect.center[1])/30
 
         else:
-            self.health = 20
             self.rect.move_ip(0, 2)
 
 

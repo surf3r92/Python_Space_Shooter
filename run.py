@@ -125,15 +125,21 @@ class Run():
                         self.score += 1000
                         self.nextLevel()
 
+                if frameCounter % (70 - self.level*2) == 0 and frameCounter > 200:
+                    enemyLaserSprites.add(EnemyLaser((random.randint(10,790), -100)))
+                if frameCounter % (1000 - self.level*20) == 400 and frameCounter > 200:
+                    for i in range(0,20):
+                        enemyLaserSprites.add(EnemyLaser((random.randint(10,790), random.randint(0, 1500)*-1)))
+
                 if self.enemiesSpawned < 20:
                     if frameCounter % 200 == 1 and frameCounter > 200:
                         self.enemiesSpawned += 1
                         self.xGroup = random.randint(0, 8) * 100 - 50
                         if self.xGroup <= 50:
-                            self.enemyY = 400
+                            self.enemyY = 300
                             self.xGroup = - 20
                         elif self.xGroup >= 650:
-                            self.enemyY = 400
+                            self.enemyY = 300
                             self.xGroup = self.width + 20
                         else:
                             self.enemyY = -20
@@ -143,27 +149,24 @@ class Run():
 
                     if frameCounter % 200 == 21 and frameCounter > 200:
                         self.enemiesSpawned += 1
-                        #self.xGroup = random.randint(1, 7) * 100 - 50
                         enemies.add(Enemy((self.xGroup, self.enemyY)))
 
                     if frameCounter % 200 == 41 and frameCounter > 200:
                         self.enemiesSpawned += 1
-                        #self.xGroup = random.randint(1, 7) * 100 - 50
                         enemies.add(Enemy((self.xGroup, self.enemyY)))
 
                     if frameCounter % 200 == 61 and frameCounter > 200:
                         self.enemiesSpawned += 1
-                        #self.xGroup = random.randint(1, 7) * 100 - 50
                         enemies.add(Enemy((self.xGroup, self.enemyY)))
 
                     if frameCounter % 400 == 81 and frameCounter > 400:
                         self.enemiesSpawned += 1
                         self.xGroup = random.randint(1, 7) * 100 - 50
                         if self.xGroup <= 50:
-                            self.enemyY = 400
+                            self.enemyY = 300
                             self.xGroup = - 20
                         elif self.xGroup >= 650:
-                            self.enemyY = 400
+                            self.enemyY = 300
                             self.xGroup = self.width + 20
                         else:
                             self.enemyY = -20
@@ -171,17 +174,14 @@ class Run():
 
                     if frameCounter % 400 == 101 and frameCounter > 400:
                         self.enemiesSpawned += 1
-                        #self.xGroup = random.randint(1, 7) * 100 - 50
                         enemies.add(Enemy((self.xGroup, self.enemyY)))
 
                     if frameCounter % 400 == 121 and frameCounter > 400:
                         self.enemiesSpawned += 1
-                        #self.xGroup = random.randint(1, 7) * 100 - 50
                         enemies.add(Enemy((self.xGroup, self.enemyY)))
 
                     if frameCounter % 400 == 141 and frameCounter > 400:
                         self.enemiesSpawned += 1
-                        #self.xGroup = random.randint(1, 7) * 100 - 50
                         enemies.add(Enemy((self.xGroup, self.enemyY)))
                 elif len(enemies.sprites()) == 0 and len(boss.sprites()) == 0:
                     boss.add(Boss((self.width/2, -50)))
@@ -235,7 +235,8 @@ class Run():
 
                 boss_hit = pygame.sprite.groupcollide(laserSprites, boss, True, False)
                 if boss_hit != {}:
-                    boss.sprites()[0].health -= self.multipleShoot
+                    if boss.sprites()[0].invincible == 0:
+                        boss.sprites()[0].health -= self.multipleShoot
 
                 collide_Laser_Enemy = pygame.sprite.groupcollide(laserSprites, enemies, True, True)
                 if collide_Laser_Enemy != {}:
