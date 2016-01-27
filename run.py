@@ -220,7 +220,7 @@ class Run():
                 keyControls(self, player, self.additionalMovementSpeed)
 
                 # Update
-                playerSprite.update(self.multipleShoot)
+                playerSprite.update(self.multipleShoot, self.gameState)
                 arena.update(self.screen)
                 laserSprites.update()
                 bossLaserSprites.update()
