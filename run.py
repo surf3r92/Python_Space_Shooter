@@ -131,7 +131,7 @@ class Run():
                     for i in range(0,20):
                         enemyLaserSprites.add(EnemyLaser((random.randint(10,790), random.randint(0, 1500)*-1)))
 
-                if self.enemiesSpawned < 20:
+                if self.enemiesSpawned < (20 + self.level*10):
                     if frameCounter % 200 == 1 and frameCounter > 200:
                         self.enemiesSpawned += 1
                         self.xGroup = random.randint(0, 8) * 100 - 50
