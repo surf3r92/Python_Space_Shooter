@@ -15,7 +15,7 @@ class Player(pygame.sprite.Sprite):
         self.laserMax = 20
         self.reset()
 
-    def update(self, multipleShoot, gamestate):
+    def update(self, multipleShoot, explosionStatus):
         global laserSprites
         self.rect.move_ip((self.dx, self.dy))
         key = pygame.key.get_pressed()
@@ -34,7 +34,7 @@ class Player(pygame.sprite.Sprite):
                     laserSprites.add(Laser((self.rect.left+5, self.rect.top), multipleShoot))
                     laserSprites.add(Laser((self.rect.right-5, self.rect.top), multipleShoot))
                     self.laserTimer = 0
-        if gamestate != "Gameover":
+        if explosionStatus != True:
             if self.rect.left < 0:
                 self.rect.left = 0
             elif self.rect.right > 800:

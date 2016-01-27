@@ -2,6 +2,7 @@ import os, sys, pygame, random
 from pygame.locals import *
 from lib.methods import *
 
+
 class Explosion(pygame.sprite.Sprite):
     def __init__(self, pos):
         pygame.sprite.Sprite.__init__(self)
@@ -10,6 +11,7 @@ class Explosion(pygame.sprite.Sprite):
 
     def update(self, pos):
         self.rect.center = pos
+
 
 def changeImage(currentExplosionImage, explosionSprite):
     explosionSprite.sprites()[0].image, explosionSprite.sprites()[0].rect = currentExplosionImage

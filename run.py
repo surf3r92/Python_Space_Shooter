@@ -23,9 +23,6 @@ class Run():
         self.highscoreList = open("csv/highscore.csv").read().split()
         self.lives = 3
 
-        #self.fontLink = "fonts/arial.ttf"
-        #self.fontLink = "fonts/orbitron-medium.otf"
-        #self.fontLink = "fonts/orbitron-light.otf"
         self.fontLink = "fonts/orbitron-light.otf"
 
         self.enemiesSpawned = 0
@@ -64,10 +61,10 @@ class Run():
             self.playerExplosionImages.append(load_image("img/sprites/Blue Explosion/" + str(i) + ".png", -1))
 
         self.explosionCounter = 0
-        self.explosionPosition = (0, 0)
-
+        self.explosionPosition = (500, 500)
         self.explosionTime = 20
         self.explosionStatus = False
+        self.deleteShip = False
         self.currentExplosionImage = load_image("img/sprites/Blue Explosion/1.png", -1)
 
 
@@ -103,7 +100,6 @@ class Run():
         frameCounter = 0
         pygame.key.set_repeat(10, 10)
         while keepgoing:
-
             clock.tick(30)
             caption = "Space Shooter - FPS: {0:.2f}".format(clock.get_fps())
             pygame.display.set_caption(caption)
@@ -146,10 +142,9 @@ class Run():
                             self.currentExplosionImage = self.playerExplosionImages[self.explosionCounter]
                             changeImage(self.currentExplosionImage, explosionSprite)
                             if self.explosionCounter == 1:
-                                self.explosionPosition = player.getPos()
                                 player.rect.center = (1000, 1000)
-
-
+                        else:
+                            self.gameState = "Gameover"
 
                 if len(boss.sprites()) == 1:
                     if boss.sprites()[0].health <= 0:
@@ -220,7 +215,7 @@ class Run():
                 keyControls(self, player, self.additionalMovementSpeed)
 
                 # Update
-                playerSprite.update(self.multipleShoot, self.gameState)
+                playerSprite.update(self.multipleShoot, self.explosionStatus)
                 arena.update(self.screen)
                 laserSprites.update()
                 bossLaserSprites.update()
@@ -294,7 +289,7 @@ class Run():
 
                 if self.lives <= 0:
                     self.explosionStatus = True
-                    print str(self.explosionCounter) + "," + str(len(self.playerExplosionImages)-1)
+                    self.explosionPosition = player.getPos()
                     if self.explosionCounter >= len(self.playerExplosionImages)-1:
                         self.gameState = "Gameover"
                         updateHighscore(self, self.currUserName, self.score)
@@ -362,10 +357,9 @@ class Run():
         self.game()
 
     def setupNewGame(self):
+        self.explosionCounter = 0
         meteorites.empty()
         self.explosionStatus = False
-        #player = Player()
-        #playerSprite = pygame.sprite.RenderPlain((player))
         self.additionalMovementSpeed = 0
         self.shieldStatus = False
         deActivateShield(playerSprite)
@@ -396,7 +390,5 @@ class Run():
         self.multipleShoot = 1
         player.resetLaser()
 
-
-
-
+#start game
 Run()
