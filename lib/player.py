@@ -55,7 +55,6 @@ class Player(pygame.sprite.Sprite):
         self.laserMax = 20
 
     def getPos(self):
-        print self.rect.center
         return self.rect.center
 
 

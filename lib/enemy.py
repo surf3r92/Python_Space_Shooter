@@ -14,7 +14,6 @@ class Enemy(pygame.sprite.Sprite):
             self.side = 1
         else:
             self.side = 0
-        print self.side
         if self.pos[0] == 400:
             self.reverse = random.randint(0, 1)
         elif self.pos[0] > 400:

@@ -7,6 +7,7 @@ from lib.enemy import *
 from lib.powerup import *
 from lib.menu import *
 from lib.boss import *
+from lib.explosion import *
 
 
 class Run():
@@ -59,8 +60,15 @@ class Run():
         self.powerupFasterMovementCountDownStartLength = 200.0
 
         self.playerExplosionImages = []
-        for i in range(1, 17):
-            self.playerExplosionImages.append(pygame.image.load("img/sprites/" + i + ".png"))
+        for i in range(1, 18):
+            self.playerExplosionImages.append(load_image("img/sprites/Blue Explosion/" + str(i) + ".png", -1))
+
+        self.explosionCounter = 0
+        self.explosionPosition = (0, 0)
+
+        self.explosionTime = 20
+        self.explosionStatus = False
+        self.currentExplosionImage = load_image("img/sprites/Blue Explosion/1.png", -1)
 
 
         global player
@@ -68,6 +76,12 @@ class Run():
 
         global playerSprite
         playerSprite = pygame.sprite.RenderPlain((player))
+
+        global explosion
+        explosion = Explosion(player.getPos())
+
+        global explosionSprite
+        explosionSprite = pygame.sprite.RenderPlain((explosion))
 
         gameMenu(self)
 
@@ -124,6 +138,19 @@ class Run():
                     self.fasterMovementTime += 1
                     self.powerupFasterMovementCountDownLength -= self.powerupFasterMovementCountDownStartLength / 250
 
+                if self.explosionStatus:
+                    self.explosionTime += 1
+                    if self.explosionTime % 10 == 0:
+                        self.explosionCounter += 1
+                        print self.explosionCounter
+                        if self.explosionCounter < 17:
+                            self.currentExplosionImage = self.playerExplosionImages[self.explosionCounter]
+                            changeImage(self.currentExplosionImage, explosionSprite)
+                            if self.explosionCounter == 1:
+                                player.kill()
+
+
+
                 if len(boss.sprites()) == 1:
                     if boss.sprites()[0].health <= 0:
                         boss.sprites()[0].kill()
@@ -148,8 +175,6 @@ class Run():
                             self.xGroup = self.width + 20
                         else:
                             self.enemyY = -20
-                        print self.xGroup
-                        print self.enemyY
                         enemies.add(Enemy((self.xGroup, self.enemyY)))
 
                     if frameCounter % 200 == 21 and frameCounter > 200:
@@ -204,6 +229,7 @@ class Run():
                 boss.update()
                 meteorites.update()
                 laserPowerups.update()
+                explosionSprite.update(player.getPos())
 
                 if frameCounter < 80 and self.level == 1:
                     readyText = self.myFont.render("".join(["GET READY!", str("")]), 1, (200, 10, 10))
@@ -266,11 +292,13 @@ class Run():
                     self.lives -= 1
                     self.resetPowerups()
 
-                if self.lives == 0:
-                    self.initExplosion()
-                    self.gameState = "Gameover"
-                    updateHighscore(self, self.currUserName, self.score)
-                    gameMenu(self)
+                if self.lives <= 0:
+                    self.explosionStatus = True
+                    print str(self.explosionCounter) + "," + str(len(self.playerExplosionImages)-1)
+                    if self.explosionCounter >= len(self.playerExplosionImages)-1:
+                        self.gameState = "Gameover"
+                        updateHighscore(self, self.currUserName, self.score)
+                        gameMenu(self)
 
                 collide_Player_Enemy = pygame.sprite.spritecollide(player, enemies, True)
                 if len(collide_Player_Enemy) and self.shieldStatus == False:
@@ -320,6 +348,9 @@ class Run():
                 meteorites.draw(self.screen)
                 laserPowerups.draw(self.screen)
 
+                if self.explosionStatus:
+                    explosionSprite.draw(self.screen)
+
                 for i in range(0, self. lives):
                     self.screen.blit(self.livesImage, (8 + i*self.livesImage.get_width()*1.5, self.height -
                                                        self.livesImage.get_height()-8))
@@ -359,11 +390,7 @@ class Run():
         self.multipleShoot = 1
         player.resetLaser()
 
-    def initExplosion(self):
-    playerPos = playerSprite.sprites()[0].rect.center
-    playerSprite.sprites()[0].image, playerSprite.sprites()[0].rect = \
-        load_image("img/sprites/ship.png", -1)
-    playerSprite.sprites()[0].rect.center = playerPos
+
 
 
 Run()
