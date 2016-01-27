@@ -78,8 +78,20 @@ class EnemyLaser(pygame.sprite.Sprite):
         if self.rect.bottom > 540:
             self.kill()
 
+class Meteorite(pygame.sprite.Sprite):
+    def __init__(self, pos):
+        pygame.sprite.Sprite.__init__(self)
+        self.image, self.rect = load_image("img/sprites/meteorite.png", -1)
+        self.rect.center = pos
+
+    def update(self):
+        self.rect.move_ip(0, 10)
+        if self.rect.bottom > 540:
+            self.kill()
 
 global enemyLaserSprites
 enemyLaserSprites = pygame.sprite.RenderPlain()
 global enemies
 enemies = pygame.sprite.RenderPlain()
+global meteorites
+meteorites = pygame.sprite.RenderPlain()

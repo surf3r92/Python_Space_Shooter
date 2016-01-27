@@ -126,10 +126,10 @@ class Run():
                         self.nextLevel()
 
                 if frameCounter % (70 - self.level*2) == 0 and frameCounter > 200:
-                    enemyLaserSprites.add(EnemyLaser((random.randint(10,790), -100)))
+                    meteorites.add(Meteorite((random.randint(10,790), -100)))
                 if frameCounter % (1000 - self.level*20) == 400 and frameCounter > 200:
                     for i in range(0,20):
-                        enemyLaserSprites.add(EnemyLaser((random.randint(10,790), random.randint(0, 1500)*-1)))
+                        meteorites.add(Meteorite((random.randint(10,790), random.randint(0, 1500)*-1)))
 
                 if self.enemiesSpawned < (20 + self.level*10):
                     if frameCounter % 200 == 1 and frameCounter > 200:
@@ -196,6 +196,7 @@ class Run():
                 enemies.update()
                 enemyLaserSprites.update()
                 boss.update()
+                meteorites.update()
                 laserPowerups.update()
 
                 if frameCounter < 80 and self.level == 1:
@@ -295,6 +296,7 @@ class Run():
                 enemies.draw(self.screen)
                 enemyLaserSprites.draw(self.screen)
                 boss.draw(self.screen)
+                meteorites.draw(self.screen)
                 laserPowerups.draw(self.screen)
 
                 for i in range(0, self. lives):
