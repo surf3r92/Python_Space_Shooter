@@ -54,6 +54,13 @@ class Player(pygame.sprite.Sprite):
     def resetLaser(self):
         self.laserMax = 20
 
+    def getPos(self):
+        print self.rect.center
+        return self.rect.center
+
+
+
+
 
 class Laser(pygame.sprite.Sprite):
     def __init__(self, pos, multipleShoot):

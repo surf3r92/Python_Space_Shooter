@@ -58,6 +58,11 @@ class Run():
         self.powerupShieldCountDownStartLength = 200.0
         self.powerupFasterMovementCountDownStartLength = 200.0
 
+        self.playerExplosionImages = []
+        for i in range(1, 17):
+            self.playerExplosionImages.append(pygame.image.load("img/sprites/" + i + ".png"))
+
+
         global player
         player = Player()
 
@@ -262,6 +267,7 @@ class Run():
                     self.resetPowerups()
 
                 if self.lives == 0:
+                    self.initExplosion()
                     self.gameState = "Gameover"
                     updateHighscore(self, self.currUserName, self.score)
                     gameMenu(self)
@@ -352,6 +358,12 @@ class Run():
         self.additionalMovementSpeed = 0
         self.multipleShoot = 1
         player.resetLaser()
+
+    def initExplosion(self):
+    playerPos = playerSprite.sprites()[0].rect.center
+    playerSprite.sprites()[0].image, playerSprite.sprites()[0].rect = \
+        load_image("img/sprites/ship.png", -1)
+    playerSprite.sprites()[0].rect.center = playerPos
 
 
 Run()
