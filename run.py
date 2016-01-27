@@ -61,7 +61,7 @@ class Run():
             self.playerExplosionImages.append(load_image("img/sprites/Blue Explosion/" + str(i) + ".png", -1))
 
         self.explosionCounter = 0
-        self.explosionPosition = (500, 500)
+        self.explosionPosition = (0, 0)
         self.explosionTime = 20
         self.explosionStatus = False
         self.deleteShip = False
@@ -135,6 +135,9 @@ class Run():
                     self.powerupFasterMovementCountDownLength -= self.powerupFasterMovementCountDownStartLength / 250
 
                 if self.explosionStatus:
+                    if self.explosionTime == 20:
+                        self.explosionPosition = player.getPos()
+                        explosionSprite.update(self.explosionPosition)
                     self.explosionTime += 1
                     if self.explosionTime % 3 == 0:
                         self.explosionCounter += 1
@@ -289,7 +292,6 @@ class Run():
 
                 if self.lives <= 0:
                     self.explosionStatus = True
-                    self.explosionPosition = player.getPos()
                     if self.explosionCounter >= len(self.playerExplosionImages)-1:
                         self.gameState = "Gameover"
                         updateHighscore(self, self.currUserName, self.score)
@@ -357,6 +359,7 @@ class Run():
         self.game()
 
     def setupNewGame(self):
+        self.explosionTime = 20
         self.explosionCounter = 0
         meteorites.empty()
         self.explosionStatus = False
