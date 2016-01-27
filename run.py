@@ -140,14 +140,13 @@ class Run():
 
                 if self.explosionStatus:
                     self.explosionTime += 1
-                    if self.explosionTime % 10 == 0:
+                    if self.explosionTime % 3 == 0:
                         self.explosionCounter += 1
-                        print self.explosionCounter
                         if self.explosionCounter < 17:
                             self.currentExplosionImage = self.playerExplosionImages[self.explosionCounter]
                             changeImage(self.currentExplosionImage, explosionSprite)
                             if self.explosionCounter == 1:
-                                player.kill()
+                                playerSprite.empty()
 
 
 
@@ -362,6 +361,10 @@ class Run():
         self.game()
 
     def setupNewGame(self):
+        meteorites.empty()
+        self.explosionStatus = False
+        player = Player()
+        playerSprite = pygame.sprite.RenderPlain((player))
         self.additionalMovementSpeed = 0
         self.shieldStatus = False
         deActivateShield(playerSprite)
