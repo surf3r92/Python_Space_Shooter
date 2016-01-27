@@ -33,6 +33,8 @@ def keyControls(self, player, additionalMovementSpeed):
                 player.dy = 10 + additionalMovementSpeed
             elif event.key == pygame.K_n:
                 self.nextLevel()
+            elif event.key == pygame.K_g:
+                self.lives = 10
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_ESCAPE:
                 # keepgoing = False

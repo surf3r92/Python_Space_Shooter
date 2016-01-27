@@ -10,7 +10,7 @@ class Boss(pygame.sprite.Sprite):
         self.image, self.rect = load_image("img/sprites/boss.png", -1)
         self.rect.center = pos
         self.counter = 0
-        self.health = 20 + self.level*10
+        self.health = 20
         self.reverse = 0
         self.invincible = 1
 

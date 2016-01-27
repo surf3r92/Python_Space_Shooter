@@ -185,6 +185,7 @@ class Run():
                         enemies.add(Enemy((self.xGroup, self.enemyY)))
                 elif len(enemies.sprites()) == 0 and len(boss.sprites()) == 0:
                     boss.add(Boss((self.width/2, -50)))
+                    boss.sprites()[0].health = 20 + self.level*10
 
                 keyControls(self, player, self.additionalMovementSpeed)
 
@@ -241,12 +242,25 @@ class Run():
 
                 collide_Laser_Enemy = pygame.sprite.groupcollide(laserSprites, enemies, True, True)
                 if collide_Laser_Enemy != {}:
-                    self.score += 10
+                    self.score += 10 + self.level*5
+
+                collide_Meteorite = pygame.sprite.spritecollide(player, meteorites, True)
+
+                collide_Boss_Laser = pygame.sprite.spritecollide(player, bossLaserSprites, True)
 
                 collide_Player_Laser = pygame.sprite.spritecollide(player, enemyLaserSprites, True)
                 if len(collide_Player_Laser) and self.shieldStatus == False:
                     self.lives -= 1
                     self.resetPowerups()
+
+                if len(collide_Meteorite) and self.shieldStatus == False:
+                    self.lives -= 1
+                    self.resetPowerups()
+                    
+                if len(collide_Boss_Laser) and self.shieldStatus == False:
+                    self.lives -= 1
+                    self.resetPowerups()
+
                 if self.lives == 0:
                     self.gameState = "Gameover"
                     updateHighscore(self, self.currUserName, self.score)
@@ -259,6 +273,7 @@ class Run():
 
                 powerup_collected = pygame.sprite.spritecollide(player, laserPowerups, True)
                 if len(powerup_collected):
+                    self.score += 50
                     if self.randomPowerup == "fasterLaser":
                        player.increaseLaserSpeed()
                     elif self.randomPowerup == "health":
