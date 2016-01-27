@@ -255,8 +255,8 @@ class Run():
                 pygame.draw.rect(self.screen,(0,0,0),(0,self.height-60,self.width,self.height))
                 pygame.draw.line(self.screen, (0,194,244), (0, self.height - 60), (self.width,self.height - 60), 4)
 
-                scoreDisplay = self.myFont.render("".join(["Score:", str(self.score)]), 1, self.blue)
-                self.screen.blit(scoreDisplay, (self.width - 180, self.height - 40))
+                scoreDisplay = self.myFont.render("".join(["Score: ", str(self.score)]), 1, self.blue)
+                self.screen.blit(scoreDisplay, (self.width - 200, self.height - 40))
 
                 if self.shieldStatus == True:
                     powerupCountDownHeight = 15
@@ -375,7 +375,9 @@ class Run():
         self.game()
 
     def resetSprites(self):
+        meteorites.empty()
         boss.empty()
+        bossLaserSprites.empty()
         enemies.empty()
         enemyLaserSprites.empty()
         laserSprites.empty()
