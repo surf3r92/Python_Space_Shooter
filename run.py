@@ -146,7 +146,8 @@ class Run():
                             self.currentExplosionImage = self.playerExplosionImages[self.explosionCounter]
                             changeImage(self.currentExplosionImage, explosionSprite)
                             if self.explosionCounter == 1:
-                                playerSprite.empty()
+                                self.explosionPosition = player.getPos()
+                                player.rect.center = (1000, 1000)
 
 
 
@@ -228,7 +229,7 @@ class Run():
                 boss.update()
                 meteorites.update()
                 laserPowerups.update()
-                explosionSprite.update(player.getPos())
+                explosionSprite.update(self.explosionPosition)
 
                 if frameCounter < 80 and self.level == 1:
                     readyText = self.myFont.render("".join(["GET READY!", str("")]), 1, (200, 10, 10))
@@ -363,8 +364,8 @@ class Run():
     def setupNewGame(self):
         meteorites.empty()
         self.explosionStatus = False
-        player = Player()
-        playerSprite = pygame.sprite.RenderPlain((player))
+        #player = Player()
+        #playerSprite = pygame.sprite.RenderPlain((player))
         self.additionalMovementSpeed = 0
         self.shieldStatus = False
         deActivateShield(playerSprite)
