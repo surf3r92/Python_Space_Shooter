@@ -1,0 +1,5 @@
+1. Laden Sie PyGame unter folgenden Link herunter: http://www.pygame.org/download.shtml
+2. Installieren Sie PyGame.
+3. Navigieren Sie in den Alacrity(Space_Shooter / Projektordner) und starten Sie run.py
+
+Sollten Probleme auftreten beim Starten oder Installieren wenden Sie sich bitte an uns. Einige Probleme können auftreten, falls mehrere Python Versionen installiert sind.
